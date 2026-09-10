@@ -16,7 +16,6 @@
 
   <link rel="stylesheet" href="../Style.css" />
   <link rel="stylesheet" href="../CardNav.css" />
-  <link rel="stylesheet" href="../BorderGlow.css" />
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
@@ -62,53 +61,6 @@
       pointer-events: none;
       z-index: 0;
     }
-
-    .role-btn {
-      padding: 8px 4px;
-      border: none;
-      background: transparent;
-      color: #94a3b8;
-      font-size: 11px;
-      font-weight: 600;
-      border-radius: 6px;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.2s;
-    }
-    .role-btn.active {
-      background: #00d2ff;
-      color: #07090e;
-    }
-    .mode-btn {
-      flex: 1;
-      padding: 10px;
-      background: transparent;
-      border: none;
-      border-bottom: 2px solid transparent;
-      color: #94a3b8;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .mode-btn.active {
-      color: #00d2ff;
-      border-bottom-color: #00d2ff;
-    }
-    .modal-input {
-      width: 100%;
-      padding: 10px 12px;
-      margin-top: 5px;
-      border-radius: 8px;
-      border: 1px solid #334155;
-      background-color: #07090e;
-      color: #ffffff;
-      box-sizing: border-box;
-      font-size: 12px;
-    }
-    .modal-input:focus {
-      outline: none;
-      border-color: #00d2ff;
-    }
   </style>
 </head>
 <body class="bg-brand-dark text-slate-100 font-sans min-h-screen flex flex-col relative overflow-x-hidden selection:bg-brand-cyan/20 selection:text-brand-cyan">
@@ -142,13 +94,12 @@
 
       <div class="flex items-center gap-3 flex-shrink-0">
         <div id="authNavButtons" class="flex items-center gap-2">
-          <button
-            type="button"
-            onclick="openAuthModal()"
+          <a
+            href="login.html"
             class="bg-brand-cyan text-brand-dark h-10 px-5 inline-flex items-center justify-center rounded-lg text-sm font-semibold hover:bg-brand-cyanHover transition-all duration-200 shadow-md shadow-brand-cyan/20 hover:shadow-brand-cyan/40"
           >
             Sign In
-          </button>
+          </a>
         </div>
 
         <div class="card-nav-menu-wrapper" id="cardNavWrapper">
@@ -379,13 +330,12 @@
                 <p class="text-xs font-semibold text-slate-200 max-w-sm mb-3">
                   Sign In with your account to unlock personalized course links
                 </p>
-                <button
-                  type="button"
-                  onclick="openAuthModal()"
+                <a
+                  href="login.html"
                   class="bg-brand-cyan text-brand-dark px-4 py-2 rounded-lg text-xs font-bold hover:bg-brand-cyanHover transition-all shadow-md shadow-brand-cyan/30"
                 >
                   Sign In to Continue
-                </button>
+                </a>
               </div>
             </div>
           </div>
@@ -502,9 +452,9 @@
           <h2 class="text-3xl font-serif text-white mt-1">Matched Industry Openings</h2>
           <p class="text-slate-400 text-sm mt-1">Verified partner listings connected with SkillUp proficiency metrics.</p>
         </div>
-        <button type="button" onclick="openAuthModal()" class="text-sm text-brand-cyan hover:underline inline-flex items-center gap-1">
+        <a href="login.html" class="text-sm text-brand-cyan hover:underline inline-flex items-center gap-1">
           View all 340+ verified openings &rarr;
-        </button>
+        </a>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -531,13 +481,12 @@
             </div>
           </div>
 
-          <button
-            type="button"
-            onclick="openAuthModal()"
+          <a
+            href="login.html"
             class="w-full text-center py-2.5 rounded-lg bg-brand-cyan/10 hover:bg-brand-cyan text-brand-cyan hover:text-brand-dark border border-brand-borderCyan font-semibold text-xs transition-colors duration-200"
           >
             Apply via Outcome Portal
-          </button>
+          </a>
         </div>
 
         <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between hover:border-brand-borderCyan transition-all duration-200 hover:-translate-y-1">
@@ -563,13 +512,12 @@
             </div>
           </div>
 
-          <button
-            type="button"
-            onclick="openAuthModal()"
+          <a
+            href="login.html"
             class="w-full text-center py-2.5 rounded-lg bg-brand-cyan/10 hover:bg-brand-cyan text-brand-cyan hover:text-brand-dark border border-brand-borderCyan font-semibold text-xs transition-colors duration-200"
           >
             Apply via Outcome Portal
-          </button>
+          </a>
         </div>
 
         <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between hover:border-brand-borderCyan transition-all duration-200 hover:-translate-y-1">
@@ -595,13 +543,12 @@
             </div>
           </div>
 
-          <button
-            type="button"
-            onclick="openAuthModal()"
+          <a
+            href="login.html"
             class="w-full text-center py-2.5 rounded-lg bg-brand-cyan/10 hover:bg-brand-cyan text-brand-cyan hover:text-brand-dark border border-brand-borderCyan font-semibold text-xs transition-colors duration-200"
           >
             Apply via Outcome Portal
-          </button>
+          </a>
         </div>
       </div>
     </section>
@@ -615,13 +562,12 @@
           Join thousands of trainees and skilling agencies tracking real employment outcomes.
         </p>
         <div class="pt-3">
-          <button
-            type="button"
-            onclick="openAuthModal('signup')"
+          <a
+            href="login.html?mode=signup"
             class="inline-block bg-brand-cyan text-brand-dark px-8 py-3.5 rounded-lg font-bold text-sm hover:bg-brand-cyanHover transition-all shadow-xl shadow-brand-cyan/30 hover:shadow-brand-cyan/50"
           >
             Create Your Outcome Account
-          </button>
+          </a>
         </div>
       </div>
     </section>
@@ -639,301 +585,50 @@
     </div>
   </footer>
 
-  <!-- AUTHENTICATION GATEWAY MODAL WITH REACT BITS BORDER GLOW -->
-  <div id="authGatewayModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
-    
-    <!-- React Bits BorderGlow Card -->
-    <div
-      id="modalGlowCard"
-      class="border-glow-card max-w-md w-full"
-      style="
-        --card-bg: #0e131d;
-        --border-radius: 20px;
-        --edge-sensitivity: 30;
-        --cone-spread: 25;
-        --fill-opacity: 0.35;
-        --glow-padding: 35px;
-      "
-    >
-      <span class="edge-light"></span>
-
-      <div class="border-glow-inner p-6 sm:p-8 relative">
-        <button
-          type="button"
-          onclick="closeAuthModal()"
-          class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors z-20"
-          aria-label="Close"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
-        </button>
-
-        <div class="flex items-center justify-center gap-2 mb-4">
-          <span class="text-brand-cyan text-xl">&#x25C9;</span>
-          <span class="text-white font-bold text-lg">SkillUp Gateway</span>
-        </div>
-
-        <!-- Role Tabs -->
-        <div class="grid grid-cols-3 gap-1.5 bg-slate-950 p-1 rounded-lg border border-slate-800 mb-5">
-          <button type="button" id="modalRoleBtnStudent" class="role-btn active" onclick="setModalRole('student')">
-            Student / Trainee
-          </button>
-          <button type="button" id="modalRoleBtnEmployer" class="role-btn" onclick="setModalRole('employer')">
-            Employer
-          </button>
-          <button type="button" id="modalRoleBtnGovt" class="role-btn" onclick="setModalRole('govt')">
-            Govt Official
-          </button>
-        </div>
-
-        <!-- Mode Tabs (Sign In / Create Account) -->
-        <div class="flex border-b border-slate-800 mb-5">
-          <button type="button" id="modalModeBtnLogin" class="mode-btn active" onclick="setModalMode('login')">
-            Sign In
-          </button>
-          <button type="button" id="modalModeBtnSignup" class="mode-btn" onclick="setModalMode('signup')">
-            Create Account
-          </button>
-        </div>
-
-        <!-- Sign In Form -->
-        <form id="modalLoginForm" action="/auth/login" method="POST" class="space-y-4">
-          <input type="hidden" name="role" id="modalLoginRoleInput" value="student">
-
-          <div>
-            <label id="modalLoginIdentifierLabel" class="block text-xs uppercase font-semibold text-slate-400 mb-1">
-              Trainee ID or Email
-            </label>
-            <input
-              type="text"
-              name="identifier"
-              required
-              placeholder="Enter credentials"
-              class="modal-input"
-            />
-          </div>
-
-          <div>
-            <label class="block text-xs uppercase font-semibold text-slate-400 mb-1">Password</label>
-            <input
-              type="password"
-              name="password"
-              required
-              placeholder="••••••••"
-              class="modal-input"
-            />
-          </div>
-
-          <button
-            type="submit"
-            class="w-full bg-brand-cyan text-brand-dark font-bold text-xs py-3 rounded-lg hover:bg-brand-cyanHover transition-all shadow-md shadow-brand-cyan/20 mt-2"
-          >
-            Sign In to Portal
-          </button>
-        </form>
-
-        <!-- Create Account Form -->
-        <form id="modalSignupForm" action="/auth/register" method="POST" class="space-y-4" style="display: none;">
-          <input type="hidden" name="role" id="modalSignupRoleInput" value="student">
-
-          <div>
-            <label id="modalSignupUsernameLabel" class="block text-xs uppercase font-semibold text-slate-400 mb-1">
-              Trainee Username / ID
-            </label>
-            <input
-              type="text"
-              name="username"
-              required
-              placeholder="Choose unique username / ID"
-              class="modal-input"
-            />
-          </div>
-
-          <div>
-            <label class="block text-xs uppercase font-semibold text-slate-400 mb-1">Official Email</label>
-            <input
-              type="email"
-              name="email"
-              required
-              placeholder="name@domain.com"
-              class="modal-input"
-            />
-          </div>
-
-          <div>
-            <label class="block text-xs uppercase font-semibold text-slate-400 mb-1">Choose Password</label>
-            <input
-              type="password"
-              name="password"
-              required
-              placeholder="••••••••"
-              class="modal-input"
-            />
-          </div>
-
-          <button
-            type="submit"
-            class="w-full bg-brand-cyan text-brand-dark font-bold text-xs py-3 rounded-lg hover:bg-brand-cyanHover transition-all shadow-md shadow-brand-cyan/20 mt-2"
-          >
-            Complete Registration
-          </button>
-        </form>
-
-        <div class="mt-5 text-center">
-          <a href="javascript:void(0)" id="modalToggleModeText" onclick="toggleModalMode()" class="text-xs text-slate-400 hover:text-brand-cyan transition-colors">
-            Don't have an account? Sign Up
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <script>
-    /* ================= BORDER GLOW ENGINE ================= */
-    (function initBorderGlow() {
-      const card = document.getElementById('modalGlowCard');
-      if (!card) return;
-
-      const glowColor = '190 100 50'; // Cyan HSL
-      const intensity = 1.0;
-      const colors = ['#00d2ff', '#38bdf8', '#c084fc']; // Brand palette
-
-      // Set CSS custom properties for glow layers
-      const opacities = [100, 60, 50, 40, 30, 20, 10];
-      const keys = ['', '-60', '-50', '-40', '-30', '-20', '-10'];
-      for (let i = 0; i < opacities.length; i++) {
-        card.style.setProperty(`--glow-color${keys[i]}`, `hsl(${glowColor.replace(/ /g, ', ')} / ${Math.min(opacities[i] * intensity, 100)}%)`);
+    function renderAuthUI() {
+      const nav = document.getElementById('authNavButtons');
+      const stored = localStorage.getItem('skillup_user');
+      if (stored) {
+        try {
+          const u = JSON.parse(stored);
+          if (u && (u.username || u.email)) {
+            const displayName = u.username || u.email;
+            nav.innerHTML = `
+              <span class="text-xs text-slate-300 font-semibold px-3 py-1 bg-slate-900/90 rounded-md border border-slate-700">
+                ${displayName} (${u.role || 'user'})
+              </span>
+              <button type="button" id="headerLogoutBtn" class="text-xs text-rose-400 hover:underline ml-1">
+                Log Out
+              </button>
+            `;
+            document.getElementById('headerLogoutBtn').addEventListener('click', (e) => {
+              e.preventDefault();
+              localStorage.removeItem('skillup_user');
+              localStorage.removeItem('skillup_active_user');
+              sessionStorage.clear();
+              if (window.location.protocol === 'file:') {
+                renderAuthUI();
+              } else {
+                window.location.href = '/logout';
+              }
+            });
+            return;
+          }
+        } catch (e) {}
       }
-
-      const positions = ['80% 55%', '69% 34%', '8% 6%', '41% 38%', '86% 85%', '82% 18%', '51% 4%'];
-      const map = [0, 1, 2, 0, 1, 2, 1];
-      const gradKeys = ['--gradient-one', '--gradient-two', '--gradient-three', '--gradient-four', '--gradient-five', '--gradient-six', '--gradient-seven'];
-      for (let i = 0; i < 7; i++) {
-        const c = colors[map[i]];
-        card.style.setProperty(gradKeys[i], `radial-gradient(at ${positions[i]}, ${c} 0px, transparent 50%)`);
-      }
-      card.style.setProperty('--gradient-base', `linear-gradient(${colors[0]} 0 100%)`);
-
-      // Mouse tracking around card
-      card.addEventListener('pointermove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const cx = rect.width / 2;
-        const cy = rect.height / 2;
-        const dx = x - cx;
-        const dy = y - cy;
-
-        let kx = Infinity;
-        let ky = Infinity;
-        if (dx !== 0) kx = cx / Math.abs(dx);
-        if (dy !== 0) ky = cy / Math.abs(dy);
-        const edge = Math.min(Math.max(1 / Math.min(kx, ky), 0), 1);
-
-        let degrees = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
-        if (degrees < 0) degrees += 360;
-
-        card.style.setProperty('--edge-proximity', `${(edge * 100).toFixed(2)}`);
-        card.style.setProperty('--cursor-angle', `${degrees.toFixed(2)}deg`);
-      });
-    })();
-
-    /* ================= MODAL AUTH LOGIC ================= */
-    let activeModalRole = 'student';
-    let activeModalMode = 'login';
-
-    const roleLabels = {
-      student: {
-        login: 'Trainee ID or Email',
-        signup: 'Trainee Username / ID'
-      },
-      employer: {
-        login: 'Work Email or Username',
-        signup: 'Company / Representative ID'
-      },
-      govt: {
-        login: 'Official ID / Gov Email',
-        signup: 'Government Officer ID'
-      }
-    };
-
-    function openAuthModal(initialMode = 'login', initialRole = 'student') {
-      activeModalRole = initialRole;
-      activeModalMode = initialMode;
-      applyModalState();
-      const modal = document.getElementById('authGatewayModal');
-      if (modal) {
-        modal.classList.remove('opacity-0', 'pointer-events-none');
-      }
+      nav.innerHTML = `
+        <a
+          href="login.html"
+          class="bg-brand-cyan text-brand-dark h-10 px-5 inline-flex items-center justify-center rounded-lg text-sm font-semibold hover:bg-brand-cyanHover transition-all duration-200 shadow-md shadow-brand-cyan/20 hover:shadow-brand-cyan/40"
+        >
+          Sign In
+        </a>
+      `;
     }
 
-    function closeAuthModal() {
-      const modal = document.getElementById('authGatewayModal');
-      if (modal) {
-        modal.classList.add('opacity-0', 'pointer-events-none');
-      }
-    }
+    renderAuthUI();
 
-    function setModalRole(role) {
-      activeModalRole = role;
-      applyModalState();
-    }
-
-    function setModalMode(mode) {
-      activeModalMode = mode;
-      applyModalState();
-    }
-
-    function toggleModalMode() {
-      activeModalMode = (activeModalMode === 'login') ? 'signup' : 'login';
-      applyModalState();
-    }
-
-    function applyModalState() {
-      document.querySelectorAll('#authGatewayModal .role-btn').forEach(btn => btn.classList.remove('active'));
-      if (activeModalRole === 'govt') {
-        document.getElementById('modalRoleBtnGovt').classList.add('active');
-      } else if (activeModalRole === 'employer') {
-        document.getElementById('modalRoleBtnEmployer').classList.add('active');
-      } else {
-        document.getElementById('modalRoleBtnStudent').classList.add('active');
-      }
-
-      document.getElementById('modalLoginRoleInput').value = activeModalRole;
-      document.getElementById('modalSignupRoleInput').value = activeModalRole;
-
-      const labels = roleLabels[activeModalRole] || roleLabels.student;
-      document.getElementById('modalLoginIdentifierLabel').textContent = labels.login;
-      document.getElementById('modalSignupUsernameLabel').textContent = labels.signup;
-
-      const loginForm = document.getElementById('modalLoginForm');
-      const signupForm = document.getElementById('modalSignupForm');
-      const modeBtnLogin = document.getElementById('modalModeBtnLogin');
-      const modeBtnSignup = document.getElementById('modalModeBtnSignup');
-      const toggleText = document.getElementById('modalToggleModeText');
-
-      if (activeModalMode === 'signup') {
-        loginForm.style.display = 'none';
-        signupForm.style.display = 'block';
-        modeBtnLogin.classList.remove('active');
-        modeBtnSignup.classList.add('active');
-        toggleText.textContent = 'Already registered? Sign In';
-      } else {
-        loginForm.style.display = 'block';
-        signupForm.style.display = 'none';
-        modeBtnLogin.classList.add('active');
-        modeBtnSignup.classList.remove('active');
-        toggleText.textContent = "Don't have an account? Sign Up";
-      }
-    }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeAuthModal();
-    });
-
-    /* ================= PARTICLE CANVAS BACKGROUND ================= */
     (function initParticles() {
       const canvas = document.getElementById('particlesCanvas');
       if (!canvas) return;
@@ -955,7 +650,6 @@
         constructor() {
           this.reset(true);
         }
-
         reset(init = false) {
           this.x = (Math.random() - 0.5) * width * 1.5;
           this.y = (Math.random() - 0.5) * height * 1.5;
@@ -963,27 +657,20 @@
           this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
           this.baseSize = 1.0 + Math.random() * 2.0;
         }
-
         update() {
           this.z -= SPEED * 2;
-          if (this.z <= 10) {
-            this.reset(false);
-          }
+          if (this.z <= 10) this.reset(false);
         }
-
         draw() {
           const fov = 400;
           const scale = fov / (fov + this.z);
-
           const offsetX = (mouseX - width / 2) * 0.08 * (1 - scale);
           const offsetY = (mouseY - height / 2) * 0.08 * (1 - scale);
-
           const screenX = width / 2 + this.x * scale + offsetX;
           const screenY = height / 2 + this.y * scale + offsetY;
           const radius = Math.max(0.4, this.baseSize * scale * 1.8);
 
           if (screenX < 0 || screenX > width || screenY < 0 || screenY > height) return;
-
           const alpha = Math.min(0.85, Math.max(0.1, 1 - this.z / 1000));
 
           ctx.beginPath();
@@ -1010,23 +697,17 @@
 
       function render() {
         ctx.clearRect(0, 0, width, height);
-
         mouseX += (targetMouseX - mouseX) * 0.05;
         mouseY += (targetMouseY - mouseY) * 0.05;
-
-        ctx.shadowBlur = 0;
         particles.forEach((p) => {
           p.update();
           p.draw();
         });
-
         requestAnimationFrame(render);
       }
-
       render();
     })();
 
-    /* ================= ROLE DEMO PRESETS ================= */
     const rolePresets = {
       'data-analyst': {
         score: '60%',

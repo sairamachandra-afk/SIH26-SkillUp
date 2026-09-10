@@ -1,295 +1,703 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal Authentication — SkillUp</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../Style.css">
-  <link rel="stylesheet" href="../CardNav.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillUp — National Outcome &amp; Career Intelligence</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              cyan: '#00d2ff',
+              cyanHover: '#00b4db',
+              dark: '#050811',
+              card: '#0a101d',
+              border: '#00d2ff',
+            },
+          },
+        },
+      },
+    };
+  </script>
+
   <style>
     body {
+      background-color: #040711;
       font-family: 'Inter', sans-serif;
-      background-color: #07090e;
-      color: #f8fafc;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
       margin: 0;
-      padding: 20px;
-      box-sizing: border-box;
+      overflow-x: hidden;
     }
-    .auth-card {
-      background-color: #0e131d;
-      border: 1px solid rgba(0, 210, 255, 0.3);
-      padding: 34px 30px;
-      border-radius: 16px;
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.85), 0 0 30px rgba(0, 210, 255, 0.1);
-      width: 420px;
-      max-width: 100%;
-      box-sizing: border-box;
-    }
-    .brand-header {
+
+    .border-glow-card {
+      --edge-proximity: 0;
+      --cursor-angle: 45deg;
+      --edge-sensitivity: 30;
+      --color-sensitivity: calc(var(--edge-sensitivity) + 20);
+      --border-radius: 22px;
+      --glow-padding: 35px;
+      --cone-spread: 25;
+      --card-bg: #090f1d;
+      --fill-opacity: 0.4;
+
+      position: relative;
+      border-radius: var(--border-radius);
+      isolation: isolate;
+      transform: translate3d(0, 0, 0.01px);
       display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-bottom: 20px;
+      flex-direction: column;
+      border: 1px solid rgba(0, 210, 255, 0.25);
+      background: var(--card-bg);
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.7),
+        0 25px 60px -15px rgba(0, 0, 0, 0.95);
     }
-    .brand-icon {
-      color: #00d2ff;
-      font-size: 1.5rem;
+
+    .border-glow-card::before,
+    .border-glow-card::after,
+    .border-glow-card > .edge-light {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      transition: opacity 0.25s ease-out;
+      z-index: -1;
     }
-    .brand-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #ffffff;
+
+    .border-glow-card:not(:hover):not(.sweep-active)::before,
+    .border-glow-card:not(:hover):not(.sweep-active)::after,
+    .border-glow-card:not(:hover):not(.sweep-active) > .edge-light {
+      opacity: 0;
+      transition: opacity 0.75s ease-in-out;
     }
-    .role-tabs {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 6px;
-      background: #07090e;
-      padding: 4px;
-      border-radius: 8px;
-      margin-bottom: 22px;
-      border: 1px solid #1e293b;
+
+    .border-glow-card::before {
+      border: 1.5px solid transparent;
+      background:
+        linear-gradient(var(--card-bg) 0 100%) padding-box,
+        linear-gradient(rgba(255, 255, 255, 0) 0% 100%) border-box,
+        var(--gradient-one) border-box,
+        var(--gradient-two) border-box,
+        var(--gradient-three) border-box,
+        var(--gradient-four) border-box,
+        var(--gradient-five) border-box,
+        var(--gradient-six) border-box,
+        var(--gradient-seven) border-box,
+        var(--gradient-base) border-box;
+
+      opacity: calc((var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+
+      mask-image:
+        conic-gradient(
+          from var(--cursor-angle) at center,
+          black calc(var(--cone-spread) * 1%),
+          transparent calc((var(--cone-spread) + 15) * 1%),
+          transparent calc((100 - var(--cone-spread) - 15) * 1%),
+          black calc((100 - var(--cone-spread)) * 1%)
+        );
+      -webkit-mask-image:
+        conic-gradient(
+          from var(--cursor-angle) at center,
+          black calc(var(--cone-spread) * 1%),
+          transparent calc((var(--cone-spread) + 15) * 1%),
+          transparent calc((100 - var(--cone-spread) - 15) * 1%),
+          black calc((100 - var(--cone-spread)) * 1%)
+        );
     }
-    .role-btn {
-      padding: 8px 4px;
-      border: none;
-      background: transparent;
-      color: #94a3b8;
-      font-size: 11px;
-      font-weight: 600;
-      border-radius: 6px;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.2s;
+
+    .border-glow-card::after {
+      border: 1px solid transparent;
+      background:
+        var(--gradient-one) padding-box,
+        var(--gradient-two) padding-box,
+        var(--gradient-three) padding-box,
+        var(--gradient-four) padding-box,
+        var(--gradient-five) padding-box,
+        var(--gradient-six) padding-box,
+        var(--gradient-seven) padding-box,
+        var(--gradient-base) padding-box;
+
+      mask-image:
+        linear-gradient(to bottom, black, black),
+        radial-gradient(ellipse at 50% 50%, black 40%, transparent 65%),
+        conic-gradient(from var(--cursor-angle) at center, transparent 5%, black 15%, black 85%, transparent 95%);
+      -webkit-mask-image:
+        linear-gradient(to bottom, black, black),
+        radial-gradient(ellipse at 50% 50%, black 40%, transparent 65%),
+        conic-gradient(from var(--cursor-angle) at center, transparent 5%, black 15%, black 85%, transparent 95%);
+      mask-composite: subtract, add, add;
+      -webkit-mask-composite: source-out, destination-over, destination-over;
+
+      opacity: calc(var(--fill-opacity, 0.4) * (var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+      mix-blend-mode: screen;
     }
-    .role-btn.active {
-      background: #00d2ff;
-      color: #07090e;
+
+    .border-glow-card > .edge-light {
+      inset: calc(var(--glow-padding) * -1);
+      pointer-events: none;
+      z-index: 1;
+
+      mask-image:
+        conic-gradient(
+          from var(--cursor-angle) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%
+        );
+      -webkit-mask-image:
+        conic-gradient(
+          from var(--cursor-angle) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%
+        );
+
+      opacity: calc((var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity)));
+      mix-blend-mode: screen;
     }
-    .mode-switch {
-      display: flex;
-      border-bottom: 1px solid #1e293b;
-      margin-bottom: 20px;
+
+    .border-glow-card > .edge-light::before {
+      content: "";
+      position: absolute;
+      inset: var(--glow-padding);
+      border-radius: inherit;
+      box-shadow:
+        inset 0 0 0 1px var(--glow-color, hsl(190deg 100% 50% / 100%)),
+        inset 0 0 3px 0 var(--glow-color-60, hsl(190deg 100% 50% / 60%)),
+        inset 0 0 8px 0 var(--glow-color-40, hsl(190deg 100% 50% / 40%)),
+        inset 0 0 20px 2px var(--glow-color-20, hsl(190deg 100% 50% / 20%)),
+        0 0 2px 0 var(--glow-color-60, hsl(190deg 100% 50% / 60%)),
+        0 0 8px 0 var(--glow-color-40, hsl(190deg 100% 50% / 40%)),
+        0 0 24px 2px var(--glow-color-20, hsl(190deg 100% 50% / 20%)),
+        0 0 45px 2px var(--glow-color-10, hsl(190deg 100% 50% / 10%));
     }
-    .mode-btn {
-      flex: 1;
-      padding: 10px;
-      background: transparent;
-      border: none;
-      border-bottom: 2px solid transparent;
-      color: #94a3b8;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .mode-btn.active {
-      color: #00d2ff;
-      border-bottom-color: #00d2ff;
-    }
-    label {
-      display: block;
-      margin-top: 12px;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #94a3b8;
-    }
-    input {
+
+    .border-glow-inner {
+      position: relative;
+      z-index: 2;
       width: 100%;
-      padding: 11px 12px;
-      margin-top: 5px;
-      border-radius: 8px;
-      border: 1px solid #334155;
-      background-color: #07090e;
-      color: #ffffff;
-      box-sizing: border-box;
-      font-size: 13px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    input:focus {
+
+    .input-box {
+      width: 100%;
+      background-color: #060b16;
+      border: 1px solid #1a2333;
+      color: #e2e8f0;
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 13px;
+      transition: border-color 0.2s;
+    }
+    .input-box:focus {
       outline: none;
       border-color: #00d2ff;
     }
-    .btn-submit {
-      width: 100%;
-      margin-top: 22px;
-      padding: 12px;
-      background-color: #00d2ff;
-      color: #07090e;
-      border: none;
-      border-radius: 8px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 13px;
-      transition: background-color 0.2s ease;
-    }
-    .btn-submit:hover {
-      background-color: #00b4db;
-    }
-    .footer-links {
-      margin-top: 18px;
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-    }
-    .footer-links a {
+    .tab-btn {
       color: #94a3b8;
-      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      padding-bottom: 10px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
     }
-    .footer-links a:hover {
+    .tab-btn.active {
       color: #00d2ff;
+      border-bottom-color: #00d2ff;
+    }
+    .role-btn {
+      flex: 1;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 6px;
+      color: #94a3b8;
+      transition: all 0.2s;
+    }
+    .role-btn.active {
+      background-color: #00d2ff;
+      color: #040711;
     }
   </style>
 </head>
-<body>
+<body class="text-slate-100 min-h-screen flex flex-col justify-between relative selection:bg-cyan-500/20 selection:text-cyan-400">
 
-<div class="auth-card">
-  <div class="brand-header">
-    <span class="brand-icon">&#x25C9;</span>
-    <span class="brand-title">SkillUp Gateway</span>
-  </div>
+  <canvas id="particlesCanvas" class="fixed inset-0 pointer-events-none z-0 w-full h-full"></canvas>
 
-  <div class="role-tabs">
-    <button type="button" id="roleBtnStudent" class="role-btn active" onclick="switchRole('student')">
-      Student / Trainee
-    </button>
-    <button type="button" id="roleBtnEmployer" class="role-btn" onclick="switchRole('employer')">
-      Employer
-    </button>
-    <button type="button" id="roleBtnGovt" class="role-btn" onclick="switchRole('govt')">
-      Govt Official
-    </button>
-  </div>
-
-  <div class="mode-switch">
-    <button type="button" id="modeBtnLogin" class="mode-btn active" onclick="switchMode('login')">
-      Sign In
-    </button>
-    <button type="button" id="modeBtnSignup" class="mode-btn" onclick="switchMode('signup')">
-      Create Account
-    </button>
-  </div>
-
-  <!-- LOGIN FORM -->
-  <form id="loginForm" action="/auth/login" method="POST">
-    <input type="hidden" name="role" id="loginRoleInput" value="student">
-
-    <label id="loginIdentifierLabel">Trainee ID or Email</label>
-    <input type="text" name="identifier" required placeholder="Enter credentials">
-
-    <label>Password</label>
-    <input type="password" name="password" required placeholder="••••••••">
-
-    <button type="submit" class="btn-submit">Sign In to Portal</button>
-  </form>
-
-  <!-- SIGNUP FORM -->
-  <form id="signupForm" action="/auth/register" method="POST" style="display: none;">
-    <input type="hidden" name="role" id="signupRoleInput" value="student">
-
-    <label id="signupUsernameLabel">Trainee Username / ID</label>
-    <input type="text" name="username" required placeholder="Choose unique ID or username">
-
-    <label>Official Email</label>
-    <input type="email" name="email" required placeholder="name@domain.com">
-
-    <label>Choose Password</label>
-    <input type="password" name="password" required placeholder="••••••••">
-
-    <button type="submit" class="btn-submit">Complete Registration</button>
-  </form>
-
-  <div class="footer-links">
-    <a href="index.html">&larr; Return to Home</a>
-    <a href="javascript:void(0)" id="toggleModeLink" onclick="toggleAuthMode()">
-      Don't have an account? Sign Up
+  <header class="relative z-10 w-full px-8 py-6 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3 group">
+      <span class="text-brand-cyan text-2xl leading-none transition-transform group-hover:scale-110 duration-200">&#x25C9;</span>
+      <div class="flex flex-col">
+        <span class="font-bold text-lg tracking-tight text-white">SkillUp</span>
+        <span class="text-[9px] tracking-wider uppercase text-slate-400 font-medium -mt-1">
+          National Outcome Intelligence
+        </span>
+      </div>
     </a>
-  </div>
-</div>
 
-<script>
-  const urlParams = new URLSearchParams(window.location.search);
-  let currentRole = urlParams.get('role') || 'student';
-  let currentMode = urlParams.get('mode') || 'login';
+    <a href="index.html" class="text-xs font-medium text-slate-400 hover:text-white transition-colors">
+      &larr; Back to Platform
+    </a>
+  </header>
 
-  const roleLabels = {
-    student: {
-      login: 'Trainee ID or Email',
-      signup: 'Trainee Username / ID'
-    },
-    employer: {
-      login: 'Work Email or Username',
-      signup: 'Company / Representative ID'
-    },
-    govt: {
-      login: 'Official ID / Gov Email',
-      signup: 'Government Officer ID'
+  <main class="relative z-10 flex-1 flex items-center justify-center px-4 py-8">
+    <div
+      id="loginGlowCard"
+      class="border-glow-card w-full max-w-[500px]"
+    >
+      <span class="edge-light"></span>
+
+      <div class="border-glow-inner p-8 sm:p-10">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-950/50 border border-cyan-500/40 text-[11px] font-semibold text-cyan-300 mb-6 uppercase tracking-wider">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-cyan animate-pulse"></span>
+          Verified Access Gateway
+        </div>
+
+        <h1 id="pageTitle" class="text-2xl sm:text-3xl font-bold text-white text-center mb-2 tracking-tight">
+          Sign In to SkillUp
+        </h1>
+        <p id="pageSubtitle" class="text-xs text-slate-400 text-center mb-8">
+          Log in with your credentials or register a new verified account.
+        </p>
+
+        <div class="w-full flex border-b border-slate-800/80 mb-6">
+          <button type="button" id="tabSignIn" class="tab-btn flex-1 active" onclick="switchMode('login')">
+            Sign In
+          </button>
+          <button type="button" id="tabCreateAccount" class="tab-btn flex-1" onclick="switchMode('signup')">
+            Create New Account
+          </button>
+        </div>
+
+        <div class="w-full bg-[#050914] p-1.5 rounded-xl border border-slate-800/80 flex gap-1 mb-6">
+          <button type="button" id="roleTrainee" class="role-btn active" onclick="switchRole('student')">
+            Trainee
+          </button>
+          <button type="button" id="roleGovt" class="role-btn" onclick="switchRole('govt')">
+            Govt Admin
+          </button>
+          <button type="button" id="roleEmployer" class="role-btn" onclick="switchRole('employer')">
+            Employer
+          </button>
+        </div>
+
+        <form id="formSignIn" action="/auth/login" method="POST" class="w-full space-y-4">
+          <input type="hidden" name="role" id="loginRoleInput" value="student">
+
+          <div>
+            <label id="loginIdentifierLabel" class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-2">
+              Trainee ID / Registered Email
+            </label>
+            <input
+              type="text"
+              id="loginIdentifierInput"
+              name="identifier"
+              required
+              value="trainee@skillup.gov.in"
+              class="input-box"
+            />
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-300">
+                Password / Portal Pass
+              </label>
+              <span class="text-[11px] text-slate-500">Any password works for new accounts</span>
+            </div>
+            <input
+              type="password"
+              id="loginPasswordInput"
+              name="password"
+              required
+              value="password123"
+              class="input-box"
+            />
+          </div>
+
+          <div class="bg-[#050914] border border-slate-800/80 rounded-xl p-3.5 flex items-center justify-between gap-4">
+            <div>
+              <div class="text-xs font-semibold text-white">Jury Evaluation Preset</div>
+              <div id="juryPresetText" class="text-[11px] text-slate-400">Auto-injects test credentials</div>
+            </div>
+            <button
+              type="button"
+              onclick="applyJuryPreset()"
+              class="px-3.5 py-1.5 rounded-lg bg-cyan-950/60 border border-cyan-500/30 text-xs font-semibold text-brand-cyan hover:bg-brand-cyan hover:text-black transition-colors"
+            >
+              Autofill Info
+            </button>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full py-3.5 rounded-xl bg-brand-cyan hover:bg-brand-cyanHover text-brand-dark font-bold text-sm shadow-lg shadow-cyan-500/20 transition-all duration-200 mt-2"
+          >
+            Sign In to Environment
+          </button>
+        </form>
+
+        <form id="formSignUp" action="/auth/register" method="POST" class="w-full space-y-4 hidden">
+          <input type="hidden" name="role" id="signupRoleInput" value="student">
+
+          <div>
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-2">
+              Full Legal Name
+            </label>
+            <input
+              type="text"
+              name="fullname"
+              placeholder="Candidate or Officer Name"
+              class="input-box"
+            />
+          </div>
+
+          <div>
+            <label id="signupRollLabel" class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-2">
+              Trainee Roll No / Institution
+            </label>
+            <input
+              type="text"
+              name="username"
+              required
+              placeholder="e.g. TRN-2026-XXXX or NCVET Batch"
+              class="input-box"
+            />
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-2">
+              Trainee ID / Registered Email
+            </label>
+            <input
+              type="email"
+              name="email"
+              required
+              placeholder="trainee@skillup.gov.in"
+              class="input-box"
+            />
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-300">
+                Password / Portal Pass
+              </label>
+              <span class="text-[11px] text-slate-500">Any password works for new accounts</span>
+            </div>
+            <input
+              type="password"
+              name="password"
+              required
+              placeholder="••••••••"
+              class="input-box"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="w-full py-3.5 rounded-xl bg-brand-cyan hover:bg-brand-cyanHover text-brand-dark font-bold text-sm shadow-lg shadow-cyan-500/20 transition-all duration-200 mt-2"
+          >
+            Create Account &amp; Enter Portal
+          </button>
+        </form>
+
+        <div class="mt-8 text-center space-y-2">
+          <a href="../Dashboard.html" class="text-xs text-slate-400 hover:text-brand-cyan transition-colors">
+            Bypass login and open live prototype dashboard &rarr;
+          </a>
+          <div class="text-[11px] text-slate-500">
+            Secured with DigiLocker, APAAR &amp; NCVET Framework
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="py-4"></footer>
+
+  <script>
+    (function initCardBorderGlow() {
+      const card = document.getElementById('loginGlowCard');
+      if (!card) return;
+
+      const glowColor = '190 100 50';
+      const intensity = 1.0;
+      const colors = ['#00d2ff', '#38bdf8', '#c084fc'];
+
+      const opacities = [100, 60, 50, 40, 30, 20, 10];
+      const keys = ['', '-60', '-50', '-40', '-30', '-20', '-10'];
+      for (let i = 0; i < opacities.length; i++) {
+        card.style.setProperty(
+          `--glow-color${keys[i]}`,
+          `hsl(${glowColor.replace(/ /g, ', ')} / ${Math.min(opacities[i] * intensity, 100)}%)`
+        );
+      }
+
+      const positions = ['80% 55%', '69% 34%', '8% 6%', '41% 38%', '86% 85%', '82% 18%', '51% 4%'];
+      const map = [0, 1, 2, 0, 1, 2, 1];
+      const gradKeys = [
+        '--gradient-one', '--gradient-two', '--gradient-three',
+        '--gradient-four', '--gradient-five', '--gradient-six', '--gradient-seven'
+      ];
+      for (let i = 0; i < 7; i++) {
+        const c = colors[map[i]];
+        card.style.setProperty(gradKeys[i], `radial-gradient(at ${positions[i]}, ${c} 0px, transparent 50%)`);
+      }
+      card.style.setProperty('--gradient-base', `linear-gradient(${colors[0]} 0 100%)`);
+
+      card.addEventListener('pointermove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const cx = rect.width / 2;
+        const cy = rect.height / 2;
+        const dx = x - cx;
+        const dy = y - cy;
+
+        let kx = Infinity;
+        let ky = Infinity;
+        if (dx !== 0) kx = cx / Math.abs(dx);
+        if (dy !== 0) ky = cy / Math.abs(dy);
+        const edge = Math.min(Math.max(1 / Math.min(kx, ky), 0), 1);
+
+        let degrees = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+        if (degrees < 0) degrees += 360;
+
+        card.style.setProperty('--edge-proximity', `${(edge * 100).toFixed(2)}`);
+        card.style.setProperty('--cursor-angle', `${degrees.toFixed(2)}deg`);
+      });
+    })();
+
+    let currentMode = 'login';
+    let currentRole = 'student';
+
+    const presets = {
+      student: {
+        email: 'trainee@skillup.gov.in',
+        pass: 'password123',
+        label: 'Trainee ID / Registered Email',
+        rollLabel: 'Trainee Roll No / Institution',
+        rollPlaceholder: 'e.g. TRN-2026-XXXX or NCVET Batch'
+      },
+      govt: {
+        email: 'officer@skillup.gov.in',
+        pass: 'govpass2026',
+        label: 'Official Govt ID / Gov Email',
+        rollLabel: 'Ministry / Department Code',
+        rollPlaceholder: 'e.g. MSDE-DIR-901'
+      },
+      employer: {
+        email: 'recruiter@deloitte.com',
+        pass: 'hirepass2026',
+        label: 'Corporate Work Email',
+        rollLabel: 'Company Name / Registration ID',
+        rollPlaceholder: 'e.g. Deloitte India Pvt Ltd'
+      }
+    };
+
+    function switchMode(mode) {
+      currentMode = mode;
+      const tabSignIn = document.getElementById('tabSignIn');
+      const tabCreateAccount = document.getElementById('tabCreateAccount');
+      const formSignIn = document.getElementById('formSignIn');
+      const formSignUp = document.getElementById('formSignUp');
+      const title = document.getElementById('pageTitle');
+      const subtitle = document.getElementById('pageSubtitle');
+
+      if (mode === 'signup') {
+        tabSignIn.classList.remove('active');
+        tabCreateAccount.classList.add('active');
+        formSignIn.classList.add('hidden');
+        formSignUp.classList.remove('hidden');
+        title.textContent = 'Register on SkillUp';
+        subtitle.textContent = 'Instant profile generation for trainees, institutions, and employers.';
+      } else {
+        tabCreateAccount.classList.remove('active');
+        tabSignIn.classList.add('active');
+        formSignUp.classList.add('hidden');
+        formSignIn.classList.remove('hidden');
+        title.textContent = 'Sign In to SkillUp';
+        subtitle.textContent = 'Log in with your credentials or register a new verified account.';
+      }
     }
-  };
 
-  function applyState() {
-    document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
-    if (currentRole === 'govt') {
-      document.getElementById('roleBtnGovt').classList.add('active');
-    } else if (currentRole === 'employer') {
-      document.getElementById('roleBtnEmployer').classList.add('active');
-    } else {
-      document.getElementById('roleBtnStudent').classList.add('active');
+    function switchRole(role) {
+      currentRole = role;
+      document.getElementById('roleTrainee').classList.remove('active');
+      document.getElementById('roleGovt').classList.remove('active');
+      document.getElementById('roleEmployer').classList.remove('active');
+
+      if (role === 'govt') {
+        document.getElementById('roleGovt').classList.add('active');
+      } else if (role === 'employer') {
+        document.getElementById('roleEmployer').classList.add('active');
+      } else {
+        document.getElementById('roleTrainee').classList.add('active');
+      }
+
+      document.getElementById('loginRoleInput').value = role;
+      document.getElementById('signupRoleInput').value = role;
+
+      const p = presets[role];
+      document.getElementById('loginIdentifierLabel').textContent = p.label;
+      document.getElementById('signupRollLabel').textContent = p.rollLabel;
+
+      applyJuryPreset();
     }
 
-    document.getElementById('loginRoleInput').value = currentRole;
-    document.getElementById('signupRoleInput').value = currentRole;
-
-    const roleConfig = roleLabels[currentRole] || roleLabels.student;
-    document.getElementById('loginIdentifierLabel').textContent = roleConfig.login;
-    document.getElementById('signupUsernameLabel').textContent = roleConfig.signup;
-
-    const loginForm = document.getElementById('loginForm');
-    const signupForm = document.getElementById('signupForm');
-    const modeBtnLogin = document.getElementById('modeBtnLogin');
-    const modeBtnSignup = document.getElementById('modeBtnSignup');
-    const toggleLink = document.getElementById('toggleModeLink');
-
-    if (currentMode === 'signup') {
-      loginForm.style.display = 'none';
-      signupForm.style.display = 'block';
-      modeBtnLogin.classList.remove('active');
-      modeBtnSignup.classList.add('active');
-      toggleLink.textContent = 'Already registered? Sign In';
-    } else {
-      loginForm.style.display = 'block';
-      signupForm.style.display = 'none';
-      modeBtnLogin.classList.add('active');
-      modeBtnSignup.classList.remove('active');
-      toggleLink.textContent = "Don't have an account? Sign Up";
+    function applyJuryPreset() {
+      const p = presets[currentRole];
+      document.getElementById('loginIdentifierInput').value = p.email;
+      document.getElementById('loginPasswordInput').value = p.pass;
     }
-  }
 
-  function switchRole(role) {
-    currentRole = role;
-    applyState();
-  }
+    (function initParticles() {
+      const canvas = document.getElementById('particlesCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
 
-  function switchMode(mode) {
-    currentMode = mode;
-    applyState();
-  }
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
 
-  function toggleAuthMode() {
-    currentMode = (currentMode === 'login') ? 'signup' : 'login';
-    applyState();
-  }
+      const PARTICLE_COUNT = 160;
+      const SPEED = 0.25;
+      const COLORS = ['#ffffff', '#00d2ff', '#80e9ff'];
 
-  applyState();
-</script>
+      let mouseX = width / 2;
+      let mouseY = height / 2;
+      let targetMouseX = width / 2;
+      let targetMouseY = height / 2;
+
+      class Particle {
+        constructor() {
+          this.reset(true);
+        }
+        reset(init = false) {
+          this.x = (Math.random() - 0.5) * width * 1.5;
+          this.y = (Math.random() - 0.5) * height * 1.5;
+          this.z = init ? Math.random() * 1000 : 1000;
+          this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+          this.baseSize = 1.0 + Math.random() * 2.0;
+        }
+        update() {
+          this.z -= SPEED * 2;
+          if (this.z <= 10) this.reset(false);
+        }
+        draw() {
+          const fov = 400;
+          const scale = fov / (fov + this.z);
+          const offsetX = (mouseX - width / 2) * 0.06 * (1 - scale);
+          const offsetY = (mouseY - height / 2) * 0.06 * (1 - scale);
+          const screenX = width / 2 + this.x * scale + offsetX;
+          const screenY = height / 2 + this.y * scale + offsetY;
+          const radius = Math.max(0.4, this.baseSize * scale * 1.8);
+
+          if (screenX < 0 || screenX > width || screenY < 0 || screenY > height) return;
+          const alpha = Math.min(0.85, Math.max(0.1, 1 - this.z / 1000));
+
+          ctx.beginPath();
+          ctx.arc(screenX, screenY, radius, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.globalAlpha = alpha;
+          ctx.shadowBlur = radius * 4;
+          ctx.shadowColor = this.color;
+          ctx.fill();
+        }
+      }
+
+      const particles = Array.from({ length: PARTICLE_COUNT }, () => new Particle());
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        targetMouseX = e.clientX;
+        targetMouseY = e.clientY;
+      });
+
+      function render() {
+        ctx.clearRect(0, 0, width, height);
+        mouseX += (targetMouseX - mouseX) * 0.05;
+        mouseY += (targetMouseY - mouseY) * 0.05;
+        particles.forEach((p) => {
+          p.update();
+          p.draw();
+        });
+        requestAnimationFrame(render);
+      }
+      render();
+    })();
+
+    const isDirectFile = window.location.protocol === 'file:';
+
+    document.getElementById('formSignUp').addEventListener('submit', function(e) {
+      if (!isDirectFile) return;
+      e.preventDefault();
+
+      const role = document.getElementById('signupRoleInput').value;
+      const fullname = this.querySelector('input[name="fullname"]').value;
+      const username = this.querySelector('input[name="username"]').value;
+      const email = this.querySelector('input[name="email"]').value;
+      const password = this.querySelector('input[name="password"]').value;
+
+      let users = JSON.parse(localStorage.getItem('skillup_users') || '[]');
+      if (users.some(u => u.email === email || u.username === username)) {
+        alert('User or email already registered!');
+        return;
+      }
+
+      users.push({ role, fullname, username, email, password });
+      localStorage.setItem('skillup_users', JSON.stringify(users));
+      localStorage.setItem('skillup_user', JSON.stringify({ role, username, email, fullname }));
+
+      window.location.href = (role === 'govt') ? '../Dashboard.html' : (role === 'employer' ? '../Employement.html' : '../skillgaps.html');
+    });
+
+    document.getElementById('formSignIn').addEventListener('submit', function(e) {
+      if (!isDirectFile) return;
+      e.preventDefault();
+
+      const role = document.getElementById('loginRoleInput').value;
+      const identifier = document.getElementById('loginIdentifierInput').value.trim();
+      const password = document.getElementById('loginPasswordInput').value;
+
+      let users = JSON.parse(localStorage.getItem('skillup_users') || '[]');
+      const isJuryPreset = (
+        (identifier === 'trainee@skillup.gov.in' && password === 'password123') ||
+        (identifier === 'officer@skillup.gov.in' && password === 'govpass2026') ||
+        (identifier === 'recruiter@deloitte.com' && password === 'hirepass2026')
+      );
+
+      const matchedUser = users.find(u => (u.email === identifier || u.username === identifier) && u.password === password && u.role === role);
+
+      if (matchedUser || isJuryPreset) {
+        localStorage.setItem('skillup_user', JSON.stringify({ role, username: identifier, email: identifier }));
+        window.location.href = (role === 'govt') ? '../Dashboard.html' : (role === 'employer' ? '../Employement.html' : '../skillgaps.html');
+      } else {
+        alert('Invalid credentials or role selection!');
+      }
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('mode') === 'signup') switchMode('signup');
+    if (urlParams.get('role')) switchRole(urlParams.get('role'));
+  </script>
 
 </body>
 </html>
