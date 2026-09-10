@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skill Gaps Analysis — SkillUp Outcome Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Style.css" />
+  <link rel="stylesheet" href="CardNav.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+
+  <div class="glow-overlay"></div>
+
+  <header>
+    <div class="nav-left">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">&#x25C9;</span>SkillUp
+      </a>
+      <nav class="dock-nav" id="dockNav">
+        <ul>
+          <li><a href="Dashboard.html" class="dock-item">Dashboard</a></li>
+          <li><a href="workforce.html" class="dock-item">Workforce</a></li>
+          <li><a href="skillgaps.html" class="dock-item active">Skill Gaps</a></li>
+          <li><a href="Employement.html" class="dock-item">Employment</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="nav-right">
+      <a href="index.html" class="login-link">Sign Out</a>
+      <a href="#" class="btn-demo">Generate Matrix</a>
+
+      <div class="card-nav-menu-wrapper" id="cardNavWrapper">
+        <div class="hamburger-menu" id="cardNavToggle" role="button" tabindex="0" aria-label="Toggle navigation menu">
+          <div class="hamburger-line"></div>
+          <div class="hamburger-line"></div>
+        </div>
+
+        <div class="card-nav-dropdown" id="cardNavDropdown">
+          <div class="nav-card" style="background-color: #121927; color: #ffffff;">
+            <div class="nav-card-label">Intelligence</div>
+            <div class="nav-card-links">
+              <a class="nav-card-link" href="Dashboard.html">&#8599; Overview Dashboard</a>
+              <a class="nav-card-link" href="workforce.html">&#8599; Workforce Readiness</a>
+            </div>
+          </div>
+
+          <div class="nav-card" style="background-color: #162032; color: #ffffff;">
+            <div class="nav-card-label">Diagnostics</div>
+            <div class="nav-card-links">
+              <a class="nav-card-link" href="skillgaps.html">&#8599; Skill Gaps Engine</a>
+              <a class="nav-card-link" href="Employement.html">&#8599; Employment Placement</a>
+            </div>
+          </div>
+
+          <div class="nav-card" style="background-color: #101725; color: #ffffff;">
+            <div class="nav-card-label">Outcomes</div>
+            <div class="nav-card-links">
+              <a class="nav-card-link" href="Dashboard.html">&#8599; Retention Analytics</a>
+              <a class="nav-card-link" href="workforce.html">&#8599; Benchmark Reports</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <div class="page-header">
+      <div class="eyebrow-badge">
+        <span class="badge-square"></span>
+        Gap Identification &amp; Mitigation
+      </div>
+      <h2>Competency Gap Diagnostic</h2>
+      <p>Identify critical shortfalls between project requirements and workforce proficiency.</p>
+    </div>
+
+    <div class="content-grid">
+      <div class="panel-card">
+        <h3>Critical Competency Deficits</h3>
+
+        <div class="progress-item">
+          <div class="progress-labels">
+            <span>LLM Fine-Tuning &amp; Prompt Architecture</span>
+            <span style="color: var(--primary-accent);">Gap: 42%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width: 58%; background: var(--primary-accent);"></div>
+          </div>
+        </div>
+
+        <div class="progress-item">
+          <div class="progress-labels">
+            <span>Distributed Systems (Rust &amp; Go)</span>
+            <span style="color: var(--primary-accent);">Gap: 36%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width: 64%; background: var(--primary-accent);"></div>
+          </div>
+        </div>
+
+        <div class="progress-item">
+          <div class="progress-labels">
+            <span>Edge Computing &amp; IoT Architecture</span>
+            <span style="color: var(--blue);">Gap: 21%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width: 79%; background: var(--blue);"></div>
+          </div>
+        </div>
+
+        <div class="progress-item">
+          <div class="progress-labels">
+            <span>Container Orchestration &amp; CI/CD</span>
+            <span style="color: var(--green);">Gap: 8%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width: 92%; background: var(--green);"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <h3>AI Recommendation Engine</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">
+          To bridge the 42% gap in GenAI within 60 days, auto-enroll 120 senior backend trainees into the internal micro-credential pathway.
+        </p>
+        <a href="#" class="btn-demo" style="display: inline-block; text-align: center;">Trigger Auto-Upskill Track</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="nav.js"></script>
+
+</body>
+</html>

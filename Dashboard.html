@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — SkillUp Outcome Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Style.css" />
+  <link rel="stylesheet" href="CardNav.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+
+  <div class="glow-overlay"></div>
+
+  <header>
+    <div class="nav-left">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">&#x25C9;</span>SkillUp
+      </a>
+      <nav class="dock-nav" id="dockNav">
+        <ul>
+          <li><a href="Dashboard.html" class="dock-item active">Dashboard</a></li>
+          <li><a href="workforce.html" class="dock-item">Workforce</a></li>
+          <li><a href="skillgaps.html" class="dock-item">Skill Gaps</a></li>
+          <li><a href="Employement.html" class="dock-item">Employment</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="nav-right">
+      <a href="index.html" class="login-link">Sign Out</a>
+      <a href="skillgaps.html" class="btn-demo">Audit Skills</a>
+
+      <div class="card-nav-menu-wrapper" id="cardNavWrapper">
+        <div class="hamburger-menu" id="cardNavToggle" role="button" tabindex="0" aria-label="Toggle navigation menu">
+          <div class="hamburger-line"></div>
+          <div class="hamburger-line"></div>
+        </div>
+
+        <div class="card-nav-dropdown" id="cardNavDropdown">
+          <div class="nav-card" style="background-color: #121927; color: #ffffff;">
+            <div class="nav-card-label">Intelligence</div>
+            <div class="nav-card-links">
+              <a class="nav-card-link" href="Dashboard.html">&#8599; Overview Dashboard</a>
+              <a class="nav-card-link" href="workforce.html">&#8599; Workforce Readiness</a>
+            </div>
+          </div>
+
+          <div class="nav-card" style="background-color: #162032; color: #ffffff;">
+            <div class="nav-card-label">Diagnostics</div>
+            <div class="nav-card-links">
+              <a class="nav-card-link" href="skillgaps.html">&#8599; Skill Gaps Engine</a>
+              <a class="nav-card-link" href="Employement.html">&#8599; Employment Placement</a>
+            </div>
+          </div>
+
+          <div class="nav-card" style="background-color: #101725; color: #ffffff;">
+            <div class="nav-card-label">Outcomes</div>
+            <div class="nav-card-links">
+              <a class="nav-card-link" href="Dashboard.html">&#8599; Retention Analytics</a>
+              <a class="nav-card-link" href="workforce.html">&#8599; Benchmark Reports</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <div class="page-header">
+      <div class="eyebrow-badge">
+        <span class="badge-square"></span>
+        National Outcome Command Center
+      </div>
+      <h2>Intelligence Overview</h2>
+      <p>Continuous context-layer insights across talent, readiness, and capability gaps.</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card-title">Indexed Workforce</div>
+        <div class="stat-card-val">1,42,800+</div>
+        <span class="stat-badge">&#9650; +12.4% this quarter</span>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-title">Skill Readiness Index</div>
+        <div class="stat-card-val">74.2%</div>
+        <span class="stat-badge">&#9650; Domain alignment met</span>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-title">Critical Skill Gaps</div>
+        <div class="stat-card-val">184</div>
+        <span class="stat-badge" style="color: var(--primary-accent);">&#9660; 28 mitigated</span>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-title">12-Month Retention</div>
+        <div class="stat-card-val">68.4%</div>
+        <span class="stat-badge">&#9650; Sustainable baseline</span>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div class="panel-card">
+        <h3>Enterprise Competency Distribution</h3>
+        
+        <div class="progress-item">
+          <div class="progress-labels">
+            <span>Machine Learning &amp; Data Science</span>
+            <span>88% Verified</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width: 88%;"></div>
+          </div>
+        </div>
+
+        <div class="progress-item">
+          <div class="progress-labels">
+            <span>Cloud Architecture &amp; DevOps</span>
+            <span>72% Verified</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width: 72%;"></div>
+          </div>
+        </div>
+
+        <div class="progress-item">
+          <div class="progress-labels">
+            <span>Full-Stack Software Engineering</span>
+            <span>94% Verified</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width: 94%;"></div>
+          </div>
+        </div>
+
+        <div class="progress-item">
+          <div class="progress-labels">
+            <span>Cybersecurity Operations</span>
+            <span>61% Verified</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width: 61%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <h3>Recent Intelligence Alerts</h3>
+        <div style="display: flex; flex-direction: column; gap: 1rem; font-size: 0.9rem;">
+          <div style="padding-bottom: 0.8rem; border-bottom: 1px solid var(--border-color);">
+            <span class="status-tag status-orange" style="margin-bottom: 0.4rem;">High Priority</span>
+            <p style="color: #ffffff; font-weight: 500;">GenAI Talent Deficit</p>
+            <p style="color: var(--text-muted); font-size: 0.82rem;">24 open roles require internal upskilling alignment.</p>
+          </div>
+
+          <div style="padding-bottom: 0.8rem; border-bottom: 1px solid var(--border-color);">
+            <span class="status-tag status-green" style="margin-bottom: 0.4rem;">Completed</span>
+            <p style="color: #ffffff; font-weight: 500;">Cohort Track A Verified</p>
+            <p style="color: var(--text-muted); font-size: 0.82rem;">450 graduates mapped to core skill taxonomies.</p>
+          </div>
+
+          <div>
+            <span class="status-tag status-blue" style="margin-bottom: 0.4rem;">Update</span>
+            <p style="color: #ffffff; font-weight: 500;">Taxonomy Synced</p>
+            <p style="color: var(--text-muted); font-size: 0.82rem;">Role profiles updated across national employment portals.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="nav.js"></script>
+
+</body>
+</html>

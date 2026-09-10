@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employment &amp; Hiring Intelligence — SkillUp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Style.css" />
+  <link rel="stylesheet" href="CardNav.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+
+  <div class="glow-overlay"></div>
+
+  <header>
+    <div class="nav-left">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">&#x25C9;</span>SkillUp
+      </a>
+      <nav class="dock-nav" id="dockNav">
+        <ul>
+          <li><a href="Dashboard.html" class="dock-item">Dashboard</a></li>
+          <li><a href="workforce.html" class="dock-item">Workforce</a></li>
+          <li><a href="skillgaps.html" class="dock-item">Skill Gaps</a></li>
+          <li><a href="Employement.html" class="dock-item active">Employment</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="nav-right">
+      <a href="index.html" class="login-link">Sign Out</a>
+      <a href="#" class="btn-demo">Create Opening</a>
+
+      <div class="card-nav-menu-wrapper" id="cardNavWrapper">
+        <div class="hamburger-menu" id="cardNavToggle" role="button" tabindex="0" aria-label="Toggle navigation menu">
+          <div class="hamburger-line"></div>
+          <div class="hamburger-line"></div>
+        </div>
+
+        <div class="card-nav-dropdown" id="cardNavDropdown">
+          <div class="nav-card" style="background-color: #121927; color: #ffffff;">
+            <div class="nav-card-label">Intelligence</div>
+            <div class="nav-card-links">
+              <a class="nav-card-link" href="Dashboard.html">&#8599; Overview Dashboard</a>
+              <a class="nav-card-link" href="workforce.html">&#8599; Workforce Readiness</a>
+            </div>
+          </div>
+
+          <div class="nav-card" style="background-color: #162032; color: #ffffff;">
+            <div class="nav-card-label">Diagnostics</div>
+            <div class="nav-card-links">
+              <a class="nav-card-link" href="skillgaps.html">&#8599; Skill Gaps Engine</a>
+              <a class="nav-card-link" href="Employement.html">&#8599; Employment Placement</a>
+            </div>
+          </div>
+
+          <div class="nav-card" style="background-color: #101725; color: #ffffff;">
+            <div class="nav-card-label">Outcomes</div>
+            <div class="nav-card-links">
+              <a class="nav-card-link" href="Dashboard.html">&#8599; Retention Analytics</a>
+              <a class="nav-card-link" href="workforce.html">&#8599; Benchmark Reports</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <div class="page-header">
+      <div class="eyebrow-badge">
+        <span class="badge-square"></span>
+        Hiring &amp; Placement Ecosystem
+      </div>
+      <h2>Employment &amp; Job Match Intelligence</h2>
+      <p>Data-driven talent matching, hiring pipeline metrics, and candidate validations.</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card-title">Open Positions</div>
+        <div class="stat-card-val">74</div>
+        <span class="stat-badge">&#9650; Active postings</span>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-title">Skill-Fit Candidate Ratio</div>
+        <div class="stat-card-val">87%</div>
+        <span class="stat-badge">&#9650; AI pre-screened</span>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-title">Offer Acceptance Rate</div>
+        <div class="stat-card-val">93.2%</div>
+        <span class="stat-badge">&#9650; +5% against benchmark</span>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-title">Placement Outcomes</div>
+        <div class="stat-card-val">1,240</div>
+        <span class="stat-badge" style="color: var(--green);">Target achieved</span>
+      </div>
+    </div>
+
+    <div class="panel-card">
+      <h3>Active Recruitment Pipelines</h3>
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>Required Taxonomy</th>
+            <th>Candidates Screened</th>
+            <th>Match Accuracy</th>
+            <th>Pipeline Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Junior Data Analyst</td>
+            <td>Python, SQL, Power BI</td>
+            <td>182</td>
+            <td>94%</td>
+            <td><span class="status-tag status-green">Interviews Active</span></td>
+          </tr>
+          <tr>
+            <td>Cloud Infrastructure Associate</td>
+            <td>Linux, AWS, Docker</td>
+            <td>94</td>
+            <td>89%</td>
+            <td><span class="status-tag status-blue">Shortlisting</span></td>
+          </tr>
+          <tr>
+            <td>Cloud Security Architect</td>
+            <td>AWS IAM, Zero-Trust, Kubernetes</td>
+            <td>61</td>
+            <td>78%</td>
+            <td><span class="status-tag status-orange">Sourcing</span></td>
+          </tr>
+          <tr>
+            <td>Junior Full-Stack Engineer</td>
+            <td>React, Node.js, PostgreSQL</td>
+            <td>240</td>
+            <td>92%</td>
+            <td><span class="status-tag status-green">Final Round</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="nav.js"></script>
+
+</body>
+</html>

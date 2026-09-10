@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Workforce Planning — SkillUp Outcome Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Style.css" />
+  <link rel="stylesheet" href="CardNav.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+
+  <div class="glow-overlay"></div>
+
+  <header>
+    <div class="nav-left">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">&#x25C9;</span>SkillUp
+      </a>
+      <nav class="dock-nav" id="dockNav">
+        <ul>
+          <li><a href="Dashboard.html" class="dock-item">Dashboard</a></li>
+          <li><a href="workforce.html" class="dock-item active">Workforce</a></li>
+          <li><a href="skillgaps.html" class="dock-item">Skill Gaps</a></li>
+          <li><a href="Employement.html" class="dock-item">Employment</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="nav-right">
+      <a href="index.html" class="login-link">Sign Out</a>
+      <a href="#" class="btn-demo">Export Report</a>
+
+      <div class="card-nav-menu-wrapper" id="cardNavWrapper">
+        <div class="hamburger-menu" id="cardNavToggle" role="button" tabindex="0" aria-label="Toggle navigation menu">
+          <div class="hamburger-line"></div>
+          <div class="hamburger-line"></div>
+        </div>
+
+        <div class="card-nav-dropdown" id="cardNavDropdown">
+          <div class="nav-card" style="background-color: #121927; color: #ffffff;">
+            <div class="nav-card-label">Intelligence</div>
+            <div class="nav-card-links">
+              <a class="nav-card-link" href="Dashboard.html">&#8599; Overview Dashboard</a>
+              <a class="nav-card-link" href="workforce.html">&#8599; Workforce Readiness</a>
+            </div>
+          </div>
+
+          <div class="nav-card" style="background-color: #162032; color: #ffffff;">
+            <div class="nav-card-label">Diagnostics</div>
+            <div class="nav-card-links">
+              <a class="nav-card-link" href="skillgaps.html">&#8599; Skill Gaps Engine</a>
+              <a class="nav-card-link" href="Employement.html">&#8599; Employment Placement</a>
+            </div>
+          </div>
+
+          <div class="nav-card" style="background-color: #101725; color: #ffffff;">
+            <div class="nav-card-label">Outcomes</div>
+            <div class="nav-card-links">
+              <a class="nav-card-link" href="Dashboard.html">&#8599; Retention Analytics</a>
+              <a class="nav-card-link" href="workforce.html">&#8599; Benchmark Reports</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <div class="page-header">
+      <div class="eyebrow-badge">
+        <span class="badge-square"></span>
+        Talent Operations
+      </div>
+      <h2>Workforce Intelligence &amp; Bench Strength</h2>
+      <p>Assess trainee readiness, regional redeployment capacity, and organizational health.</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card-title">Total Active Centers</div>
+        <div class="stat-card-val">340</div>
+        <span class="stat-badge">&#9650; Across 18 regions</span>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-title">Internal Mobility Rate</div>
+        <div class="stat-card-val">28.6%</div>
+        <span class="stat-badge">&#9650; +6.2% retention lift</span>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-title">Bench Allocation</div>
+        <div class="stat-card-val">8.4%</div>
+        <span class="stat-badge" style="color: var(--blue);">Optimal threshold</span>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-title">Upskilling Engagement</div>
+        <div class="stat-card-val">84%</div>
+        <span class="stat-badge">&#9650; Active learners</span>
+      </div>
+    </div>
+
+    <div class="panel-card">
+      <h3>Department Capacity &amp; Skill Health</h3>
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>Department</th>
+            <th>Headcount</th>
+            <th>Top Skill Domain</th>
+            <th>Readiness Score</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Artificial Intelligence &amp; Data</td>
+            <td>420</td>
+            <td>Deep Learning, Python, MLOps</td>
+            <td>91%</td>
+            <td><span class="status-tag status-green">High Demand</span></td>
+          </tr>
+          <tr>
+            <td>Cloud &amp; Platform Engineering</td>
+            <td>680</td>
+            <td>Kubernetes, AWS, Terraform</td>
+            <td>84%</td>
+            <td><span class="status-tag status-blue">Stable</span></td>
+          </tr>
+          <tr>
+            <td>Enterprise Security</td>
+            <td>190</td>
+            <td>Threat Hunting, Zero Trust</td>
+            <td>71%</td>
+            <td><span class="status-tag status-orange">Upskilling Required</span></td>
+          </tr>
+          <tr>
+            <td>Product &amp; Systems</td>
+            <td>310</td>
+            <td>UX Research, System Architecture</td>
+            <td>88%</td>
+            <td><span class="status-tag status-green">Optimal</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="nav.js"></script>
+
+</body>
+</html>
