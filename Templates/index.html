@@ -161,9 +161,9 @@
       <a href="#skill-gap" class="w-full sm:w-auto bg-brand-cyan text-brand-dark font-semibold px-7 py-3.5 rounded-lg text-sm transition-all duration-200 shadow-xl shadow-brand-cyan/25 hover:shadow-brand-cyan/40 hover:bg-brand-cyanHover text-center">
         Upload CV &amp; Detect Skill Gap
       </a>
-      <a href="../Dashboard.html" class="w-full sm:w-auto bg-transparent border border-white/15 text-slate-200 font-medium px-7 py-3.5 rounded-lg text-sm hover:bg-white/[0.04] hover:border-brand-cyan/50 hover:text-white transition-all duration-200 text-center">
-        View Policy &amp; Impact Dashboard
-      </a>
+      <button type="button" onclick="checkDashboardAccess()" class="w-full sm:w-auto bg-transparent border border-white/15 text-slate-200 font-medium px-7 py-3.5 rounded-lg text-sm hover:bg-white/[0.04] hover:border-brand-cyan/50 hover:text-white transition-all duration-200 text-center cursor-pointer">
+        View Impact Dashboard
+      </button>
     </div>
   </main>
 
@@ -575,7 +575,7 @@
         </p>
         <div class="pt-3">
           <a
-            href="login.html?mode=signup"
+            href="login.html"
             class="inline-block bg-brand-cyan text-brand-dark px-8 py-3.5 rounded-lg font-bold text-sm hover:bg-brand-cyanHover transition-all shadow-xl shadow-brand-cyan/30 hover:shadow-brand-cyan/50"
           >
             Create Your Outcome Account
@@ -599,44 +599,14 @@
 
   <script>
     function renderAuthUI() {
+      // Automatically log out when returning to the landing page
+      localStorage.removeItem('skillup_token');
+      localStorage.removeItem('skillup_user');
+      sessionStorage.clear();
+
       const nav = document.getElementById('authNavButtons');
-      const stored = localStorage.getItem('skillup_user');
       const scorecardOverlay = document.getElementById('scorecardLockOverlay');
       const scorecardContent = document.getElementById('scorecardContent');
-
-      if (stored) {
-        try {
-          const u = JSON.parse(stored);
-          if (u && (u.username || u.email)) {
-            const displayName = u.username || u.email;
-            nav.innerHTML = `
-              <span class="text-xs text-slate-300 font-semibold px-3 py-1 bg-slate-900/90 rounded-md border border-slate-700">
-                ${displayName} (${u.role || 'user'})
-              </span>
-              <button type="button" id="headerLogoutBtn" class="text-xs text-rose-400 hover:underline ml-1">
-                Log Out
-              </button>
-            `;
-            document.getElementById('headerLogoutBtn').addEventListener('click', (e) => {
-              e.preventDefault();
-              localStorage.removeItem('skillup_user');
-              localStorage.removeItem('skillup_active_user');
-              sessionStorage.clear();
-              if (window.location.protocol === 'file:') {
-                renderAuthUI();
-              } else {
-                window.location.href = '/logout';
-              }
-            });
-
-            if (scorecardOverlay) scorecardOverlay.style.display = 'none';
-            if (scorecardContent) {
-              scorecardContent.classList.remove('blur-[4px]', 'opacity-25', 'select-none', 'pointer-events-none');
-            }
-            return;
-          }
-        } catch (e) {}
-      }
 
       nav.innerHTML = `
         <a
@@ -654,6 +624,16 @@
     }
 
     renderAuthUI();
+
+    // Smart check for "View Impact Dashboard" button
+    function checkDashboardAccess() {
+      const token = localStorage.getItem('skillup_token') || localStorage.getItem('skillup_user');
+      if (token) {
+        window.location.href = '../Dashboard.html';
+      } else {
+        window.location.href = 'login.html';
+      }
+    }
 
     function handleResumeFile(files) {
       if (!files || files.length === 0) return;
