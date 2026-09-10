@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SkillUp — National Outcome &amp; Career Intelligence</title>
+  <title>SkillUp — AI-POWERED TALENT &amp; CAREER INTELLIGENCE</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -79,7 +79,7 @@
               SkillUp
             </span>
             <span class="text-[9px] tracking-wider uppercase text-slate-400 font-medium -mt-0.5">
-              National Outcome Intelligence
+              AI-POWERED TALENT &amp; CAREER INTELLIGENCE
             </span>
           </div>
         </a>
@@ -145,7 +145,7 @@
         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-cyan opacity-75"></span>
         <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-cyan"></span>
       </span>
-      National Outcome &amp; Career Intelligence Platform
+      AI-POWERED TALENT &amp; CAREER INTELLIGENCE
     </div>
 
     <h1 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal leading-[1.15] tracking-tight text-white mb-6">
@@ -197,15 +197,14 @@
 
     <section id="skill-gap" class="bg-brand-card/50 border border-brand-border rounded-2xl p-6 sm:p-10 backdrop-blur-md">
       <div class="max-w-3xl mb-8">
-        <span class="text-xs uppercase tracking-widest text-brand-cyan font-semibold">Diagnostic Engine</span>
-        <h2 class="text-2xl sm:text-3xl font-serif text-white mt-1">Instant Skill Gap &amp; Employability Fit</h2>
+        <h2 class="text-2xl sm:text-3xl font-serif text-white">Instant Skill Gap &amp; Employability Fit</h2>
         <p class="text-slate-400 text-sm mt-1">Map candidate resumes against actual regional vacancy demands and curriculum definitions.</p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         <div class="lg:col-span-5 space-y-5">
           <div>
-            <label class="block text-xs font-semibold uppercase text-slate-300 mb-2">Target Role Benchmark</label>
+            <label class="block text-xs font-semibold uppercase text-slate-300 mb-2">TARGET ROLE BENCHMARK</label>
             <select id="roleSelect" onchange="updateDemoRole(this.value)" class="w-full bg-slate-900/90 border border-brand-border text-slate-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-brand-cyan">
               <option value="data-analyst" selected>Junior Data Analyst</option>
               <option value="cloud-associate">Cloud Operations Associate</option>
@@ -214,7 +213,7 @@
             </select>
 
             <div class="mt-3 flex flex-wrap items-center gap-2">
-              <span class="text-[11px] uppercase tracking-wider text-slate-400 font-medium">Interactive Demo:</span>
+              <span class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">INTERACTIVE DEMO:</span>
               <button
                 type="button"
                 id="btnPresetData"
@@ -234,69 +233,82 @@
             </div>
           </div>
 
-          <div class="border-2 border-dashed border-slate-700/80 hover:border-brand-cyan/60 rounded-xl p-8 text-center transition-colors bg-slate-950/40 cursor-pointer flex flex-col items-center justify-center group">
-            <div class="w-12 h-12 rounded-full bg-slate-900 flex items-center justify-center text-brand-cyan mb-3 group-hover:scale-110 transition-transform">
+          <input
+            type="file"
+            id="resumeFileInput"
+            accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            class="hidden"
+            onchange="handleResumeFile(this.files)"
+          />
+
+          <div
+            id="dropZone"
+            onclick="document.getElementById('resumeFileInput').click()"
+            class="border-2 border-dashed border-cyan-500/40 hover:border-brand-cyan rounded-2xl p-8 text-center transition-all bg-slate-950/40 hover:bg-cyan-950/10 cursor-pointer flex flex-col items-center justify-center group"
+          >
+            <div class="w-12 h-12 rounded-full bg-cyan-950/40 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-3 group-hover:scale-110 transition-transform">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
             </div>
-            <p class="text-sm font-medium text-slate-200">Drag &amp; drop resume here or <span class="text-brand-cyan underline">browse</span></p>
-            <p class="text-xs text-slate-400 mt-1">Supports PDF, DOCX (Max 10MB)</p>
+            <p id="uploadTitle" class="text-sm font-medium text-slate-200">
+              Drag &amp; drop resume here or <span class="text-brand-cyan underline">browse</span>
+            </p>
+            <p id="uploadSubtitle" class="text-xs text-slate-400 mt-1">Supports PDF, DOCX (Max 10MB)</p>
           </div>
         </div>
 
-        <div class="lg:col-span-7 bg-slate-950/70 border border-brand-border rounded-xl p-6">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-brand-border gap-4">
-            <div>
-              <span class="text-xs text-slate-400 uppercase tracking-wider">Candidate Scorecard</span>
-              <h3 class="text-lg font-semibold text-white">Employability Readiness Index</h3>
+        <div id="scorecardPanel" class="lg:col-span-7 bg-[#0a101d] border border-slate-800/80 rounded-2xl relative overflow-hidden flex flex-col justify-between">
+          <div id="scorecardContent" class="p-6 space-y-6 filter blur-[4px] opacity-25 select-none pointer-events-none transition-all duration-300">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-slate-800/80 gap-4">
+              <div>
+                <span class="text-[11px] text-slate-400 font-bold uppercase tracking-wider block">CANDIDATE SCORECARD</span>
+                <h3 class="text-lg sm:text-xl font-bold text-white mt-0.5">Employability Readiness Index</h3>
+              </div>
+              <div class="flex items-center gap-1.5 bg-cyan-950/40 border border-cyan-500/40 px-3 py-1.5 rounded-lg w-fit">
+                <span id="scoreText" class="text-2xl font-bold text-brand-cyan">60%</span>
+                <span class="text-xs font-normal text-slate-300">Fit</span>
+              </div>
             </div>
-            <div class="flex items-baseline gap-2 bg-brand-cyan/10 border border-brand-borderCyan px-3 py-1.5 rounded-lg">
-              <span id="scoreText" class="text-2xl font-bold text-brand-cyan">60%</span>
-              <span class="text-xs font-medium text-slate-300">Fit</span>
-            </div>
-          </div>
 
-          <div class="py-5 space-y-4 border-b border-brand-border">
-            <div>
-              <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Verified Extracted Skills</span>
-              <div id="verifiedSkillsContainer" class="flex flex-wrap gap-2">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/50 border border-emerald-500/30 text-emerald-300">
-                  <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                  Python
-                </span>
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/50 border border-emerald-500/30 text-emerald-300">
-                  <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                  SQL
-                </span>
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/50 border border-emerald-500/30 text-emerald-300">
-                  <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                  Excel
-                </span>
+            <div class="space-y-5 border-b border-slate-800/80 pb-6">
+              <div>
+                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2.5">VERIFIED EXTRACTED SKILLS</span>
+                <div id="verifiedSkillsContainer" class="flex flex-wrap gap-2 min-h-[38px] items-center">
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/50 border border-emerald-500/30 text-emerald-300">
+                    <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    Python
+                  </span>
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/50 border border-emerald-500/30 text-emerald-300">
+                    <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    SQL
+                  </span>
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/50 border border-emerald-500/30 text-emerald-300">
+                    <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    Excel
+                  </span>
+                </div>
+              </div>
+
+              <div>
+                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2.5">MISSING MARKET DEMAND SKILLS</span>
+                <div id="missingSkillsContainer" class="flex flex-wrap gap-2">
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-950/40 border border-amber-500/30 text-amber-300">
+                    <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    Power BI
+                  </span>
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-950/40 border border-amber-500/30 text-amber-300">
+                    <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    AWS Cloud Fundamentals
+                  </span>
+                </div>
               </div>
             </div>
 
             <div>
-              <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Missing Market Demand Skills</span>
-              <div id="missingSkillsContainer" class="flex flex-wrap gap-2">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-950/40 border border-amber-500/30 text-amber-300">
-                  <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                  Power BI
-                </span>
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-950/40 border border-amber-500/30 text-amber-300">
-                  <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                  AWS Cloud Fundamentals
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div class="pt-5">
-            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-3">Actionable Upskilling Pathway (Bridge to 90%+)</span>
-
-            <div class="relative rounded-xl overflow-hidden border border-slate-700/50 bg-slate-900/40 backdrop-blur-sm p-4">
-              <div class="space-y-3 filter blur-[3px] select-none pointer-events-none opacity-40">
-                <div class="flex items-start gap-3 p-2.5 rounded-lg bg-slate-900/60 border border-brand-border">
+              <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-3">UPSKILLING PATHWAY</span>
+              <div id="pathwayList" class="space-y-3">
+                <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-950/70 border border-slate-800">
                   <input type="checkbox" checked class="mt-1" disabled />
                   <div class="text-xs">
                     <p class="font-medium text-slate-200">Step 1: Complete DAX &amp; Power BI Dashboarding Lab</p>
@@ -304,7 +316,7 @@
                   </div>
                 </div>
 
-                <div class="flex items-start gap-3 p-2.5 rounded-lg bg-slate-900/60 border border-brand-border">
+                <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-950/70 border border-slate-800">
                   <input type="checkbox" class="mt-1" disabled />
                   <div class="text-xs">
                     <p class="font-medium text-slate-200">Step 2: Deploy SQL Warehouse on AWS RDS Free Tier</p>
@@ -312,7 +324,7 @@
                   </div>
                 </div>
 
-                <div class="flex items-start gap-3 p-2.5 rounded-lg bg-slate-900/60 border border-brand-border">
+                <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-950/70 border border-slate-800">
                   <input type="checkbox" class="mt-1" disabled />
                   <div class="text-xs">
                     <p class="font-medium text-slate-200">Step 3: Industry Portfolio Evaluation with Benchmark Rubric</p>
@@ -320,24 +332,24 @@
                   </div>
                 </div>
               </div>
-
-              <div class="absolute inset-0 z-10 flex flex-col items-center justify-center text-center p-6 bg-slate-950/75 backdrop-blur-[2px]">
-                <div class="w-10 h-10 rounded-full bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center text-brand-cyan mb-2 shadow-lg shadow-cyan-500/10">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                  </svg>
-                </div>
-                <p class="text-xs font-semibold text-slate-200 max-w-sm mb-3">
-                  Sign In with your account to unlock personalized course links
-                </p>
-                <a
-                  href="login.html"
-                  class="bg-brand-cyan text-brand-dark px-4 py-2 rounded-lg text-xs font-bold hover:bg-brand-cyanHover transition-all shadow-md shadow-brand-cyan/30"
-                >
-                  Sign In to Continue
-                </a>
-              </div>
             </div>
+          </div>
+
+          <div id="scorecardLockOverlay" class="absolute inset-0 z-20 flex flex-col items-center justify-center p-6 bg-slate-950/75 backdrop-blur-[3px] text-center">
+            <div class="w-12 h-12 rounded-full bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center text-brand-cyan mb-3 shadow-lg shadow-cyan-500/10">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+              </svg>
+            </div>
+            <p class="text-sm font-semibold text-slate-100 max-w-sm mb-4 leading-relaxed">
+              Sign In with your account to unlock your verified readiness score, market skills, and personalized course pathway
+            </p>
+            <a
+              href="login.html"
+              class="bg-brand-cyan text-brand-dark px-6 py-2.5 rounded-lg text-xs font-bold hover:bg-brand-cyanHover transition-all shadow-lg shadow-brand-cyan/25"
+            >
+              Sign In to Continue
+            </a>
           </div>
         </div>
       </div>
@@ -345,8 +357,8 @@
 
     <section id="how-it-works" class="space-y-8">
       <div class="text-center max-w-2xl mx-auto">
-        <span class="text-xs uppercase tracking-widest text-brand-cyan font-semibold">Intelligence Workflow</span>
-        <h2 class="text-3xl font-serif text-white mt-1">How SkillUp Works</h2>
+        <span class="text-xs uppercase tracking-widest text-brand-cyan font-semibold block mb-1">INTELLIGENCE WORKFLOW</span>
+        <h2 class="text-3xl font-serif text-white">How SkillUp Works</h2>
         <p class="text-slate-400 text-sm mt-2">A continuous intelligence loop aligning candidate credentials with real employment retention.</p>
       </div>
 
@@ -379,8 +391,8 @@
 
     <section id="retention-audit" class="space-y-6">
       <div class="text-center max-w-2xl mx-auto">
-        <span class="text-xs uppercase tracking-widest text-brand-cyan font-semibold">Outcome Verification</span>
-        <h2 class="text-3xl font-serif text-white mt-1">The Retention Audit</h2>
+        <span class="text-xs uppercase tracking-widest text-brand-cyan font-semibold block mb-1">OUTCOME VERIFICATION</span>
+        <h2 class="text-3xl font-serif text-white">The Retention Audit</h2>
         <p class="text-slate-400 text-sm mt-2">Why initial day-30 placement figures hide longitudinal churn and training inefficiency.</p>
       </div>
 
@@ -448,8 +460,8 @@
     <section id="jobs-feed" class="space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <span class="text-xs uppercase tracking-widest text-brand-cyan font-semibold">Direct Outcome Gateway</span>
-          <h2 class="text-3xl font-serif text-white mt-1">Matched Industry Openings</h2>
+          <span class="text-xs uppercase tracking-widest text-brand-cyan font-semibold block mb-1">DIRECT OUTCOME GATEWAY</span>
+          <h2 class="text-3xl font-serif text-white">Matched Industry Openings</h2>
           <p class="text-slate-400 text-sm mt-1">Verified partner listings connected with SkillUp proficiency metrics.</p>
         </div>
         <a href="login.html" class="text-sm text-brand-cyan hover:underline inline-flex items-center gap-1">
@@ -579,7 +591,7 @@
       <div class="flex items-center gap-2">
         <span class="text-brand-cyan">&#x25C9;</span>
         <span class="text-slate-300 font-semibold">SkillUp</span>
-        <span>&mdash; National Outcome &amp; Career Intelligence</span>
+        <span>&mdash; AI-POWERED TALENT &amp; CAREER INTELLIGENCE</span>
       </div>
       <p>&copy; 2026 SkillUp Platform. All rights reserved.</p>
     </div>
@@ -589,6 +601,9 @@
     function renderAuthUI() {
       const nav = document.getElementById('authNavButtons');
       const stored = localStorage.getItem('skillup_user');
+      const scorecardOverlay = document.getElementById('scorecardLockOverlay');
+      const scorecardContent = document.getElementById('scorecardContent');
+
       if (stored) {
         try {
           const u = JSON.parse(stored);
@@ -613,10 +628,16 @@
                 window.location.href = '/logout';
               }
             });
+
+            if (scorecardOverlay) scorecardOverlay.style.display = 'none';
+            if (scorecardContent) {
+              scorecardContent.classList.remove('blur-[4px]', 'opacity-25', 'select-none', 'pointer-events-none');
+            }
             return;
           }
         } catch (e) {}
       }
+
       nav.innerHTML = `
         <a
           href="login.html"
@@ -625,88 +646,69 @@
           Sign In
         </a>
       `;
+
+      if (scorecardOverlay) scorecardOverlay.style.display = 'flex';
+      if (scorecardContent) {
+        scorecardContent.classList.add('blur-[4px]', 'opacity-25', 'select-none', 'pointer-events-none');
+      }
     }
 
     renderAuthUI();
 
-    (function initParticles() {
-      const canvas = document.getElementById('particlesCanvas');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
+    function handleResumeFile(files) {
+      if (!files || files.length === 0) return;
+      const file = files[0];
+      const validTypes = [
+        'application/pdf',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      ];
+      const isExtValid = file.name.endsWith('.pdf') || file.name.endsWith('.docx');
 
-      let width = (canvas.width = window.innerWidth);
-      let height = (canvas.height = window.innerHeight);
-
-      const PARTICLE_COUNT = 200;
-      const SPEED = 0.25;
-      const COLORS = ['#ffffff', '#00d2ff', '#80e9ff'];
-
-      let mouseX = width / 2;
-      let mouseY = height / 2;
-      let targetMouseX = width / 2;
-      let targetMouseY = height / 2;
-
-      class Particle {
-        constructor() {
-          this.reset(true);
-        }
-        reset(init = false) {
-          this.x = (Math.random() - 0.5) * width * 1.5;
-          this.y = (Math.random() - 0.5) * height * 1.5;
-          this.z = init ? Math.random() * 1000 : 1000;
-          this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
-          this.baseSize = 1.0 + Math.random() * 2.0;
-        }
-        update() {
-          this.z -= SPEED * 2;
-          if (this.z <= 10) this.reset(false);
-        }
-        draw() {
-          const fov = 400;
-          const scale = fov / (fov + this.z);
-          const offsetX = (mouseX - width / 2) * 0.08 * (1 - scale);
-          const offsetY = (mouseY - height / 2) * 0.08 * (1 - scale);
-          const screenX = width / 2 + this.x * scale + offsetX;
-          const screenY = height / 2 + this.y * scale + offsetY;
-          const radius = Math.max(0.4, this.baseSize * scale * 1.8);
-
-          if (screenX < 0 || screenX > width || screenY < 0 || screenY > height) return;
-          const alpha = Math.min(0.85, Math.max(0.1, 1 - this.z / 1000));
-
-          ctx.beginPath();
-          ctx.arc(screenX, screenY, radius, 0, Math.PI * 2);
-          ctx.fillStyle = this.color;
-          ctx.globalAlpha = alpha;
-          ctx.shadowBlur = radius * 4;
-          ctx.shadowColor = this.color;
-          ctx.fill();
-        }
+      if (!validTypes.includes(file.type) && !isExtValid) {
+        alert('Unsupported file format! Please upload a PDF or DOCX file.');
+        return;
       }
 
-      const particles = Array.from({ length: PARTICLE_COUNT }, () => new Particle());
-
-      window.addEventListener('resize', () => {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-      });
-
-      window.addEventListener('mousemove', (e) => {
-        targetMouseX = e.clientX;
-        targetMouseY = e.clientY;
-      });
-
-      function render() {
-        ctx.clearRect(0, 0, width, height);
-        mouseX += (targetMouseX - mouseX) * 0.05;
-        mouseY += (targetMouseY - mouseY) * 0.05;
-        particles.forEach((p) => {
-          p.update();
-          p.draw();
-        });
-        requestAnimationFrame(render);
+      const maxSize = 10 * 1024 * 1024;
+      if (file.size > maxSize) {
+        alert('File size exceeds the 10MB limit. Please upload a smaller file.');
+        return;
       }
-      render();
-    })();
+
+      const uploadTitle = document.getElementById('uploadTitle');
+      const uploadSubtitle = document.getElementById('uploadSubtitle');
+      const dropZone = document.getElementById('dropZone');
+
+      uploadTitle.innerHTML = `<span class="text-emerald-400 font-semibold">&#x2713; ${file.name}</span>`;
+      uploadSubtitle.textContent = `${(file.size / (1024 * 1024)).toFixed(2)} MB · Analysis complete`;
+      dropZone.classList.add('border-emerald-500/60', 'bg-emerald-950/10');
+
+      const roleKey = document.getElementById('roleSelect').value;
+      renderSkills(roleKey);
+    }
+
+    const dropZone = document.getElementById('dropZone');
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropZone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropZone.classList.add('border-brand-cyan', 'bg-cyan-950/20');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropZone.classList.remove('border-brand-cyan', 'bg-cyan-950/20');
+      });
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      handleResumeFile(files);
+    });
 
     const rolePresets = {
       'data-analyst': {
@@ -790,6 +792,85 @@
         }
       }
     }
+
+    (function initParticles() {
+      const canvas = document.getElementById('particlesCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
+
+      const PARTICLE_COUNT = 200;
+      const SPEED = 0.25;
+      const COLORS = ['#ffffff', '#00d2ff', '#80e9ff'];
+
+      let mouseX = width / 2;
+      let mouseY = height / 2;
+      let targetMouseX = width / 2;
+      let targetMouseY = height / 2;
+
+      class Particle {
+        constructor() {
+          this.reset(true);
+        }
+        reset(init = false) {
+          this.x = (Math.random() - 0.5) * width * 1.5;
+          this.y = (Math.random() - 0.5) * height * 1.5;
+          this.z = init ? Math.random() * 1000 : 1000;
+          this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+          this.baseSize = 1.0 + Math.random() * 2.0;
+        }
+        update() {
+          this.z -= SPEED * 2;
+          if (this.z <= 10) this.reset(false);
+        }
+        draw() {
+          const fov = 400;
+          const scale = fov / (fov + this.z);
+          const offsetX = (mouseX - width / 2) * 0.08 * (1 - scale);
+          const offsetY = (mouseY - height / 2) * 0.08 * (1 - scale);
+          const screenX = width / 2 + this.x * scale + offsetX;
+          const screenY = height / 2 + this.y * scale + offsetY;
+          const radius = Math.max(0.4, this.baseSize * scale * 1.8);
+
+          if (screenX < 0 || screenX > width || screenY < 0 || screenY > height) return;
+          const alpha = Math.min(0.85, Math.max(0.1, 1 - this.z / 1000));
+
+          ctx.beginPath();
+          ctx.arc(screenX, screenY, radius, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.globalAlpha = alpha;
+          ctx.shadowBlur = radius * 4;
+          ctx.shadowColor = this.color;
+          ctx.fill();
+        }
+      }
+
+      const particles = Array.from({ length: PARTICLE_COUNT }, () => new Particle());
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        targetMouseX = e.clientX;
+        targetMouseY = e.clientY;
+      });
+
+      function render() {
+        ctx.clearRect(0, 0, width, height);
+        mouseX += (targetMouseX - mouseX) * 0.05;
+        mouseY += (targetMouseY - mouseY) * 0.05;
+        particles.forEach((p) => {
+          p.update();
+          p.draw();
+        });
+        requestAnimationFrame(render);
+      }
+      render();
+    })();
   </script>
 
   <script src="../nav.js"></script>
