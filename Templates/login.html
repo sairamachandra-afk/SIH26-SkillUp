@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Authentication — SkillUp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../Style.css">
+  <link rel="stylesheet" href="../CardNav.css">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #07090e;
+      color: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .auth-card {
+      background-color: #0e131d;
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      padding: 34px 30px;
+      border-radius: 16px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.85), 0 0 30px rgba(0, 210, 255, 0.1);
+      width: 420px;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    .brand-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .brand-icon {
+      color: #00d2ff;
+      font-size: 1.5rem;
+    }
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .role-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 6px;
+      background: #07090e;
+      padding: 4px;
+      border-radius: 8px;
+      margin-bottom: 22px;
+      border: 1px solid #1e293b;
+    }
+    .role-btn {
+      padding: 8px 4px;
+      border: none;
+      background: transparent;
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .role-btn.active {
+      background: #00d2ff;
+      color: #07090e;
+    }
+    .mode-switch {
+      display: flex;
+      border-bottom: 1px solid #1e293b;
+      margin-bottom: 20px;
+    }
+    .mode-btn {
+      flex: 1;
+      padding: 10px;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: #94a3b8;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .mode-btn.active {
+      color: #00d2ff;
+      border-bottom-color: #00d2ff;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+    }
+    input {
+      width: 100%;
+      padding: 11px 12px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background-color: #07090e;
+      color: #ffffff;
+      box-sizing: border-box;
+      font-size: 13px;
+    }
+    input:focus {
+      outline: none;
+      border-color: #00d2ff;
+    }
+    .btn-submit {
+      width: 100%;
+      margin-top: 22px;
+      padding: 12px;
+      background-color: #00d2ff;
+      color: #07090e;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 13px;
+      transition: background-color 0.2s ease;
+    }
+    .btn-submit:hover {
+      background-color: #00b4db;
+    }
+    .footer-links {
+      margin-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+    .footer-links a {
+      color: #94a3b8;
+      text-decoration: none;
+    }
+    .footer-links a:hover {
+      color: #00d2ff;
+    }
+  </style>
+</head>
+<body>
+
+<div class="auth-card">
+  <div class="brand-header">
+    <span class="brand-icon">&#x25C9;</span>
+    <span class="brand-title">SkillUp Gateway</span>
+  </div>
+
+  <div class="role-tabs">
+    <button type="button" id="roleBtnStudent" class="role-btn active" onclick="switchRole('student')">
+      Student / Trainee
+    </button>
+    <button type="button" id="roleBtnEmployer" class="role-btn" onclick="switchRole('employer')">
+      Employer
+    </button>
+    <button type="button" id="roleBtnGovt" class="role-btn" onclick="switchRole('govt')">
+      Govt Official
+    </button>
+  </div>
+
+  <div class="mode-switch">
+    <button type="button" id="modeBtnLogin" class="mode-btn active" onclick="switchMode('login')">
+      Sign In
+    </button>
+    <button type="button" id="modeBtnSignup" class="mode-btn" onclick="switchMode('signup')">
+      Create Account
+    </button>
+  </div>
+
+  <!-- LOGIN FORM -->
+  <form id="loginForm" action="/auth/login" method="POST">
+    <input type="hidden" name="role" id="loginRoleInput" value="student">
+
+    <label id="loginIdentifierLabel">Trainee ID or Email</label>
+    <input type="text" name="identifier" required placeholder="Enter credentials">
+
+    <label>Password</label>
+    <input type="password" name="password" required placeholder="••••••••">
+
+    <button type="submit" class="btn-submit">Sign In to Portal</button>
+  </form>
+
+  <!-- SIGNUP FORM -->
+  <form id="signupForm" action="/auth/register" method="POST" style="display: none;">
+    <input type="hidden" name="role" id="signupRoleInput" value="student">
+
+    <label id="signupUsernameLabel">Trainee Username / ID</label>
+    <input type="text" name="username" required placeholder="Choose unique ID or username">
+
+    <label>Official Email</label>
+    <input type="email" name="email" required placeholder="name@domain.com">
+
+    <label>Choose Password</label>
+    <input type="password" name="password" required placeholder="••••••••">
+
+    <button type="submit" class="btn-submit">Complete Registration</button>
+  </form>
+
+  <div class="footer-links">
+    <a href="index.html">&larr; Return to Home</a>
+    <a href="javascript:void(0)" id="toggleModeLink" onclick="toggleAuthMode()">
+      Don't have an account? Sign Up
+    </a>
+  </div>
+</div>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  let currentRole = urlParams.get('role') || 'student';
+  let currentMode = urlParams.get('mode') || 'login';
+
+  const roleLabels = {
+    student: {
+      login: 'Trainee ID or Email',
+      signup: 'Trainee Username / ID'
+    },
+    employer: {
+      login: 'Work Email or Username',
+      signup: 'Company / Representative ID'
+    },
+    govt: {
+      login: 'Official ID / Gov Email',
+      signup: 'Government Officer ID'
+    }
+  };
+
+  function applyState() {
+    document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+    if (currentRole === 'govt') {
+      document.getElementById('roleBtnGovt').classList.add('active');
+    } else if (currentRole === 'employer') {
+      document.getElementById('roleBtnEmployer').classList.add('active');
+    } else {
+      document.getElementById('roleBtnStudent').classList.add('active');
+    }
+
+    document.getElementById('loginRoleInput').value = currentRole;
+    document.getElementById('signupRoleInput').value = currentRole;
+
+    const roleConfig = roleLabels[currentRole] || roleLabels.student;
+    document.getElementById('loginIdentifierLabel').textContent = roleConfig.login;
+    document.getElementById('signupUsernameLabel').textContent = roleConfig.signup;
+
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const modeBtnLogin = document.getElementById('modeBtnLogin');
+    const modeBtnSignup = document.getElementById('modeBtnSignup');
+    const toggleLink = document.getElementById('toggleModeLink');
+
+    if (currentMode === 'signup') {
+      loginForm.style.display = 'none';
+      signupForm.style.display = 'block';
+      modeBtnLogin.classList.remove('active');
+      modeBtnSignup.classList.add('active');
+      toggleLink.textContent = 'Already registered? Sign In';
+    } else {
+      loginForm.style.display = 'block';
+      signupForm.style.display = 'none';
+      modeBtnLogin.classList.add('active');
+      modeBtnSignup.classList.remove('active');
+      toggleLink.textContent = "Don't have an account? Sign Up";
+    }
+  }
+
+  function switchRole(role) {
+    currentRole = role;
+    applyState();
+  }
+
+  function switchMode(mode) {
+    currentMode = mode;
+    applyState();
+  }
+
+  function toggleAuthMode() {
+    currentMode = (currentMode === 'login') ? 'signup' : 'login';
+    applyState();
+  }
+
+  applyState();
+</script>
+
+</body>
+</html>

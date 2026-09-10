@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillUp — National Outcome &amp; Career Intelligence</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="../Style.css" />
+  <link rel="stylesheet" href="../CardNav.css" />
+  <link rel="stylesheet" href="../BorderGlow.css" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+          },
+          colors: {
+            brand: {
+              cyan: '#00d2ff',
+              cyanHover: '#00b4db',
+              dark: '#07090e',
+              card: '#0e131d',
+              cardHover: '#131a27',
+              border: 'rgba(255, 255, 255, 0.08)',
+              borderCyan: 'rgba(0, 210, 255, 0.3)',
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    .glow-overlay {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 520px;
+      background: radial-gradient(
+        circle,
+        rgba(0, 210, 255, 0.14) 0%,
+        rgba(10, 80, 140, 0.05) 50%,
+        transparent 70%
+      );
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .role-btn {
+      padding: 8px 4px;
+      border: none;
+      background: transparent;
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .role-btn.active {
+      background: #00d2ff;
+      color: #07090e;
+    }
+    .mode-btn {
+      flex: 1;
+      padding: 10px;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: #94a3b8;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .mode-btn.active {
+      color: #00d2ff;
+      border-bottom-color: #00d2ff;
+    }
+    .modal-input {
+      width: 100%;
+      padding: 10px 12px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background-color: #07090e;
+      color: #ffffff;
+      box-sizing: border-box;
+      font-size: 12px;
+    }
+    .modal-input:focus {
+      outline: none;
+      border-color: #00d2ff;
+    }
+  </style>
+</head>
+<body class="bg-brand-dark text-slate-100 font-sans min-h-screen flex flex-col relative overflow-x-hidden selection:bg-brand-cyan/20 selection:text-brand-cyan">
+
+  <canvas id="particlesCanvas" class="fixed inset-0 pointer-events-none z-0 w-full h-full"></canvas>
+  <div class="glow-overlay"></div>
+
+  <header class="sticky top-0 z-50 bg-brand-dark/80 backdrop-blur-xl border-b border-brand-border w-full">
+    <div class="w-full px-6 md:px-10 h-20 flex items-center justify-between gap-6">
+      
+      <div class="flex-shrink-0">
+        <a href="index.html" class="flex items-center gap-3 group">
+          <span class="text-brand-cyan text-2xl leading-none transition-transform group-hover:scale-110 duration-200">&#x25C9;</span>
+          <div class="flex flex-col">
+            <span class="font-bold text-xl tracking-tight text-white flex items-center gap-1">
+              SkillUp
+            </span>
+            <span class="text-[9px] tracking-wider uppercase text-slate-400 font-medium -mt-0.5">
+              National Outcome Intelligence
+            </span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="hidden md:flex items-center justify-center gap-8 flex-1 dock-nav" id="dockNav">
+        <a href="#skill-gap" class="dock-item text-xs lg:text-sm font-medium text-slate-300 hover:text-brand-cyan transition-colors whitespace-nowrap">Skill Gap &amp; Roadmap</a>
+        <a href="#how-it-works" class="dock-item text-xs lg:text-sm font-medium text-slate-300 hover:text-brand-cyan transition-colors whitespace-nowrap">How It Works</a>
+        <a href="#retention-audit" class="dock-item text-xs lg:text-sm font-medium text-slate-300 hover:text-brand-cyan transition-colors whitespace-nowrap">Longitudinal Analytics</a>
+        <a href="#jobs-feed" class="dock-item text-xs lg:text-sm font-medium text-slate-300 hover:text-brand-cyan transition-colors whitespace-nowrap">Job Portal</a>
+      </nav>
+
+      <div class="flex items-center gap-3 flex-shrink-0">
+        <div id="authNavButtons" class="flex items-center gap-2">
+          <button
+            type="button"
+            onclick="openAuthModal()"
+            class="bg-brand-cyan text-brand-dark h-10 px-5 inline-flex items-center justify-center rounded-lg text-sm font-semibold hover:bg-brand-cyanHover transition-all duration-200 shadow-md shadow-brand-cyan/20 hover:shadow-brand-cyan/40"
+          >
+            Sign In
+          </button>
+        </div>
+
+        <div class="card-nav-menu-wrapper" id="cardNavWrapper">
+          <div class="hamburger-menu" id="cardNavToggle" role="button" tabindex="0" aria-label="Toggle navigation menu">
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+          </div>
+
+          <div class="card-nav-dropdown" id="cardNavDropdown">
+            <div class="nav-card" style="background-color: #121927; color: #ffffff;">
+              <div class="nav-card-label">Intelligence</div>
+              <div class="nav-card-links">
+                <a class="nav-card-link" href="../Dashboard.html">&#8599; Overview Dashboard</a>
+                <a class="nav-card-link" href="../workforce.html">&#8599; Workforce Readiness</a>
+              </div>
+            </div>
+
+            <div class="nav-card" style="background-color: #162032; color: #ffffff;">
+              <div class="nav-card-label">Diagnostics</div>
+              <div class="nav-card-links">
+                <a class="nav-card-link" href="../skillgaps.html">&#8599; Skill Gaps Engine</a>
+                <a class="nav-card-link" href="../Employement.html">&#8599; Employment Placement</a>
+              </div>
+            </div>
+
+            <div class="nav-card" style="background-color: #101725; color: #ffffff;">
+              <div class="nav-card-label">Outcomes</div>
+              <div class="nav-card-links">
+                <a class="nav-card-link" href="../Dashboard.html">&#8599; Retention Analytics</a>
+                <a class="nav-card-link" href="../workforce.html">&#8599; Benchmark Reports</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="relative z-10 pt-16 pb-20 px-6 max-w-5xl mx-auto text-center flex flex-col items-center">
+    <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-950/20 backdrop-blur-md text-[11px] font-semibold uppercase tracking-wider text-cyan-200 mb-8 shadow-sm shadow-cyan-500/10">
+      <span class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-cyan opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-cyan"></span>
+      </span>
+      National Outcome &amp; Career Intelligence Platform
+    </div>
+
+    <h1 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal leading-[1.15] tracking-tight text-white mb-6">
+      Moving Beyond Certification <br class="hidden sm:inline" />
+      to <span class="italic text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-cyan-200">Real-World Employment</span> &amp; Retention
+    </h1>
+
+    <p class="text-base sm:text-lg text-slate-400 max-w-3xl mx-auto leading-relaxed mb-10 font-normal">
+      AI-powered continuous tracking of trainee outcomes, real-time industry skill gap detection, and long-term program impact.
+    </p>
+
+    <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+      <a href="#skill-gap" class="w-full sm:w-auto bg-brand-cyan text-brand-dark font-semibold px-7 py-3.5 rounded-lg text-sm transition-all duration-200 shadow-xl shadow-brand-cyan/25 hover:shadow-brand-cyan/40 hover:bg-brand-cyanHover text-center">
+        Upload CV &amp; Detect Skill Gap
+      </a>
+      <a href="../Dashboard.html" class="w-full sm:w-auto bg-transparent border border-white/15 text-slate-200 font-medium px-7 py-3.5 rounded-lg text-sm hover:bg-white/[0.04] hover:border-brand-cyan/50 hover:text-white transition-all duration-200 text-center">
+        View Policy &amp; Impact Dashboard
+      </a>
+    </div>
+  </main>
+
+  <div class="relative z-10 space-y-24 pb-20 max-w-7xl mx-auto px-6 w-full">
+
+    <section id="metrics" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="bg-brand-card/70 border border-brand-border backdrop-blur-md rounded-xl p-6 transition-all duration-200 hover:border-brand-borderCyan hover:-translate-y-1">
+        <span class="text-xs uppercase font-semibold text-slate-400 tracking-wider">Trainees Monitored</span>
+        <div class="text-3xl font-bold text-white mt-2 mb-1">1,42,800+</div>
+        <p class="text-xs text-slate-400">Tracked longitudinally over 24 months</p>
+      </div>
+
+      <div class="bg-brand-card/70 border border-brand-border backdrop-blur-md rounded-xl p-6 transition-all duration-200 hover:border-brand-borderCyan hover:-translate-y-1">
+        <span class="text-xs uppercase font-semibold text-slate-400 tracking-wider">12-Month Retention</span>
+        <div class="text-3xl font-bold text-brand-cyan mt-2 mb-1">68.4%</div>
+        <p class="text-xs text-slate-400">Sustainable employment baseline</p>
+      </div>
+
+      <div class="bg-brand-card/70 border border-brand-border backdrop-blur-md rounded-xl p-6 transition-all duration-200 hover:border-brand-borderCyan hover:-translate-y-1">
+        <span class="text-xs uppercase font-semibold text-slate-400 tracking-wider">Domain Skill Alignment</span>
+        <div class="text-3xl font-bold text-white mt-2 mb-1">74.2%</div>
+        <p class="text-xs text-slate-400">Trained role matches actual job role</p>
+      </div>
+
+      <div class="bg-brand-card/70 border border-brand-border backdrop-blur-md rounded-xl p-6 transition-all duration-200 hover:border-brand-borderCyan hover:-translate-y-1">
+        <span class="text-xs uppercase font-semibold text-slate-400 tracking-wider">Wage Progression</span>
+        <div class="text-3xl font-bold text-emerald-400 mt-2 mb-1">+24.5%</div>
+        <p class="text-xs text-slate-400">Average 1-year wage increment post-hire</p>
+      </div>
+    </section>
+
+    <section id="skill-gap" class="bg-brand-card/50 border border-brand-border rounded-2xl p-6 sm:p-10 backdrop-blur-md">
+      <div class="max-w-3xl mb-8">
+        <span class="text-xs uppercase tracking-widest text-brand-cyan font-semibold">Diagnostic Engine</span>
+        <h2 class="text-2xl sm:text-3xl font-serif text-white mt-1">Instant Skill Gap &amp; Employability Fit</h2>
+        <p class="text-slate-400 text-sm mt-1">Map candidate resumes against actual regional vacancy demands and curriculum definitions.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div class="lg:col-span-5 space-y-5">
+          <div>
+            <label class="block text-xs font-semibold uppercase text-slate-300 mb-2">Target Role Benchmark</label>
+            <select id="roleSelect" onchange="updateDemoRole(this.value)" class="w-full bg-slate-900/90 border border-brand-border text-slate-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-brand-cyan">
+              <option value="data-analyst" selected>Junior Data Analyst</option>
+              <option value="cloud-associate">Cloud Operations Associate</option>
+              <option value="full-stack">Full-Stack Web Developer</option>
+              <option value="ai-ml">AI / Machine Learning Engineer</option>
+            </select>
+
+            <div class="mt-3 flex flex-wrap items-center gap-2">
+              <span class="text-[11px] uppercase tracking-wider text-slate-400 font-medium">Interactive Demo:</span>
+              <button
+                type="button"
+                id="btnPresetData"
+                onclick="setDemoPreset('data-analyst')"
+                class="px-2.5 py-1 text-xs rounded-full bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/50 font-medium transition-all hover:bg-brand-cyan hover:text-brand-dark"
+              >
+                Try Sample: Data Analyst
+              </button>
+              <button
+                type="button"
+                id="btnPresetCloud"
+                onclick="setDemoPreset('cloud-associate')"
+                class="px-2.5 py-1 text-xs rounded-full bg-slate-800 text-slate-300 border border-slate-700 font-medium transition-all hover:bg-brand-cyan hover:text-brand-dark"
+              >
+                Try Sample: Cloud Associate
+              </button>
+            </div>
+          </div>
+
+          <div class="border-2 border-dashed border-slate-700/80 hover:border-brand-cyan/60 rounded-xl p-8 text-center transition-colors bg-slate-950/40 cursor-pointer flex flex-col items-center justify-center group">
+            <div class="w-12 h-12 rounded-full bg-slate-900 flex items-center justify-center text-brand-cyan mb-3 group-hover:scale-110 transition-transform">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
+            </div>
+            <p class="text-sm font-medium text-slate-200">Drag &amp; drop resume here or <span class="text-brand-cyan underline">browse</span></p>
+            <p class="text-xs text-slate-400 mt-1">Supports PDF, DOCX (Max 10MB)</p>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 bg-slate-950/70 border border-brand-border rounded-xl p-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-brand-border gap-4">
+            <div>
+              <span class="text-xs text-slate-400 uppercase tracking-wider">Candidate Scorecard</span>
+              <h3 class="text-lg font-semibold text-white">Employability Readiness Index</h3>
+            </div>
+            <div class="flex items-baseline gap-2 bg-brand-cyan/10 border border-brand-borderCyan px-3 py-1.5 rounded-lg">
+              <span id="scoreText" class="text-2xl font-bold text-brand-cyan">60%</span>
+              <span class="text-xs font-medium text-slate-300">Fit</span>
+            </div>
+          </div>
+
+          <div class="py-5 space-y-4 border-b border-brand-border">
+            <div>
+              <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Verified Extracted Skills</span>
+              <div id="verifiedSkillsContainer" class="flex flex-wrap gap-2">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/50 border border-emerald-500/30 text-emerald-300">
+                  <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  Python
+                </span>
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/50 border border-emerald-500/30 text-emerald-300">
+                  <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  SQL
+                </span>
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/50 border border-emerald-500/30 text-emerald-300">
+                  <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  Excel
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Missing Market Demand Skills</span>
+              <div id="missingSkillsContainer" class="flex flex-wrap gap-2">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-950/40 border border-amber-500/30 text-amber-300">
+                  <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                  Power BI
+                </span>
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-950/40 border border-amber-500/30 text-amber-300">
+                  <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                  AWS Cloud Fundamentals
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-5">
+            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-3">Actionable Upskilling Pathway (Bridge to 90%+)</span>
+
+            <div class="relative rounded-xl overflow-hidden border border-slate-700/50 bg-slate-900/40 backdrop-blur-sm p-4">
+              <div class="space-y-3 filter blur-[3px] select-none pointer-events-none opacity-40">
+                <div class="flex items-start gap-3 p-2.5 rounded-lg bg-slate-900/60 border border-brand-border">
+                  <input type="checkbox" checked class="mt-1" disabled />
+                  <div class="text-xs">
+                    <p class="font-medium text-slate-200">Step 1: Complete DAX &amp; Power BI Dashboarding Lab</p>
+                    <p class="text-slate-400 text-[11px]">Est. 12 Hours · Bridges +18% Market Match</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-3 p-2.5 rounded-lg bg-slate-900/60 border border-brand-border">
+                  <input type="checkbox" class="mt-1" disabled />
+                  <div class="text-xs">
+                    <p class="font-medium text-slate-200">Step 2: Deploy SQL Warehouse on AWS RDS Free Tier</p>
+                    <p class="text-slate-400 text-[11px]">Est. 8 Hours · Bridges +14% Cloud Readiness</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-3 p-2.5 rounded-lg bg-slate-900/60 border border-brand-border">
+                  <input type="checkbox" class="mt-1" disabled />
+                  <div class="text-xs">
+                    <p class="font-medium text-slate-200">Step 3: Industry Portfolio Evaluation with Benchmark Rubric</p>
+                    <p class="text-slate-400 text-[11px]">Final Verification · Triggers Verified Candidate Badge</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="absolute inset-0 z-10 flex flex-col items-center justify-center text-center p-6 bg-slate-950/75 backdrop-blur-[2px]">
+                <div class="w-10 h-10 rounded-full bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center text-brand-cyan mb-2 shadow-lg shadow-cyan-500/10">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                  </svg>
+                </div>
+                <p class="text-xs font-semibold text-slate-200 max-w-sm mb-3">
+                  Sign In with your account to unlock personalized course links
+                </p>
+                <button
+                  type="button"
+                  onclick="openAuthModal()"
+                  class="bg-brand-cyan text-brand-dark px-4 py-2 rounded-lg text-xs font-bold hover:bg-brand-cyanHover transition-all shadow-md shadow-brand-cyan/30"
+                >
+                  Sign In to Continue
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="space-y-8">
+      <div class="text-center max-w-2xl mx-auto">
+        <span class="text-xs uppercase tracking-widest text-brand-cyan font-semibold">Intelligence Workflow</span>
+        <h2 class="text-3xl font-serif text-white mt-1">How SkillUp Works</h2>
+        <p class="text-slate-400 text-sm mt-2">A continuous intelligence loop aligning candidate credentials with real employment retention.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-brand-card/70 border border-brand-border rounded-xl p-7 relative hover:border-brand-borderCyan transition-all duration-200 hover:-translate-y-1">
+          <div class="text-3xl font-serif font-bold text-brand-cyan/40 mb-3">01</div>
+          <h3 class="text-lg font-semibold text-white mb-2">Automated Skill Extraction</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Deep-parsing resumes and verified certifications to extract core proficiencies, project experience, and technical depth without self-reported bias.
+          </p>
+        </div>
+
+        <div class="bg-brand-card/70 border border-brand-border rounded-xl p-7 relative hover:border-brand-borderCyan transition-all duration-200 hover:-translate-y-1">
+          <div class="text-3xl font-serif font-bold text-brand-cyan/40 mb-3">02</div>
+          <h3 class="text-lg font-semibold text-white mb-2">Regional Gap Identification</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Live cross-referencing against regional industry hiring requirements, employer rubrics, and open market vacancies to highlight missing capabilities.
+          </p>
+        </div>
+
+        <div class="bg-brand-card/70 border border-brand-border rounded-xl p-7 relative hover:border-brand-borderCyan transition-all duration-200 hover:-translate-y-1">
+          <div class="text-3xl font-serif font-bold text-brand-cyan/40 mb-3">03</div>
+          <h3 class="text-lg font-semibold text-white mb-2">Longitudinal Retention</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Automated milestone verification at 3, 6, and 12 months post-placement to measure real wage progression, career stability, and curriculum effectiveness.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="retention-audit" class="space-y-6">
+      <div class="text-center max-w-2xl mx-auto">
+        <span class="text-xs uppercase tracking-widest text-brand-cyan font-semibold">Outcome Verification</span>
+        <h2 class="text-3xl font-serif text-white mt-1">The Retention Audit</h2>
+        <p class="text-slate-400 text-sm mt-2">Why initial day-30 placement figures hide longitudinal churn and training inefficiency.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-brand-card/80 border border-emerald-500/30 rounded-xl p-7 relative overflow-hidden">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-bold text-white">Cohort Track A: Curriculum Matched</h3>
+            <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-950 border border-emerald-500/40 text-emerald-300">
+              High Impact / Sustainable
+            </span>
+          </div>
+          <p class="text-xs text-slate-400 mb-6">Designed with direct employer taxonomy and active industry project labs.</p>
+
+          <div class="grid grid-cols-3 gap-3 text-center py-4 bg-slate-950/60 rounded-lg border border-brand-border">
+            <div>
+              <span class="text-[11px] uppercase tracking-wider text-slate-400 block">Initial Placement</span>
+              <span class="text-xl font-bold text-slate-200">70%</span>
+            </div>
+            <div class="border-x border-slate-800">
+              <span class="text-[11px] uppercase tracking-wider text-slate-400 block">6 Months</span>
+              <span class="text-xl font-bold text-emerald-400">80%</span>
+            </div>
+            <div>
+              <span class="text-[11px] uppercase tracking-wider text-slate-400 block">12 Months</span>
+              <span class="text-xl font-bold text-emerald-400">74%</span>
+            </div>
+          </div>
+          <p class="text-xs text-emerald-300/80 mt-4 flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Trainees retain roles and progress in responsibility with minimal displacement.
+          </p>
+        </div>
+
+        <div class="bg-brand-card/80 border border-rose-500/20 rounded-xl p-7 relative overflow-hidden">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-bold text-white">Cohort Track B: Certificate Churn</h3>
+            <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-rose-950/50 border border-rose-500/30 text-rose-300">
+              Low Retention / High Attrition
+            </span>
+          </div>
+          <p class="text-xs text-slate-400 mb-6">High initial push without real skill verification or role competency alignment.</p>
+
+          <div class="grid grid-cols-3 gap-3 text-center py-4 bg-slate-950/60 rounded-lg border border-brand-border">
+            <div>
+              <span class="text-[11px] uppercase tracking-wider text-slate-400 block">Initial Placement</span>
+              <span class="text-xl font-bold text-slate-200">85%</span>
+            </div>
+            <div class="border-x border-slate-800">
+              <span class="text-[11px] uppercase tracking-wider text-slate-400 block">6 Months</span>
+              <span class="text-xl font-bold text-amber-400">55%</span>
+            </div>
+            <div>
+              <span class="text-[11px] uppercase tracking-wider text-slate-400 block">12 Months</span>
+              <span class="text-xl font-bold text-rose-400">40%</span>
+            </div>
+          </div>
+          <p class="text-xs text-rose-300/80 mt-4 flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Severe dropoff within 180 days due to capability mismatch and wage dissatisfaction.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="jobs-feed" class="space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <span class="text-xs uppercase tracking-widest text-brand-cyan font-semibold">Direct Outcome Gateway</span>
+          <h2 class="text-3xl font-serif text-white mt-1">Matched Industry Openings</h2>
+          <p class="text-slate-400 text-sm mt-1">Verified partner listings connected with SkillUp proficiency metrics.</p>
+        </div>
+        <button type="button" onclick="openAuthModal()" class="text-sm text-brand-cyan hover:underline inline-flex items-center gap-1">
+          View all 340+ verified openings &rarr;
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between hover:border-brand-borderCyan transition-all duration-200 hover:-translate-y-1">
+          <div>
+            <div class="flex items-start justify-between gap-2 mb-3">
+              <div>
+                <h3 class="text-base font-semibold text-white">Junior Data Analyst</h3>
+                <span class="text-xs text-slate-400 font-medium">Deloitte Insights Lab</span>
+              </div>
+              <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-cyan-950/80 text-brand-cyan border border-cyan-500/30">
+                Hybrid
+              </span>
+            </div>
+            <p class="text-xs text-slate-300 mb-4">Bengaluru / Hyderabad &bull; &#8377;6.5 &ndash; 8.0 LPA</p>
+
+            <div class="space-y-1.5 mb-6">
+              <span class="text-[11px] uppercase tracking-wider text-slate-400 block font-medium">Skill Requirements:</span>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded bg-slate-900 text-slate-300 text-[11px] border border-slate-800">Python</span>
+                <span class="px-2 py-0.5 rounded bg-slate-900 text-slate-300 text-[11px] border border-slate-800">SQL</span>
+                <span class="px-2 py-0.5 rounded bg-slate-900 text-slate-300 text-[11px] border border-slate-800">Power BI</span>
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onclick="openAuthModal()"
+            class="w-full text-center py-2.5 rounded-lg bg-brand-cyan/10 hover:bg-brand-cyan text-brand-cyan hover:text-brand-dark border border-brand-borderCyan font-semibold text-xs transition-colors duration-200"
+          >
+            Apply via Outcome Portal
+          </button>
+        </div>
+
+        <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between hover:border-brand-borderCyan transition-all duration-200 hover:-translate-y-1">
+          <div>
+            <div class="flex items-start justify-between gap-2 mb-3">
+              <div>
+                <h3 class="text-base font-semibold text-white">Cloud Infrastructure Associate</h3>
+                <span class="text-xs text-slate-400 font-medium">Ericsson Networks</span>
+              </div>
+              <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-cyan-950/80 text-brand-cyan border border-cyan-500/30">
+                On-site
+              </span>
+            </div>
+            <p class="text-xs text-slate-300 mb-4">Noida / Gurugram &bull; &#8377;7.0 &ndash; 9.2 LPA</p>
+
+            <div class="space-y-1.5 mb-6">
+              <span class="text-[11px] uppercase tracking-wider text-slate-400 block font-medium">Skill Requirements:</span>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded bg-slate-900 text-slate-300 text-[11px] border border-slate-800">Linux</span>
+                <span class="px-2 py-0.5 rounded bg-slate-900 text-slate-300 text-[11px] border border-slate-800">AWS</span>
+                <span class="px-2 py-0.5 rounded bg-slate-900 text-slate-300 text-[11px] border border-slate-800">Docker</span>
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onclick="openAuthModal()"
+            class="w-full text-center py-2.5 rounded-lg bg-brand-cyan/10 hover:bg-brand-cyan text-brand-cyan hover:text-brand-dark border border-brand-borderCyan font-semibold text-xs transition-colors duration-200"
+          >
+            Apply via Outcome Portal
+          </button>
+        </div>
+
+        <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between hover:border-brand-borderCyan transition-all duration-200 hover:-translate-y-1">
+          <div>
+            <div class="flex items-start justify-between gap-2 mb-3">
+              <div>
+                <h3 class="text-base font-semibold text-white">Junior Full-Stack Engineer</h3>
+                <span class="text-xs text-slate-400 font-medium">Tiger Analytics</span>
+              </div>
+              <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-cyan-950/80 text-brand-cyan border border-cyan-500/30">
+                Remote
+              </span>
+            </div>
+            <p class="text-xs text-slate-300 mb-4">Chennai / Remote &bull; &#8377;6.0 &ndash; 8.5 LPA</p>
+
+            <div class="space-y-1.5 mb-6">
+              <span class="text-[11px] uppercase tracking-wider text-slate-400 block font-medium">Skill Requirements:</span>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded bg-slate-900 text-slate-300 text-[11px] border border-slate-800">React</span>
+                <span class="px-2 py-0.5 rounded bg-slate-900 text-slate-300 text-[11px] border border-slate-800">Node.js</span>
+                <span class="px-2 py-0.5 rounded bg-slate-900 text-slate-300 text-[11px] border border-slate-800">PostgreSQL</span>
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onclick="openAuthModal()"
+            class="w-full text-center py-2.5 rounded-lg bg-brand-cyan/10 hover:bg-brand-cyan text-brand-cyan hover:text-brand-dark border border-brand-borderCyan font-semibold text-xs transition-colors duration-200"
+          >
+            Apply via Outcome Portal
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-gradient-to-r from-brand-card via-slate-900 to-brand-card border border-brand-borderCyan/40 rounded-2xl p-8 sm:p-12 text-center relative overflow-hidden shadow-2xl shadow-cyan-500/5">
+      <div class="max-w-2xl mx-auto relative z-10 space-y-4">
+        <h2 class="text-2xl sm:text-4xl font-serif text-white leading-snug">
+          Bridge the Gap Between Skilling and Sustainable Careers
+        </h2>
+        <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+          Join thousands of trainees and skilling agencies tracking real employment outcomes.
+        </p>
+        <div class="pt-3">
+          <button
+            type="button"
+            onclick="openAuthModal('signup')"
+            class="inline-block bg-brand-cyan text-brand-dark px-8 py-3.5 rounded-lg font-bold text-sm hover:bg-brand-cyanHover transition-all shadow-xl shadow-brand-cyan/30 hover:shadow-brand-cyan/50"
+          >
+            Create Your Outcome Account
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="border-t border-brand-border bg-slate-950/90 py-8 text-center text-xs text-slate-500 relative z-10">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <div class="flex items-center gap-2">
+        <span class="text-brand-cyan">&#x25C9;</span>
+        <span class="text-slate-300 font-semibold">SkillUp</span>
+        <span>&mdash; National Outcome &amp; Career Intelligence</span>
+      </div>
+      <p>&copy; 2026 SkillUp Platform. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- AUTHENTICATION GATEWAY MODAL WITH REACT BITS BORDER GLOW -->
+  <div id="authGatewayModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    
+    <!-- React Bits BorderGlow Card -->
+    <div
+      id="modalGlowCard"
+      class="border-glow-card max-w-md w-full"
+      style="
+        --card-bg: #0e131d;
+        --border-radius: 20px;
+        --edge-sensitivity: 30;
+        --cone-spread: 25;
+        --fill-opacity: 0.35;
+        --glow-padding: 35px;
+      "
+    >
+      <span class="edge-light"></span>
+
+      <div class="border-glow-inner p-6 sm:p-8 relative">
+        <button
+          type="button"
+          onclick="closeAuthModal()"
+          class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors z-20"
+          aria-label="Close"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+
+        <div class="flex items-center justify-center gap-2 mb-4">
+          <span class="text-brand-cyan text-xl">&#x25C9;</span>
+          <span class="text-white font-bold text-lg">SkillUp Gateway</span>
+        </div>
+
+        <!-- Role Tabs -->
+        <div class="grid grid-cols-3 gap-1.5 bg-slate-950 p-1 rounded-lg border border-slate-800 mb-5">
+          <button type="button" id="modalRoleBtnStudent" class="role-btn active" onclick="setModalRole('student')">
+            Student / Trainee
+          </button>
+          <button type="button" id="modalRoleBtnEmployer" class="role-btn" onclick="setModalRole('employer')">
+            Employer
+          </button>
+          <button type="button" id="modalRoleBtnGovt" class="role-btn" onclick="setModalRole('govt')">
+            Govt Official
+          </button>
+        </div>
+
+        <!-- Mode Tabs (Sign In / Create Account) -->
+        <div class="flex border-b border-slate-800 mb-5">
+          <button type="button" id="modalModeBtnLogin" class="mode-btn active" onclick="setModalMode('login')">
+            Sign In
+          </button>
+          <button type="button" id="modalModeBtnSignup" class="mode-btn" onclick="setModalMode('signup')">
+            Create Account
+          </button>
+        </div>
+
+        <!-- Sign In Form -->
+        <form id="modalLoginForm" action="/auth/login" method="POST" class="space-y-4">
+          <input type="hidden" name="role" id="modalLoginRoleInput" value="student">
+
+          <div>
+            <label id="modalLoginIdentifierLabel" class="block text-xs uppercase font-semibold text-slate-400 mb-1">
+              Trainee ID or Email
+            </label>
+            <input
+              type="text"
+              name="identifier"
+              required
+              placeholder="Enter credentials"
+              class="modal-input"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs uppercase font-semibold text-slate-400 mb-1">Password</label>
+            <input
+              type="password"
+              name="password"
+              required
+              placeholder="••••••••"
+              class="modal-input"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="w-full bg-brand-cyan text-brand-dark font-bold text-xs py-3 rounded-lg hover:bg-brand-cyanHover transition-all shadow-md shadow-brand-cyan/20 mt-2"
+          >
+            Sign In to Portal
+          </button>
+        </form>
+
+        <!-- Create Account Form -->
+        <form id="modalSignupForm" action="/auth/register" method="POST" class="space-y-4" style="display: none;">
+          <input type="hidden" name="role" id="modalSignupRoleInput" value="student">
+
+          <div>
+            <label id="modalSignupUsernameLabel" class="block text-xs uppercase font-semibold text-slate-400 mb-1">
+              Trainee Username / ID
+            </label>
+            <input
+              type="text"
+              name="username"
+              required
+              placeholder="Choose unique username / ID"
+              class="modal-input"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs uppercase font-semibold text-slate-400 mb-1">Official Email</label>
+            <input
+              type="email"
+              name="email"
+              required
+              placeholder="name@domain.com"
+              class="modal-input"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs uppercase font-semibold text-slate-400 mb-1">Choose Password</label>
+            <input
+              type="password"
+              name="password"
+              required
+              placeholder="••••••••"
+              class="modal-input"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="w-full bg-brand-cyan text-brand-dark font-bold text-xs py-3 rounded-lg hover:bg-brand-cyanHover transition-all shadow-md shadow-brand-cyan/20 mt-2"
+          >
+            Complete Registration
+          </button>
+        </form>
+
+        <div class="mt-5 text-center">
+          <a href="javascript:void(0)" id="modalToggleModeText" onclick="toggleModalMode()" class="text-xs text-slate-400 hover:text-brand-cyan transition-colors">
+            Don't have an account? Sign Up
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ================= BORDER GLOW ENGINE ================= */
+    (function initBorderGlow() {
+      const card = document.getElementById('modalGlowCard');
+      if (!card) return;
+
+      const glowColor = '190 100 50'; // Cyan HSL
+      const intensity = 1.0;
+      const colors = ['#00d2ff', '#38bdf8', '#c084fc']; // Brand palette
+
+      // Set CSS custom properties for glow layers
+      const opacities = [100, 60, 50, 40, 30, 20, 10];
+      const keys = ['', '-60', '-50', '-40', '-30', '-20', '-10'];
+      for (let i = 0; i < opacities.length; i++) {
+        card.style.setProperty(`--glow-color${keys[i]}`, `hsl(${glowColor.replace(/ /g, ', ')} / ${Math.min(opacities[i] * intensity, 100)}%)`);
+      }
+
+      const positions = ['80% 55%', '69% 34%', '8% 6%', '41% 38%', '86% 85%', '82% 18%', '51% 4%'];
+      const map = [0, 1, 2, 0, 1, 2, 1];
+      const gradKeys = ['--gradient-one', '--gradient-two', '--gradient-three', '--gradient-four', '--gradient-five', '--gradient-six', '--gradient-seven'];
+      for (let i = 0; i < 7; i++) {
+        const c = colors[map[i]];
+        card.style.setProperty(gradKeys[i], `radial-gradient(at ${positions[i]}, ${c} 0px, transparent 50%)`);
+      }
+      card.style.setProperty('--gradient-base', `linear-gradient(${colors[0]} 0 100%)`);
+
+      // Mouse tracking around card
+      card.addEventListener('pointermove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const cx = rect.width / 2;
+        const cy = rect.height / 2;
+        const dx = x - cx;
+        const dy = y - cy;
+
+        let kx = Infinity;
+        let ky = Infinity;
+        if (dx !== 0) kx = cx / Math.abs(dx);
+        if (dy !== 0) ky = cy / Math.abs(dy);
+        const edge = Math.min(Math.max(1 / Math.min(kx, ky), 0), 1);
+
+        let degrees = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+        if (degrees < 0) degrees += 360;
+
+        card.style.setProperty('--edge-proximity', `${(edge * 100).toFixed(2)}`);
+        card.style.setProperty('--cursor-angle', `${degrees.toFixed(2)}deg`);
+      });
+    })();
+
+    /* ================= MODAL AUTH LOGIC ================= */
+    let activeModalRole = 'student';
+    let activeModalMode = 'login';
+
+    const roleLabels = {
+      student: {
+        login: 'Trainee ID or Email',
+        signup: 'Trainee Username / ID'
+      },
+      employer: {
+        login: 'Work Email or Username',
+        signup: 'Company / Representative ID'
+      },
+      govt: {
+        login: 'Official ID / Gov Email',
+        signup: 'Government Officer ID'
+      }
+    };
+
+    function openAuthModal(initialMode = 'login', initialRole = 'student') {
+      activeModalRole = initialRole;
+      activeModalMode = initialMode;
+      applyModalState();
+      const modal = document.getElementById('authGatewayModal');
+      if (modal) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    function closeAuthModal() {
+      const modal = document.getElementById('authGatewayModal');
+      if (modal) {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    function setModalRole(role) {
+      activeModalRole = role;
+      applyModalState();
+    }
+
+    function setModalMode(mode) {
+      activeModalMode = mode;
+      applyModalState();
+    }
+
+    function toggleModalMode() {
+      activeModalMode = (activeModalMode === 'login') ? 'signup' : 'login';
+      applyModalState();
+    }
+
+    function applyModalState() {
+      document.querySelectorAll('#authGatewayModal .role-btn').forEach(btn => btn.classList.remove('active'));
+      if (activeModalRole === 'govt') {
+        document.getElementById('modalRoleBtnGovt').classList.add('active');
+      } else if (activeModalRole === 'employer') {
+        document.getElementById('modalRoleBtnEmployer').classList.add('active');
+      } else {
+        document.getElementById('modalRoleBtnStudent').classList.add('active');
+      }
+
+      document.getElementById('modalLoginRoleInput').value = activeModalRole;
+      document.getElementById('modalSignupRoleInput').value = activeModalRole;
+
+      const labels = roleLabels[activeModalRole] || roleLabels.student;
+      document.getElementById('modalLoginIdentifierLabel').textContent = labels.login;
+      document.getElementById('modalSignupUsernameLabel').textContent = labels.signup;
+
+      const loginForm = document.getElementById('modalLoginForm');
+      const signupForm = document.getElementById('modalSignupForm');
+      const modeBtnLogin = document.getElementById('modalModeBtnLogin');
+      const modeBtnSignup = document.getElementById('modalModeBtnSignup');
+      const toggleText = document.getElementById('modalToggleModeText');
+
+      if (activeModalMode === 'signup') {
+        loginForm.style.display = 'none';
+        signupForm.style.display = 'block';
+        modeBtnLogin.classList.remove('active');
+        modeBtnSignup.classList.add('active');
+        toggleText.textContent = 'Already registered? Sign In';
+      } else {
+        loginForm.style.display = 'block';
+        signupForm.style.display = 'none';
+        modeBtnLogin.classList.add('active');
+        modeBtnSignup.classList.remove('active');
+        toggleText.textContent = "Don't have an account? Sign Up";
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeAuthModal();
+    });
+
+    /* ================= PARTICLE CANVAS BACKGROUND ================= */
+    (function initParticles() {
+      const canvas = document.getElementById('particlesCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
+
+      const PARTICLE_COUNT = 200;
+      const SPEED = 0.25;
+      const COLORS = ['#ffffff', '#00d2ff', '#80e9ff'];
+
+      let mouseX = width / 2;
+      let mouseY = height / 2;
+      let targetMouseX = width / 2;
+      let targetMouseY = height / 2;
+
+      class Particle {
+        constructor() {
+          this.reset(true);
+        }
+
+        reset(init = false) {
+          this.x = (Math.random() - 0.5) * width * 1.5;
+          this.y = (Math.random() - 0.5) * height * 1.5;
+          this.z = init ? Math.random() * 1000 : 1000;
+          this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+          this.baseSize = 1.0 + Math.random() * 2.0;
+        }
+
+        update() {
+          this.z -= SPEED * 2;
+          if (this.z <= 10) {
+            this.reset(false);
+          }
+        }
+
+        draw() {
+          const fov = 400;
+          const scale = fov / (fov + this.z);
+
+          const offsetX = (mouseX - width / 2) * 0.08 * (1 - scale);
+          const offsetY = (mouseY - height / 2) * 0.08 * (1 - scale);
+
+          const screenX = width / 2 + this.x * scale + offsetX;
+          const screenY = height / 2 + this.y * scale + offsetY;
+          const radius = Math.max(0.4, this.baseSize * scale * 1.8);
+
+          if (screenX < 0 || screenX > width || screenY < 0 || screenY > height) return;
+
+          const alpha = Math.min(0.85, Math.max(0.1, 1 - this.z / 1000));
+
+          ctx.beginPath();
+          ctx.arc(screenX, screenY, radius, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.globalAlpha = alpha;
+          ctx.shadowBlur = radius * 4;
+          ctx.shadowColor = this.color;
+          ctx.fill();
+        }
+      }
+
+      const particles = Array.from({ length: PARTICLE_COUNT }, () => new Particle());
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        targetMouseX = e.clientX;
+        targetMouseY = e.clientY;
+      });
+
+      function render() {
+        ctx.clearRect(0, 0, width, height);
+
+        mouseX += (targetMouseX - mouseX) * 0.05;
+        mouseY += (targetMouseY - mouseY) * 0.05;
+
+        ctx.shadowBlur = 0;
+        particles.forEach((p) => {
+          p.update();
+          p.draw();
+        });
+
+        requestAnimationFrame(render);
+      }
+
+      render();
+    })();
+
+    /* ================= ROLE DEMO PRESETS ================= */
+    const rolePresets = {
+      'data-analyst': {
+        score: '60%',
+        verified: ['Python', 'SQL', 'Excel'],
+        missing: ['Power BI', 'AWS Cloud Fundamentals']
+      },
+      'cloud-associate': {
+        score: '78%',
+        verified: ['Linux', 'Docker', 'Networking (TCP/IP)'],
+        missing: ['Kubernetes', 'Terraform CI/CD']
+      },
+      'full-stack': {
+        score: '72%',
+        verified: ['React', 'JavaScript', 'HTML/CSS'],
+        missing: ['PostgreSQL', 'Docker Containerization']
+      },
+      'ai-ml': {
+        score: '54%',
+        verified: ['Python', 'Linear Algebra', 'Pandas'],
+        missing: ['PyTorch MLOps', 'Model Serving API']
+      }
+    };
+
+    function renderSkills(roleKey) {
+      const data = rolePresets[roleKey] || rolePresets['data-analyst'];
+      const scoreEl = document.getElementById('scoreText');
+      const verifiedCont = document.getElementById('verifiedSkillsContainer');
+      const missingCont = document.getElementById('missingSkillsContainer');
+
+      if (scoreEl) scoreEl.textContent = data.score;
+
+      if (verifiedCont) {
+        verifiedCont.innerHTML = data.verified.map(skill => `
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/50 border border-emerald-500/30 text-emerald-300">
+            <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            ${skill}
+          </span>
+        `).join('');
+      }
+
+      if (missingCont) {
+        missingCont.innerHTML = data.missing.map(skill => `
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-950/40 border border-amber-500/30 text-amber-300">
+            <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            ${skill}
+          </span>
+        `).join('');
+      }
+    }
+
+    function setDemoPreset(roleKey) {
+      const select = document.getElementById('roleSelect');
+      if (select) select.value = roleKey;
+      updatePresetPills(roleKey);
+      renderSkills(roleKey);
+    }
+
+    function updateDemoRole(val) {
+      updatePresetPills(val);
+      renderSkills(val);
+    }
+
+    function updatePresetPills(activeRole) {
+      const btnData = document.getElementById('btnPresetData');
+      const btnCloud = document.getElementById('btnPresetCloud');
+
+      if (btnData) {
+        if (activeRole === 'data-analyst') {
+          btnData.className = 'px-2.5 py-1 text-xs rounded-full bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/50 font-medium transition-all';
+        } else {
+          btnData.className = 'px-2.5 py-1 text-xs rounded-full bg-slate-800 text-slate-300 border border-slate-700 font-medium transition-all hover:bg-brand-cyan hover:text-brand-dark';
+        }
+      }
+
+      if (btnCloud) {
+        if (activeRole === 'cloud-associate') {
+          btnCloud.className = 'px-2.5 py-1 text-xs rounded-full bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/50 font-medium transition-all';
+        } else {
+          btnCloud.className = 'px-2.5 py-1 text-xs rounded-full bg-slate-800 text-slate-300 border border-slate-700 font-medium transition-all hover:bg-brand-cyan hover:text-brand-dark';
+        }
+      }
+    }
+  </script>
+
+  <script src="../nav.js"></script>
+
+</body>
+</html>
