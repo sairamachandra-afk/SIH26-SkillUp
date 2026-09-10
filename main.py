@@ -1,14 +1,40 @@
 import os
 import sqlite3
 from datetime import timedelta
-from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException
+from fastapi.responses import RedirectResponse, JSONResponse, FileResponse
+from fastapi.middleware.cors import CORSMiddleware
+from pypdf import PdfReader
+import io
+import json
+from google import genai
+from google.genai import types
+from dotenv import load_dotenv
 from werkzeug.security import generate_password_hash, check_password_hash
+from starlette.requests import Request
+from starlette.middleware.sessions import SessionMiddleware
+from starlette.staticfiles import StaticFiles
+from starlette.templating import Jinja2Templates
 
-app = Flask(__name__, template_folder='Templates', static_folder='.')
-app.secret_key = 'skillup-portal-super-secret-key'
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=14)
+load_dotenv()
+
+app = FastAPI(title="SkillUp Intelligence & Platform", version="1.0.0")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.add_middleware(SessionMiddleware, secret_key='skillup-portal-super-secret-key')
+
+app.mount("/static", StaticFiles(directory="."), name="static")
+templates = Jinja2Templates(directory="Templates")
 
 DB_NAME = 'database.db'
+client = genai.Client(api_key='AQ.Ab8RN6IeIKvLSWn9AQ37OYEB86mRIP6lLC5gZMDMirs6ApUlYA')
 
 def get_db_connection():
     conn = sqlite3.connect(DB_NAME)
@@ -47,29 +73,111 @@ def init_db():
 
 init_db()
 
-@app.route('/')
-@app.route('/index.html')
-@app.route('/Templates/index.html')
-def home():
-    user = session.get('user')
-    return render_template('index.html', user=user)
+@app.post("/api/analyze-resume")
+async def analyze_resume(
+    target_role: str = Form(...),
+    file: UploadFile = File(...)
+):
+    if not file.filename.lower().endswith('.pdf'):
+        raise HTTPException(status_code=400, detail="Only PDF resumes are accepted.")
+    
+    try:
+        contents = await file.read()
+        pdf_file = io.BytesIO(contents)
+        reader = PdfReader(pdf_file)
+        resume_text = ""
+        for page in reader.pages:
+            text = page.extract_text()
+            if text:
+                resume_text += text + "\n"
+        
+        if not resume_text.strip():
+            raise HTTPException(status_code=400, detail="Could not extract text from uploaded PDF.")
+            
+    except Exception as e:
+        print(f"PDF Parse Error: {e}")
+        raise HTTPException(status_code=500, detail=f"Error parsing PDF: {str(e)}")
 
-@app.route('/login')
-@app.route('/login.html')
-@app.route('/Templates/login.html')
-def login():
-    return render_template('login.html')
+    prompt = f"""
+    You are an expert AI Career and Skill Intelligence Evaluator.
+    Analyze the following candidate resume text against the target role: "{target_role}".
+    
+    Return a strict JSON object matching this exact schema:
+    {{
+      "readiness_score": <integer percentage between 0 and 100>,
+      "matched_skills": [<array of string skills found in resume relevant to target role>],
+      "missing_skills": [<array of critical string skills missing for target role>],
+      "learning_roadmap": [
+        {{
+          "milestone": "<string title of milestone>",
+          "time_estimate": "<string duration like '2 Weeks'>",
+          "key_topics": [<array of string subtopics>]
+        }}
+      ]
+    }}
 
-@app.route('/auth/register', methods=['POST'])
-def auth_register():
-    role = request.form.get('role', 'student')
-    fullname = request.form.get('fullname', '').strip()
-    username = request.form.get('username', '').strip()
-    email = request.form.get('email', '').strip()
-    password = request.form.get('password', '')
+    Resume Content:
+    {resume_text[:4000]}
+    """
+
+    try:
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                response_mime_type="application/json",
+                temperature=0.2,
+            ),
+        )
+        
+        # FIX: Clean the response text in case Gemini wraps it in ```json ... ``` markdown
+        raw_text = response.text.strip()
+        if raw_text.startswith("```json"):
+            raw_text = raw_text[7:]
+        elif raw_text.startswith("```"):
+            raw_text = raw_text[3:]
+            
+        if raw_text.endswith("```"):
+            raw_text = raw_text[:-3]
+            
+        return json.loads(raw_text.strip())
+        
+    except Exception as e:
+        print(f"LLM Error: {e}") # This prints the exact failure reason to your terminal
+        raise HTTPException(status_code=500, detail=f"LLM Processing Error: {str(e)}")
+
+@app.get('/')
+@app.get('/index.html')
+@app.get('/Templates/index.html')
+async def home(request: Request):
+    user = request.session.get('user')
+    return templates.TemplateResponse(
+        request=request, 
+        name='index.html', 
+        context={'request': request, 'user': user}
+    )
+
+@app.get('/login')
+@app.get('/login.html')
+@app.get('/Templates/login.html')
+async def login(request: Request):
+    return templates.TemplateResponse(
+        request=request, 
+        name='login.html', 
+        context={'request': request}
+    )
+
+@app.post('/auth/register')
+async def auth_register(request: Request):
+    form = await request.form()
+    role = form.get('role', 'student')
+    fullname = form.get('fullname', '').strip()
+    username = form.get('username', '').strip()
+    email = form.get('email', '').strip()
+    password = form.get('password', '')
 
     if not username or not email or not password:
-        return redirect('/login.html?mode=signup&error=missing_fields')
+        return RedirectResponse(url='/login.html?mode=signup&error=missing_fields', status_code=303)
 
     hashed_pw = generate_password_hash(password)
     conn = get_db_connection()
@@ -82,24 +190,24 @@ def auth_register():
         conn.commit()
     except sqlite3.IntegrityError:
         conn.rollback()
-        return redirect('/login.html?mode=signup&error=already_exists')
+        return RedirectResponse(url='/login.html?mode=signup&error=already_exists', status_code=303)
     finally:
         conn.close()
 
-    session.permanent = True
-    session['user'] = {'username': username, 'email': email, 'role': role, 'fullname': fullname}
+    request.session['user'] = {'username': username, 'email': email, 'role': role, 'fullname': fullname}
 
     if role == 'govt':
-        return redirect(url_for('dashboard'))
+        return RedirectResponse(url='/dashboard', status_code=303)
     elif role == 'employer':
-        return redirect(url_for('employment'))
-    return redirect(url_for('skillgaps'))
+        return RedirectResponse(url='/employment', status_code=303)
+    return RedirectResponse(url='/skillgaps', status_code=303)
 
-@app.route('/auth/login', methods=['POST'])
-def auth_login():
-    role = request.form.get('role', 'student')
-    identifier = request.form.get('identifier', '').strip()
-    password = request.form.get('password', '')
+@app.post('/auth/login')
+async def auth_login(request: Request):
+    form = await request.form()
+    role = form.get('role', 'student')
+    identifier = form.get('identifier', '').strip()
+    password = form.get('password', '')
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -111,44 +219,90 @@ def auth_login():
     conn.close()
 
     if user and check_password_hash(user['password'], password):
-        session.permanent = True
-        session['user'] = {'username': user['username'], 'email': user['email'], 'role': user['role']}
+        request.session['user'] = {'username': user['username'], 'email': user['email'], 'role': user['role']}
         if role == 'govt':
-            return redirect(url_for('dashboard'))
+            return RedirectResponse(url='/dashboard', status_code=303)
         elif role == 'employer':
-            return redirect(url_for('employment'))
-        return redirect(url_for('skillgaps'))
+            return RedirectResponse(url='/employment', status_code=303)
+        return RedirectResponse(url='/skillgaps', status_code=303)
 
-    return redirect('/login.html?error=invalid_credentials')
+    return RedirectResponse(url='/login.html?error=invalid_credentials', status_code=303)
 
-@app.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('login'))
+@app.get('/logout')
+async def logout(request: Request):
+    request.session.clear()
+    return RedirectResponse(url='/login.html', status_code=303)
 
-@app.route('/dashboard')
-@app.route('/Dashboard.html')
-def dashboard():
-    return send_from_directory('.', 'Dashboard.html')
+@app.get('/dashboard')
+@app.get('/Dashboard.html')
+async def dashboard():
+    return FileResponse("Dashboard.html")
 
-@app.route('/workforce')
-@app.route('/workforce.html')
-def workforce():
-    return send_from_directory('.', 'workforce.html')
+@app.get('/workforce')
+@app.get('/workforce.html')
+async def workforce():
+    return FileResponse("workforce.html")
 
-@app.route('/skillgaps')
-@app.route('/skillgaps.html')
-def skillgaps():
-    return send_from_directory('.', 'skillgaps.html')
+@app.get('/skillgaps')
+@app.get('/skillgaps.html')
+async def skillgaps():
+    return FileResponse("skillgaps.html")
 
-@app.route('/employment')
-@app.route('/Employement.html')
-def employment():
-    return send_from_directory('.', 'Employement.html')
+@app.get('/employment')
+@app.get('/Employement.html')
+async def employment():
+    return FileResponse("Employement.html")
 
-@app.route('/<path:filename>')
-def serve_static(filename):
-    return send_from_directory('.', filename)
+@app.get('/{filename:path}')
+async def serve_static(filename: str):
+    if os.path.exists(filename) and os.path.isfile(filename):
+        return FileResponse(filename)
+    raise HTTPException(status_code=404, detail="File not found")
+
+@app.post("/api/curate-resources")
+async def curate_resources(request: Request):
+    body = await request.json()
+    milestone = body.get("milestone")
+    key_topics = body.get("key_topics", [])
+    
+    prompt = f"""
+    You are an expert technical education advisor and career intelligence evaluator.
+    For the upskilling roadmap milestone "{milestone}" covering the key topics: {key_topics},
+    provide 3 high-quality, practical learning resources (e.g., official documentation, free courses, or tutorials).
+    
+    Return a strict JSON array matching this exact schema:
+    [
+      {{
+        "type": "<Documentation | Free Course | YouTube Tutorial | Article>",
+        "title": "<Resource Title>",
+        "url": "<Valid learning resource URL>",
+        "description": "<1-sentence description of why it helps close this specific skill gap>"
+      }}
+    ]
+    """
+
+    try:
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                response_mime_type="application/json",
+                temperature=0.3,
+            ),
+        )
+        
+        raw_text = response.text.strip()
+        if raw_text.startswith("```json"):
+            raw_text = raw_text[7:]
+        elif raw_text.startswith("```"):
+            raw_text = raw_text[3:]
+        if raw_text.endswith("```"):
+            raw_text = raw_text[:-3]
+            
+        return json.loads(raw_text.strip())
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Resource Curation Error: {str(e)}")
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    import uvicorn
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

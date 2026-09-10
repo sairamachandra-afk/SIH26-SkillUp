@@ -63,7 +63,7 @@
     }
   </style>
 </head>
-<body class="bg-brand-dark text-slate-100 font-sans min-h-screen flex flex-col relative overflow-x-hidden selection:bg-brand-cyan/20 selection:text-brand-cyan">
+<body class="bg-brand-dark text-slate-100 font-sans min-h-screen flex flex-col relative overflow-x-hidden selection:bg-brand-cyan/20 selection:text-brand-cyan" data-logged-in="{{ 'true' if user else 'false' }}">
 
   <canvas id="particlesCanvas" class="fixed inset-0 pointer-events-none z-0 w-full h-full"></canvas>
   <div class="glow-overlay"></div>
@@ -94,12 +94,19 @@
 
       <div class="flex items-center gap-3 flex-shrink-0">
         <div id="authNavButtons" class="flex items-center gap-2">
-          <a
-            href="login.html"
-            class="bg-brand-cyan text-brand-dark h-10 px-5 inline-flex items-center justify-center rounded-lg text-sm font-semibold hover:bg-brand-cyanHover transition-all duration-200 shadow-md shadow-brand-cyan/20 hover:shadow-brand-cyan/40"
-          >
-            Sign In
-          </a>
+          {% if user %}
+            <span class="text-xs text-slate-300 font-semibold px-3 py-1 bg-slate-900/90 rounded-md border border-slate-700">
+              {{ user.username }} ({{ user.role }})
+            </span>
+            <a href="/logout" class="text-xs text-rose-400 hover:underline ml-1">Log Out</a>
+          {% else %}
+            <a
+              href="login.html"
+              class="bg-brand-cyan text-brand-dark h-10 px-5 inline-flex items-center justify-center rounded-lg text-sm font-semibold hover:bg-brand-cyanHover transition-all duration-200 shadow-md shadow-brand-cyan/20 hover:shadow-brand-cyan/40"
+            >
+              Sign In
+            </a>
+          {% endif %}
         </div>
 
         <div class="card-nav-menu-wrapper" id="cardNavWrapper">
@@ -205,38 +212,18 @@
         <div class="lg:col-span-5 space-y-5">
           <div>
             <label class="block text-xs font-semibold uppercase text-slate-300 mb-2">TARGET ROLE BENCHMARK</label>
-            <select id="roleSelect" onchange="updateDemoRole(this.value)" class="w-full bg-slate-900/90 border border-brand-border text-slate-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-brand-cyan">
-              <option value="data-analyst" selected>Junior Data Analyst</option>
-              <option value="cloud-associate">Cloud Operations Associate</option>
-              <option value="full-stack">Full-Stack Web Developer</option>
-              <option value="ai-ml">AI / Machine Learning Engineer</option>
+            <select id="roleSelect" class="w-full bg-slate-900/90 border border-brand-border text-slate-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-brand-cyan">
+              <option value="Junior Data Analyst" selected>Junior Data Analyst</option>
+              <option value="Cloud Architecture Associate">Cloud Architecture Associate</option>
+              <option value="Junior Full-Stack Engineer">Junior Full-Stack Engineer</option>
+              <option value="AI / Machine Learning Engineer">AI / Machine Learning Engineer</option>
             </select>
-
-            <div class="mt-3 flex flex-wrap items-center gap-2">
-              <span class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">INTERACTIVE DEMO:</span>
-              <button
-                type="button"
-                id="btnPresetData"
-                onclick="setDemoPreset('data-analyst')"
-                class="px-2.5 py-1 text-xs rounded-full bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/50 font-medium transition-all hover:bg-brand-cyan hover:text-brand-dark"
-              >
-                Try Sample: Data Analyst
-              </button>
-              <button
-                type="button"
-                id="btnPresetCloud"
-                onclick="setDemoPreset('cloud-associate')"
-                class="px-2.5 py-1 text-xs rounded-full bg-slate-800 text-slate-300 border border-slate-700 font-medium transition-all hover:bg-brand-cyan hover:text-brand-dark"
-              >
-                Try Sample: Cloud Associate
-              </button>
-            </div>
           </div>
 
           <input
             type="file"
             id="resumeFileInput"
-            accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            accept=".pdf"
             class="hidden"
             onchange="handleResumeFile(this.files)"
           />
@@ -252,21 +239,21 @@
               </svg>
             </div>
             <p id="uploadTitle" class="text-sm font-medium text-slate-200">
-              Drag &amp; drop resume here or <span class="text-brand-cyan underline">browse</span>
+              Drag &amp; drop resume PDF here or <span class="text-brand-cyan underline">browse</span>
             </p>
-            <p id="uploadSubtitle" class="text-xs text-slate-400 mt-1">Supports PDF, DOCX (Max 10MB)</p>
+            <p id="uploadSubtitle" class="text-xs text-slate-400 mt-1">Supports PDF (Max 10MB)</p>
           </div>
         </div>
 
         <div id="scorecardPanel" class="lg:col-span-7 bg-[#0a101d] border border-slate-800/80 rounded-2xl relative overflow-hidden flex flex-col justify-between">
-          <div id="scorecardContent" class="p-6 space-y-6 filter blur-[4px] opacity-25 select-none pointer-events-none transition-all duration-300">
+          <div id="scorecardContent" class="p-6 space-y-6 {% if not user %}filter blur-[4px] opacity-25 select-none pointer-events-none{% endif %} transition-all duration-300">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-slate-800/80 gap-4">
               <div>
                 <span class="text-[11px] text-slate-400 font-bold uppercase tracking-wider block">CANDIDATE SCORECARD</span>
                 <h3 class="text-lg sm:text-xl font-bold text-white mt-0.5">Employability Readiness Index</h3>
               </div>
               <div class="flex items-center gap-1.5 bg-cyan-950/40 border border-cyan-500/40 px-3 py-1.5 rounded-lg w-fit">
-                <span id="scoreText" class="text-2xl font-bold text-brand-cyan">60%</span>
+                <span id="scoreText" class="text-2xl font-bold text-brand-cyan">--%</span>
                 <span class="text-xs font-normal text-slate-300">Fit</span>
               </div>
             </div>
@@ -274,67 +261,28 @@
             <div class="space-y-5 border-b border-slate-800/80 pb-6">
               <div>
                 <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2.5">VERIFIED EXTRACTED SKILLS</span>
-                <div id="verifiedSkillsContainer" class="flex flex-wrap gap-2 min-h-[38px] items-center">
-                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/50 border border-emerald-500/30 text-emerald-300">
-                    <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                    Python
-                  </span>
-                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/50 border border-emerald-500/30 text-emerald-300">
-                    <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                    SQL
-                  </span>
-                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/50 border border-emerald-500/30 text-emerald-300">
-                    <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                    Excel
-                  </span>
+                <div id="verifiedSkillsContainer" class="flex flex-wrap gap-2 min-h-[38px] items-center text-xs text-slate-400">
+                  Upload a PDF resume to extract skills.
                 </div>
               </div>
 
               <div>
                 <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2.5">MISSING MARKET DEMAND SKILLS</span>
-                <div id="missingSkillsContainer" class="flex flex-wrap gap-2">
-                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-950/40 border border-amber-500/30 text-amber-300">
-                    <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                    Power BI
-                  </span>
-                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-950/40 border border-amber-500/30 text-amber-300">
-                    <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                    AWS Cloud Fundamentals
-                  </span>
+                <div id="missingSkillsContainer" class="flex flex-wrap gap-2 text-xs text-slate-400">
+                  Upload a PDF resume to identify skill gaps.
                 </div>
               </div>
             </div>
 
             <div>
-              <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-3">UPSKILLING PATHWAY</span>
-              <div id="pathwayList" class="space-y-3">
-                <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-950/70 border border-slate-800">
-                  <input type="checkbox" checked class="mt-1" disabled />
-                  <div class="text-xs">
-                    <p class="font-medium text-slate-200">Step 1: Complete DAX &amp; Power BI Dashboarding Lab</p>
-                    <p class="text-slate-400 text-[11px]">Est. 12 Hours · Bridges +18% Market Match</p>
-                  </div>
-                </div>
-
-                <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-950/70 border border-slate-800">
-                  <input type="checkbox" class="mt-1" disabled />
-                  <div class="text-xs">
-                    <p class="font-medium text-slate-200">Step 2: Deploy SQL Warehouse on AWS RDS Free Tier</p>
-                    <p class="text-slate-400 text-[11px]">Est. 8 Hours · Bridges +14% Cloud Readiness</p>
-                  </div>
-                </div>
-
-                <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-950/70 border border-slate-800">
-                  <input type="checkbox" class="mt-1" disabled />
-                  <div class="text-xs">
-                    <p class="font-medium text-slate-200">Step 3: Industry Portfolio Evaluation with Benchmark Rubric</p>
-                    <p class="text-slate-400 text-[11px]">Final Verification · Triggers Verified Candidate Badge</p>
-                  </div>
-                </div>
+              <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-3">AI UPSKILLING ROADMAP</span>
+              <div id="pathwayList" class="space-y-3 text-left text-xs text-slate-400">
+                Upload a PDF resume to generate your personalized timeline.
               </div>
             </div>
           </div>
 
+          {% if not user %}
           <div id="scorecardLockOverlay" class="absolute inset-0 z-20 flex flex-col items-center justify-center p-6 bg-slate-950/75 backdrop-blur-[3px] text-center">
             <div class="w-12 h-12 rounded-full bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center text-brand-cyan mb-3 shadow-lg shadow-cyan-500/10">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -351,6 +299,7 @@
               Sign In to Continue
             </a>
           </div>
+          {% endif %}
         </div>
       </div>
     </section>
@@ -565,25 +514,6 @@
       </div>
     </section>
 
-    <section class="bg-gradient-to-r from-brand-card via-slate-900 to-brand-card border border-brand-borderCyan/40 rounded-2xl p-8 sm:p-12 text-center relative overflow-hidden shadow-2xl shadow-cyan-500/5">
-      <div class="max-w-2xl mx-auto relative z-10 space-y-4">
-        <h2 class="text-2xl sm:text-4xl font-serif text-white leading-snug">
-          Bridge the Gap Between Skilling and Sustainable Careers
-        </h2>
-        <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
-          Join thousands of trainees and skilling agencies tracking real employment outcomes.
-        </p>
-        <div class="pt-3">
-          <a
-            href="login.html"
-            class="inline-block bg-brand-cyan text-brand-dark px-8 py-3.5 rounded-lg font-bold text-sm hover:bg-brand-cyanHover transition-all shadow-xl shadow-brand-cyan/30 hover:shadow-brand-cyan/50"
-          >
-            Create Your Outcome Account
-          </a>
-        </div>
-      </div>
-    </section>
-
   </div>
 
   <footer class="border-t border-brand-border bg-slate-950/90 py-8 text-center text-xs text-slate-500 relative z-10">
@@ -598,178 +528,79 @@
   </footer>
 
   <script>
-    function renderAuthUI() {
-      // Automatically log out when returning to the landing page
-      localStorage.removeItem('skillup_token');
-      localStorage.removeItem('skillup_user');
-      sessionStorage.clear();
-
-      const nav = document.getElementById('authNavButtons');
-      const scorecardOverlay = document.getElementById('scorecardLockOverlay');
-      const scorecardContent = document.getElementById('scorecardContent');
-
-      nav.innerHTML = `
-        <a
-          href="login.html"
-          class="bg-brand-cyan text-brand-dark h-10 px-5 inline-flex items-center justify-center rounded-lg text-sm font-semibold hover:bg-brand-cyanHover transition-all duration-200 shadow-md shadow-brand-cyan/20 hover:shadow-brand-cyan/40"
-        >
-          Sign In
-        </a>
-      `;
-
-      if (scorecardOverlay) scorecardOverlay.style.display = 'flex';
-      if (scorecardContent) {
-        scorecardContent.classList.add('blur-[4px]', 'opacity-25', 'select-none', 'pointer-events-none');
-      }
-    }
-
-    renderAuthUI();
-
-    // Smart check for "View Impact Dashboard" button
     function checkDashboardAccess() {
-      const token = localStorage.getItem('skillup_token') || localStorage.getItem('skillup_user');
-      if (token) {
+      const isSignedIns = document.body.getAttribute('data-logged-in') === 'true';
+      if (isSignedIns) {
         window.location.href = '../Dashboard.html';
       } else {
         window.location.href = 'login.html';
       }
     }
 
-    function handleResumeFile(files) {
+    async function handleResumeFile(files) {
       if (!files || files.length === 0) return;
       const file = files[0];
-      const validTypes = [
-        'application/pdf',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      ];
-      const isExtValid = file.name.endsWith('.pdf') || file.name.endsWith('.docx');
-
-      if (!validTypes.includes(file.type) && !isExtValid) {
-        alert('Unsupported file format! Please upload a PDF or DOCX file.');
-        return;
-      }
-
-      const maxSize = 10 * 1024 * 1024;
-      if (file.size > maxSize) {
-        alert('File size exceeds the 10MB limit. Please upload a smaller file.');
+      if (!file.name.endsWith('.pdf')) {
+        alert('Please upload a valid PDF resume file.');
         return;
       }
 
       const uploadTitle = document.getElementById('uploadTitle');
       const uploadSubtitle = document.getElementById('uploadSubtitle');
-      const dropZone = document.getElementById('dropZone');
+      const role = document.getElementById('roleSelect').value;
 
-      uploadTitle.innerHTML = `<span class="text-emerald-400 font-semibold">&#x2713; ${file.name}</span>`;
-      uploadSubtitle.textContent = `${(file.size / (1024 * 1024)).toFixed(2)} MB · Analysis complete`;
-      dropZone.classList.add('border-emerald-500/60', 'bg-emerald-950/10');
+      uploadTitle.innerHTML = `<span class="text-brand-cyan font-semibold">Analyzing ${file.name} with AI...</span>`;
+      uploadSubtitle.textContent = 'Extracting text and matching taxonomy indices...';
 
-      const roleKey = document.getElementById('roleSelect').value;
-      renderSkills(roleKey);
-    }
+      const formData = new FormData();
+      formData.append('target_role', role);
+      formData.append('file', file);
 
-    const dropZone = document.getElementById('dropZone');
-    ['dragenter', 'dragover'].forEach(eventName => {
-      dropZone.addEventListener(eventName, (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        dropZone.classList.add('border-brand-cyan', 'bg-cyan-950/20');
-      });
-    });
+      try {
+        const response = await fetch('/api/analyze-resume', {
+          method: 'POST',
+          body: formData
+        });
 
-    ['dragleave', 'drop'].forEach(eventName => {
-      dropZone.addEventListener(eventName, (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        dropZone.classList.remove('border-brand-cyan', 'bg-cyan-950/20');
-      });
-    });
+        if (!response.ok) throw new Error('Failed to analyze resume from backend.');
 
-    dropZone.addEventListener('drop', (e) => {
-      const dt = e.dataTransfer;
-      const files = dt.files;
-      handleResumeFile(files);
-    });
+        const data = await response.json();
+        
+        document.getElementById('scoreText').textContent = data.readiness_score + '%';
 
-    const rolePresets = {
-      'data-analyst': {
-        score: '60%',
-        verified: ['Python', 'SQL', 'Excel'],
-        missing: ['Power BI', 'AWS Cloud Fundamentals']
-      },
-      'cloud-associate': {
-        score: '78%',
-        verified: ['Linux', 'Docker', 'Networking (TCP/IP)'],
-        missing: ['Kubernetes', 'Terraform CI/CD']
-      },
-      'full-stack': {
-        score: '72%',
-        verified: ['React', 'JavaScript', 'HTML/CSS'],
-        missing: ['PostgreSQL', 'Docker Containerization']
-      },
-      'ai-ml': {
-        score: '54%',
-        verified: ['Python', 'Linear Algebra', 'Pandas'],
-        missing: ['PyTorch MLOps', 'Model Serving API']
-      }
-    };
-
-    function renderSkills(roleKey) {
-      const data = rolePresets[roleKey] || rolePresets['data-analyst'];
-      const scoreEl = document.getElementById('scoreText');
-      const verifiedCont = document.getElementById('verifiedSkillsContainer');
-      const missingCont = document.getElementById('missingSkillsContainer');
-
-      if (scoreEl) scoreEl.textContent = data.score;
-
-      if (verifiedCont) {
-        verifiedCont.innerHTML = data.verified.map(skill => `
+        const verifiedCont = document.getElementById('verifiedSkillsContainer');
+        verifiedCont.innerHTML = data.matched_skills.map(s => `
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/50 border border-emerald-500/30 text-emerald-300">
-            <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-            ${skill}
+            ✓ ${s}
           </span>
-        `).join('');
-      }
+        `).join('') || '<span class="text-slate-500">None detected</span>';
 
-      if (missingCont) {
-        missingCont.innerHTML = data.missing.map(skill => `
+        const missingCont = document.getElementById('missingSkillsContainer');
+        missingCont.innerHTML = data.missing_skills.map(s => `
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-950/40 border border-amber-500/30 text-amber-300">
-            <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-            ${skill}
+            ⚠ ${s}
           </span>
+        `).join('') || '<span class="text-slate-500">None missing</span>';
+
+        const pathwayList = document.getElementById('pathwayList');
+        pathwayList.innerHTML = data.learning_roadmap.map((item, idx) => `
+          <div class="p-3 rounded-xl bg-slate-950/70 border border-slate-800 space-y-1">
+            <div class="flex justify-between font-medium text-slate-200">
+              <span>${idx + 1}. ${item.milestone}</span>
+              <span class="text-brand-cyan">Est. ${item.time_estimate}</span>
+            </div>
+            <div class="text-slate-400 text-[11px]">Topics: ${item.key_topics.join(', ')}</div>
+          </div>
         `).join('');
-      }
-    }
 
-    function setDemoPreset(roleKey) {
-      const select = document.getElementById('roleSelect');
-      if (select) select.value = roleKey;
-      updatePresetPills(roleKey);
-      renderSkills(roleKey);
-    }
+        uploadTitle.innerHTML = `<span class="text-emerald-400 font-semibold">&#x2713; ${file.name} Analyzed Successfully</span>`;
+        uploadSubtitle.textContent = 'Assessment complete based on live vacancy taxonomy.';
 
-    function updateDemoRole(val) {
-      updatePresetPills(val);
-      renderSkills(val);
-    }
-
-    function updatePresetPills(activeRole) {
-      const btnData = document.getElementById('btnPresetData');
-      const btnCloud = document.getElementById('btnPresetCloud');
-
-      if (btnData) {
-        if (activeRole === 'data-analyst') {
-          btnData.className = 'px-2.5 py-1 text-xs rounded-full bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/50 font-medium transition-all';
-        } else {
-          btnData.className = 'px-2.5 py-1 text-xs rounded-full bg-slate-800 text-slate-300 border border-slate-700 font-medium transition-all hover:bg-brand-cyan hover:text-brand-dark';
-        }
-      }
-
-      if (btnCloud) {
-        if (activeRole === 'cloud-associate') {
-          btnCloud.className = 'px-2.5 py-1 text-xs rounded-full bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/50 font-medium transition-all';
-        } else {
-          btnCloud.className = 'px-2.5 py-1 text-xs rounded-full bg-slate-800 text-slate-300 border border-slate-700 font-medium transition-all hover:bg-brand-cyan hover:text-brand-dark';
-        }
+      } catch (err) {
+        console.error(err);
+        alert('Error connecting to backend API or processing resume. Make sure FastAPI is running.');
+        uploadTitle.textContent = 'Analysis Failed. Click to retry.';
+        uploadSubtitle.textContent = 'Supports PDF (Max 10MB)';
       }
     }
 
@@ -852,6 +683,7 @@
       render();
     })();
   </script>
+  
 
   <script src="../nav.js"></script>
 

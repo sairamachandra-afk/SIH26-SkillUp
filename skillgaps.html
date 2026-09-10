@@ -1,140 +1,542 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="en" class="scroll-smooth">
+
 <head>
+
   <meta charset="UTF-8" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Skill Gaps Analysis — SkillUp Outcome Intelligence</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <title>SkillUp — Competency Gap Diagnostic</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
   <link rel="stylesheet" href="Style.css" />
+
   <link rel="stylesheet" href="CardNav.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <script>
+
+    tailwind.config = {
+
+      theme: {
+
+        extend: {
+
+          fontFamily: {
+
+            sans: ['Inter', 'sans-serif'],
+
+            serif: ['Playfair Display', 'serif'],
+
+          },
+
+          colors: {
+
+            brand: {
+
+              cyan: '#00d2ff',
+
+              cyanHover: '#00b4db',
+
+              dark: '#07090e',
+
+              card: '#0e131d',
+
+              cardHover: '#131a27',
+
+              border: 'rgba(255, 255, 255, 0.08)',
+
+              borderCyan: 'rgba(0, 210, 255, 0.3)',
+
+            },
+
+          },
+
+        },
+
+      },
+
+    };
+
+  </script>
+
 </head>
-<body>
 
-  <div class="glow-overlay"></div>
+<body class="bg-brand-dark text-slate-100 font-sans min-h-screen flex flex-col relative overflow-x-hidden selection:bg-brand-cyan/20 selection:text-brand-cyan">
 
-  <header>
-    <div class="nav-left">
-      <a href="Templates/index.html" class="logo">
-        <span class="logo-icon">&#x25C9;</span>SkillUp
-      </a>
-      <nav class="dock-nav" id="dockNav">
-        <ul>
-          <li><a href="Dashboard.html" class="dock-item">Dashboard</a></li>
-          <li><a href="workforce.html" class="dock-item">Workforce</a></li>
-          <li><a href="skillgaps.html" class="dock-item active">Skill Gaps</a></li>
-          <li><a href="Employement.html" class="dock-item">Employment</a></li>
-        </ul>
-      </nav>
-    </div>
 
-    <div class="nav-right">
-      <a href="Templates/login.html" class="login-link">Sign Out</a>
-      <a href="#" class="btn-demo">Generate Matrix</a>
 
-      <div class="card-nav-menu-wrapper" id="cardNavWrapper">
-        <div class="hamburger-menu" id="cardNavToggle" role="button" tabindex="0" aria-label="Toggle navigation menu">
-          <div class="hamburger-line"></div>
-          <div class="hamburger-line"></div>
-        </div>
+  <header class="sticky top-0 z-50 bg-brand-dark/80 backdrop-blur-xl border-b border-brand-border w-full">
 
-        <div class="card-nav-dropdown" id="cardNavDropdown">
-          <div class="nav-card" style="background-color: #121927; color: #ffffff;">
-            <div class="nav-card-label">Intelligence</div>
-            <div class="nav-card-links">
-              <a class="nav-card-link" href="Dashboard.html">&#8599; Overview Dashboard</a>
-              <a class="nav-card-link" href="workforce.html">&#8599; Workforce Readiness</a>
-            </div>
-          </div>
+    <div class="w-full px-6 md:px-10 h-20 flex items-center justify-between gap-6">
 
-          <div class="nav-card" style="background-color: #162032; color: #ffffff;">
-            <div class="nav-card-label">Diagnostics</div>
-            <div class="nav-card-links">
-              <a class="nav-card-link" href="skillgaps.html">&#8599; Skill Gaps Engine</a>
-              <a class="nav-card-link" href="Employement.html">&#8599; Employment Placement</a>
-            </div>
-          </div>
+      <div class="flex-shrink-0">
 
-          <div class="nav-card" style="background-color: #101725; color: #ffffff;">
-            <div class="nav-card-label">Outcomes</div>
-            <div class="nav-card-links">
-              <a class="nav-card-link" href="Dashboard.html">&#8599; Retention Analytics</a>
-              <a class="nav-card-link" href="workforce.html">&#8599; Benchmark Reports</a>
-            </div>
-          </div>
-        </div>
+        <a href="index.html" class="flex items-center gap-3 group">
+
+          <span class="text-brand-cyan text-2xl leading-none transition-transform group-hover:scale-110 duration-200">&#x25C9;</span>
+
+          <span class="font-bold text-xl tracking-tight text-white">SkillUp</span>
+
+        </a>
+
       </div>
+
+
+
+      <nav class="hidden md:flex items-center justify-center gap-8 flex-1">
+
+        <a href="Dashboard.html" class="text-xs lg:text-sm font-medium text-slate-300 hover:text-brand-cyan transition-colors">Dashboard</a>
+
+        <a href="workforce.html" class="text-xs lg:text-sm font-medium text-slate-300 hover:text-brand-cyan transition-colors">Workforce</a>
+
+        <a href="skillgaps.html" class="text-xs lg:text-sm font-medium text-brand-cyan transition-colors">Skill Gaps</a>
+
+        <a href="Employement.html" class="text-xs lg:text-sm font-medium text-slate-300 hover:text-brand-cyan transition-colors">Employment</a>
+
+      </nav>
+
+
+
+      <div class="flex items-center gap-3">
+
+        <a href="/logout" class="text-xs text-rose-400 hover:underline">Sign Out</a>
+
+      </div>
+
     </div>
+
   </header>
 
-  <div class="app-container">
-    <div class="page-header">
-      <div class="eyebrow-badge">
-        <span class="badge-square"></span>
+
+
+  <main class="relative z-10 py-12 px-6 max-w-7xl mx-auto w-full space-y-12">
+
+    <div>
+
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-950/20 text-[10px] font-semibold uppercase tracking-wider text-cyan-200 mb-3">
+
         Gap Identification &amp; Mitigation
+
       </div>
-      <h2>Competency Gap Diagnostic</h2>
-      <p>Identify critical shortfalls between project requirements and workforce proficiency.</p>
+
+      <h1 class="text-3xl sm:text-4xl font-serif text-white">Competency Gap Diagnostic</h1>
+
+      <p class="text-slate-400 text-sm mt-1">Upload your resume to map performance shortfalls against regional job market requirements.</p>
+
     </div>
 
-    <div class="content-grid">
-      <div class="panel-card">
-        <h3>Critical Competency Deficits</h3>
 
-        <div class="progress-item">
-          <div class="progress-labels">
-            <span>LLM Fine-Tuning &amp; Prompt Architecture</span>
-            <span style="color: var(--primary-accent);">Gap: 42%</span>
+
+    <section class="bg-brand-card/50 border border-brand-border rounded-2xl p-6 sm:p-10 backdrop-blur-md">
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+        <div class="lg:col-span-5 space-y-5">
+
+          <div>
+
+            <label class="block text-xs font-semibold uppercase text-slate-300 mb-2">TARGET ROLE BENCHMARK</label>
+
+            <select id="roleSelect" class="w-full bg-slate-900/90 border border-brand-border text-slate-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-brand-cyan">
+
+              <option value="Junior Data Analyst" selected>Junior Data Analyst</option>
+
+              <option value="Cloud Architecture Associate">Cloud Architecture Associate</option>
+
+              <option value="Junior Full-Stack Engineer">Junior Full-Stack Engineer</option>
+
+              <option value="AI / Machine Learning Engineer">AI / Machine Learning Engineer</option>
+
+            </select>
+
           </div>
-          <div class="progress-track">
-            <div class="progress-fill" style="width: 58%; background: var(--primary-accent);"></div>
+
+
+
+          <input type="file" id="resumeFileInput" accept=".pdf" class="hidden" onchange="handleResumeFile(this.files)" />
+
+
+
+          <div id="dropZone" onclick="document.getElementById('resumeFileInput').click()" class="border-2 border-dashed border-cyan-500/40 hover:border-brand-cyan rounded-2xl p-8 text-center transition-all bg-slate-950/40 hover:bg-cyan-950/10 cursor-pointer flex flex-col items-center justify-center group">
+
+            <div class="w-12 h-12 rounded-full bg-cyan-950/40 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-3 group-hover:scale-110 transition-transform">
+
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+
+              </svg>
+
+            </div>
+
+            <p id="uploadTitle" class="text-sm font-medium text-slate-200">
+
+              Drag &amp; drop resume PDF here or <span class="text-brand-cyan underline">browse</span>
+
+            </p>
+
+            <p id="uploadSubtitle" class="text-xs text-slate-400 mt-1">Supports PDF (Max 10MB)</p>
+
           </div>
+
         </div>
 
-        <div class="progress-item">
-          <div class="progress-labels">
-            <span>Distributed Systems (Rust &amp; Go)</span>
-            <span style="color: var(--primary-accent);">Gap: 36%</span>
+
+
+        <div id="scorecardPanel" class="lg:col-span-7 bg-[#0a101d] border border-slate-800/80 rounded-2xl relative overflow-hidden flex flex-col justify-between">
+
+          <div id="scorecardContent" class="p-6 space-y-6">
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-slate-800/80 gap-4">
+
+              <div>
+
+                <span class="text-[11px] text-slate-400 font-bold uppercase tracking-wider block">CANDIDATE SCORECARD</span>
+
+                <h3 class="text-lg sm:text-xl font-bold text-white mt-0.5">Employability Readiness Index</h3>
+
+              </div>
+
+              <div class="flex items-center gap-1.5 bg-cyan-950/40 border border-cyan-500/40 px-3 py-1.5 rounded-lg w-fit">
+
+                <span id="scoreText" class="text-2xl font-bold text-brand-cyan">--%</span>
+
+                <span class="text-xs font-normal text-slate-300">Fit</span>
+
+              </div>
+
+            </div>
+
+
+
+            <div class="space-y-5 border-b border-slate-800/80 pb-6">
+
+              <div>
+
+                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2.5">VERIFIED EXTRACTED SKILLS</span>
+
+                <div id="verifiedSkillsContainer" class="flex flex-wrap gap-2 min-h-[38px] items-center text-xs text-slate-400">
+
+                  Upload a PDF resume to extract skills.
+
+                </div>
+
+              </div>
+
+
+
+              <div>
+
+                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2.5">MISSING MARKET DEMAND SKILLS</span>
+
+                <div id="missingSkillsContainer" class="flex flex-wrap gap-2 text-xs text-slate-400">
+
+                  Upload a PDF resume to identify skill gaps.
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+
+            <div>
+
+              <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-3">AI UPSKILLING ROADMAP</span>
+
+              <div id="pathwayList" class="space-y-3 text-left text-xs text-slate-400">
+
+                Upload a PDF resume to generate your personalized timeline.
+
+              </div>
+
+            </div>
+
           </div>
-          <div class="progress-track">
-            <div class="progress-fill" style="width: 64%; background: var(--primary-accent);"></div>
-          </div>
+
         </div>
 
-        <div class="progress-item">
-          <div class="progress-labels">
-            <span>Edge Computing &amp; IoT Architecture</span>
-            <span style="color: var(--blue);">Gap: 21%</span>
-          </div>
-          <div class="progress-track">
-            <div class="progress-fill" style="width: 79%; background: var(--blue);"></div>
-          </div>
-        </div>
-
-        <div class="progress-item">
-          <div class="progress-labels">
-            <span>Container Orchestration &amp; CI/CD</span>
-            <span style="color: var(--green);">Gap: 8%</span>
-          </div>
-          <div class="progress-track">
-            <div class="progress-fill" style="width: 92%; background: var(--green);"></div>
-          </div>
-        </div>
       </div>
 
-      <div class="panel-card">
-        <h3>AI Recommendation Engine</h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">
-          To bridge the 42% gap in GenAI within 60 days, auto-enroll 120 senior backend trainees into the internal micro-credential pathway.
-        </p>
-        <a href="#" class="btn-demo" style="display: inline-block; text-align: center;">Trigger Auto-Upskill Track</a>
-      </div>
-    </div>
-  </div>
+    </section>
 
-  <script src="nav.js"></script>
+  </main>
+
+
+
+  <script>
+
+    let currentRoadmapData = [];
+    let baseReadinessScore = 0;
+
+    // Load saved progress from localStorage on startup if present
+    document.addEventListener("DOMContentLoaded", () => {
+      const saved = localStorage.getItem('skillup_roadmap_state');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (parsed.roadmap && parsed.score !== undefined) {
+            currentRoadmapData = parsed.roadmap;
+            baseReadinessScore = parsed.baseScore || parsed.score;
+            renderRoadmapAndScore();
+          }
+        } catch (e) { console.error(e); }
+      }
+    });
+
+    function updateDynamicScore() {
+      if (!currentRoadmapData || currentRoadmapData.length === 0) return;
+      const completedCount = currentRoadmapData.filter(item => item.completed).length;
+      const additionalPoints = (completedCount / currentRoadmapData.length) * (100 - baseReadinessScore);
+      const totalScore = Math.min(100, Math.round(baseReadinessScore + additionalPoints));
+      
+      const scoreEl = document.getElementById('scoreText');
+      if (scoreEl) scoreEl.textContent = totalScore + '%';
+
+      localStorage.setItem('skillup_roadmap_state', JSON.stringify({
+        score: totalScore,
+        baseScore: baseReadinessScore,
+        roadmap: currentRoadmapData
+      }));
+    }
+
+    function toggleMilestone(index) {
+      currentRoadmapData[index].completed = !currentRoadmapData[index].completed;
+      renderRoadmapAndScore();
+      updateDynamicScore();
+    }
+
+    async function toggleResources(index) {
+      const item = currentRoadmapData[index];
+      item.showResources = !item.showResources;
+      renderRoadmapAndScore();
+
+      if (item.showResources && (!item.resources || item.resources.length === 0)) {
+        item.loadingResources = true;
+        renderRoadmapAndScore();
+
+        try {
+          const res = await fetch('/api/curate-resources', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ milestone: item.milestone, key_topics: item.key_topics })
+          });
+          const data = await res.json();
+          item.resources = data;
+        } catch (err) {
+          console.error("Failed to load resources", err);
+          item.resources = [{ type: "Error", title: "Could not load resources", url: "#", description: "Please check your network connection." }];
+        } finally {
+          item.loadingResources = false;
+          renderRoadmapAndScore();
+        }
+      }
+    }
+
+    function getTypeBadgeStyle(type) {
+      const t = (type || '').toLowerCase();
+      if (t.includes('doc')) return 'bg-blue-950/60 border-blue-500/30 text-blue-300';
+      if (t.includes('course')) return 'bg-emerald-950/60 border-emerald-500/30 text-emerald-300';
+      if (t.includes('youtube') || t.includes('video')) return 'bg-rose-950/60 border-rose-500/30 text-rose-300';
+      return 'bg-cyan-950/60 border-cyan-500/30 text-cyan-300';
+    }
+
+    function renderRoadmapAndScore() {
+      updateDynamicScore();
+      const pathwayList = document.getElementById('pathwayList');
+      if (!pathwayList) return;
+
+      if (!currentRoadmapData || currentRoadmapData.length === 0) {
+        pathwayList.innerHTML = '<span class="text-slate-500">Upload a PDF resume to generate your personalized timeline.</span>';
+        return;
+      }
+
+      pathwayList.innerHTML = currentRoadmapData.map((item, idx) => `
+        <div class="p-3.5 rounded-xl border transition-all ${item.completed ? 'bg-slate-900/40 border-emerald-500/30' : 'bg-slate-950/70 border-slate-800'}">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-start gap-3">
+              <input 
+                type="checkbox" 
+                ${item.completed ? 'checked' : ''} 
+                onchange="toggleMilestone(${idx})"
+                class="mt-1 h-4 w-4 rounded border-slate-700 bg-slate-900 text-cyan-500 focus:ring-cyan-500 cursor-pointer"
+              />
+              <div>
+                <div class="font-medium text-xs sm:text-sm ${item.completed ? 'line-through text-slate-400' : 'text-slate-200'}">
+                  ${idx + 1}. ${item.milestone}
+                </div>
+                <div class="text-slate-400 text-[11px] mt-0.5">Topics: ${item.key_topics.join(', ')}</div>
+              </div>
+            </div>
+            <span class="text-brand-cyan text-[11px] font-semibold px-2 py-0.5 bg-cyan-950/30 rounded border border-cyan-500/20 flex-shrink-0">
+              Est. ${item.time_estimate}
+            </span>
+          </div>
+
+          <div class="mt-3 pt-2.5 border-t border-slate-800/60 flex items-center justify-between">
+            <button 
+              type="button"
+              onclick="toggleResources(${idx})"
+              class="text-xs text-brand-cyan hover:underline inline-flex items-center gap-1 font-medium cursor-pointer"
+            >
+              ${item.showResources ? 'Hide Curated Resources ▲' : 'View Curated Resources ▼'}
+            </button>
+            ${item.completed ? '<span class="text-xs text-emerald-400 font-medium">✓ Completed</span>' : ''}
+          </div>
+
+          ${item.showResources ? `
+            <div class="mt-3 space-y-2.5 pt-2 border-t border-dashed border-slate-800">
+              ${item.loadingResources ? `
+                <div class="text-xs text-slate-400 py-2 text-center animate-pulse">Curating learning materials with AI...</div>
+              ` : (item.resources && item.resources.length > 0 ? item.resources.map(res => `
+                <div class="bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg flex flex-col gap-1">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded border ${getTypeBadgeStyle(res.type)}">
+                      ${res.type}
+                    </span>
+                    <a href="${res.url}" target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-brand-cyan hover:underline">
+                      ${res.title} ↗
+                    </a>
+                  </div>
+                  <p class="text-[11px] text-slate-400">${res.description}</p>
+                </div>
+              `).join('') : '<div class="text-xs text-slate-400 text-center py-1">No resources found.</div>')}
+            </div>
+          ` : ''}
+        </div>
+      `).join('');
+    }
+
+    async function handleResumeFile(files) {
+
+      if (!files || files.length === 0) return;
+
+      const file = files[0];
+
+      if (!file.name.endsWith('.pdf')) {
+
+        alert('Please upload a valid PDF resume file.');
+
+        return;
+
+      }
+
+
+
+      const uploadTitle = document.getElementById('uploadTitle');
+
+      const uploadSubtitle = document.getElementById('uploadSubtitle');
+
+      const role = document.getElementById('roleSelect').value;
+
+
+
+      uploadTitle.innerHTML = `<span class="text-brand-cyan font-semibold">Analyzing ${file.name} with AI...</span>`;
+
+      uploadSubtitle.textContent = 'Extracting text and matching taxonomy indices...';
+
+
+
+      const formData = new FormData();
+
+      formData.append('target_role', role);
+
+      formData.append('file', file);
+
+
+
+      try {
+
+        const response = await fetch('/api/analyze-resume', {
+
+          method: 'POST',
+
+          body: formData
+
+        });
+
+
+
+        if (!response.ok) throw new Error('Failed to analyze resume from backend.');
+
+
+
+        const data = await response.json();
+
+        
+        baseReadinessScore = data.readiness_score;
+        currentRoadmapData = (data.learning_roadmap || []).map(item => ({
+          ...item,
+          completed: false,
+          resources: [],
+          loadingResources: false,
+          showResources: false
+        }));
+
+        renderRoadmapAndScore();
+
+
+
+        const verifiedCont = document.getElementById('verifiedSkillsContainer');
+
+        verifiedCont.innerHTML = data.matched_skills.map(s => `
+
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/50 border border-emerald-500/30 text-emerald-300">
+
+            ✓ ${s}
+
+          </span>
+
+        `).join('') || '<span class="text-slate-500">None detected</span>';
+
+
+
+        const missingCont = document.getElementById('missingSkillsContainer');
+
+        missingCont.innerHTML = data.missing_skills.map(s => `
+
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-950/40 border border-amber-500/30 text-amber-300">
+
+            ⚠ ${s}
+
+          </span>
+
+        `).join('') || '<span class="text-slate-500">None missing</span>';
+
+
+
+        uploadTitle.innerHTML = `<span class="text-emerald-400 font-semibold">&#x2713; ${file.name} Analyzed Successfully</span>`;
+
+        uploadSubtitle.textContent = 'Assessment complete based on live vacancy taxonomy.';
+
+
+
+      } catch (err) {
+
+        console.error(err);
+
+        alert('Error connecting to backend API or processing resume. Make sure FastAPI is running.');
+
+        uploadTitle.textContent = 'Analysis Failed. Click to retry.';
+
+        uploadSubtitle.textContent = 'Supports PDF (Max 10MB)';
+
+      }
+
+    }
+
+  </script>
 
 </body>
+
 </html>
