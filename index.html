@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SkillUp — National Outcome &amp; Career Intelligence</title>
 
+  <script>
+    const _warn = console.warn;
+    console.warn = (...args) => {
+      if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com')) return;
+      _warn(...args);
+    };
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -93,9 +100,9 @@
       </nav>
 
       <div class="flex items-center gap-3 flex-shrink-0">
-        <button type="button" onclick="openAuthModal('Sign In with your Trainee ID or Email to access your intelligence profile.')" class="bg-brand-cyan text-brand-dark h-10 px-5 inline-flex items-center justify-center rounded-lg text-sm font-semibold hover:bg-brand-cyanHover transition-all duration-200 shadow-md shadow-brand-cyan/20 hover:shadow-brand-cyan/40">
+        <a href="login.html" class="bg-brand-cyan text-brand-dark h-10 px-5 inline-flex items-center justify-center rounded-lg text-sm font-semibold hover:bg-brand-cyanHover transition-all duration-200 shadow-md shadow-brand-cyan/20 hover:shadow-brand-cyan/40">
           Sign In
-        </button>
+        </a>
 
         <div class="card-nav-menu-wrapper" id="cardNavWrapper">
           <div class="hamburger-menu" id="cardNavToggle" role="button" tabindex="0" aria-label="Toggle navigation menu">
@@ -229,14 +236,19 @@
             </div>
           </div>
 
-          <div class="border-2 border-dashed border-slate-700/80 hover:border-brand-cyan/60 rounded-xl p-8 text-center transition-colors bg-slate-950/40 cursor-pointer flex flex-col items-center justify-center group">
-            <div class="w-12 h-12 rounded-full bg-slate-900 flex items-center justify-center text-brand-cyan mb-3 group-hover:scale-110 transition-transform">
+          <div
+            id="dropZone"
+            onclick="document.getElementById('fileInput').click()"
+            class="border-2 border-dashed border-slate-700/80 hover:border-brand-cyan/60 rounded-xl p-8 text-center transition-colors bg-slate-950/40 cursor-pointer flex flex-col items-center justify-center group"
+          >
+            <input type="file" id="fileInput" class="hidden" accept=".pdf,.docx,.txt" onchange="handleFileUpload(event)" />
+            <div id="uploadIcon" class="w-12 h-12 rounded-full bg-slate-900 flex items-center justify-center text-brand-cyan mb-3 group-hover:scale-110 transition-transform">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
             </div>
-            <p class="text-sm font-medium text-slate-200">Drag &amp; drop resume here or <span class="text-brand-cyan underline">browse</span></p>
-            <p class="text-xs text-slate-400 mt-1">Supports PDF, DOCX (Max 10MB)</p>
+            <p id="uploadTitle" class="text-sm font-medium text-slate-200">Drag &amp; drop resume here or <span class="text-brand-cyan underline">browse</span></p>
+            <p id="uploadSubtitle" class="text-xs text-slate-400 mt-1">Supports PDF, DOCX (Max 10MB)</p>
           </div>
         </div>
 
@@ -325,13 +337,12 @@
                 <p class="text-xs font-semibold text-slate-200 max-w-sm mb-3">
                   Sign In to Unlock Your Step-by-Step Learning Pathway &amp; Course Links
                 </p>
-                <button
-                  type="button"
-                  onclick="openAuthModal('Sign In with your Trainee ID or Email to unlock your custom learning pathway.')"
-                  class="bg-brand-cyan text-brand-dark px-4 py-2 rounded-lg text-xs font-bold hover:bg-brand-cyanHover transition-all shadow-md shadow-brand-cyan/30"
+                <a
+                  href="login.html"
+                  class="bg-brand-cyan text-brand-dark px-4 py-2 rounded-lg text-xs font-bold hover:bg-brand-cyanHover transition-all shadow-md shadow-brand-cyan/30 inline-block"
                 >
                   Sign In to Continue
-                </button>
+                </a>
               </div>
             </div>
           </div>
@@ -448,9 +459,9 @@
           <h2 class="text-3xl font-serif text-white mt-1">Matched Industry Openings</h2>
           <p class="text-slate-400 text-sm mt-1">Verified partner listings connected with SkillUp proficiency metrics.</p>
         </div>
-        <button type="button" onclick="openAuthModal('Sign In with your Trainee ID or Email to view all verified openings.')" class="text-sm text-brand-cyan hover:underline inline-flex items-center gap-1">
+        <a href="login.html" class="text-sm text-brand-cyan hover:underline inline-flex items-center gap-1">
           View all 340+ verified openings &rarr;
-        </button>
+        </a>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -477,13 +488,12 @@
             </div>
           </div>
 
-          <button
-            type="button"
-            onclick="openAuthModal('Sign in with your Trainee ID or Email to apply for Junior Data Analyst at Deloitte Insights Lab.')"
-            class="w-full text-center py-2.5 rounded-lg bg-brand-cyan/10 hover:bg-brand-cyan text-brand-cyan hover:text-brand-dark border border-brand-borderCyan font-semibold text-xs transition-colors duration-200"
+          <a
+            href="login.html"
+            class="w-full text-center py-2.5 rounded-lg bg-brand-cyan/10 hover:bg-brand-cyan text-brand-cyan hover:text-brand-dark border border-brand-borderCyan font-semibold text-xs transition-colors duration-200 block"
           >
             Apply via Outcome Portal
-          </button>
+          </a>
         </div>
 
         <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between hover:border-brand-borderCyan transition-all duration-200 hover:-translate-y-1">
@@ -509,13 +519,12 @@
             </div>
           </div>
 
-          <button
-            type="button"
-            onclick="openAuthModal('Sign in with your Trainee ID or Email to apply for Cloud Infrastructure Associate at Ericsson Networks.')"
-            class="w-full text-center py-2.5 rounded-lg bg-brand-cyan/10 hover:bg-brand-cyan text-brand-cyan hover:text-brand-dark border border-brand-borderCyan font-semibold text-xs transition-colors duration-200"
+          <a
+            href="login.html"
+            class="w-full text-center py-2.5 rounded-lg bg-brand-cyan/10 hover:bg-brand-cyan text-brand-cyan hover:text-brand-dark border border-brand-borderCyan font-semibold text-xs transition-colors duration-200 block"
           >
             Apply via Outcome Portal
-          </button>
+          </a>
         </div>
 
         <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between hover:border-brand-borderCyan transition-all duration-200 hover:-translate-y-1">
@@ -541,13 +550,12 @@
             </div>
           </div>
 
-          <button
-            type="button"
-            onclick="openAuthModal('Sign in with your Trainee ID or Email to apply for Junior Full-Stack Engineer at Tiger Analytics.')"
-            class="w-full text-center py-2.5 rounded-lg bg-brand-cyan/10 hover:bg-brand-cyan text-brand-cyan hover:text-brand-dark border border-brand-borderCyan font-semibold text-xs transition-colors duration-200"
+          <a
+            href="login.html"
+            class="w-full text-center py-2.5 rounded-lg bg-brand-cyan/10 hover:bg-brand-cyan text-brand-cyan hover:text-brand-dark border border-brand-borderCyan font-semibold text-xs transition-colors duration-200 block"
           >
             Apply via Outcome Portal
-          </button>
+          </a>
         </div>
       </div>
     </section>
@@ -561,13 +569,12 @@
           Join thousands of trainees and skilling agencies tracking real employment outcomes.
         </p>
         <div class="pt-3">
-          <button
-            type="button"
-            onclick="openAuthModal('Create your SkillUp outcome account or sign in with your verified Trainee ID.')"
-            class="bg-brand-cyan text-brand-dark px-8 py-3.5 rounded-lg font-bold text-sm hover:bg-brand-cyanHover transition-all shadow-xl shadow-brand-cyan/30 hover:shadow-brand-cyan/50"
+          <a
+            href="login.html"
+            class="bg-brand-cyan text-brand-dark px-8 py-3.5 rounded-lg font-bold text-sm hover:bg-brand-cyanHover transition-all shadow-xl shadow-brand-cyan/30 hover:shadow-brand-cyan/50 inline-block"
           >
-            Create Account / Sign In
-          </button>
+            Create Account
+          </a>
         </div>
       </div>
     </section>
@@ -584,65 +591,6 @@
       <p>&copy; 2026 SkillUp Platform. All rights reserved.</p>
     </div>
   </footer>
-
-  <div id="authModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
-    <div class="bg-slate-900 border border-brand-borderCyan/40 rounded-2xl max-w-md w-full p-6 sm:p-8 relative shadow-2xl shadow-cyan-500/10">
-      <button
-        type="button"
-        onclick="closeAuthModal()"
-        class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
-        aria-label="Close"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-        </svg>
-      </button>
-
-      <div class="flex items-center gap-2 mb-2">
-        <span class="text-brand-cyan text-xl">&#x25C9;</span>
-        <span class="text-white font-bold text-lg">SkillUp Portal Access</span>
-      </div>
-
-      <p id="authModalSubtitle" class="text-xs text-slate-400 mb-6 leading-relaxed">
-        Sign in with your Trainee ID or Email to apply.
-      </p>
-
-      <form onsubmit="handleAuthSubmit(event)" class="space-y-4">
-        <div>
-          <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Trainee ID or Email</label>
-          <input
-            type="text"
-            required
-            placeholder="TRN-2026-XXXX or name@domain.com"
-            class="w-full bg-slate-950 border border-slate-700 text-slate-200 rounded-lg px-3.5 py-2.5 text-xs focus:outline-none focus:border-brand-cyan"
-          />
-        </div>
-
-        <div>
-          <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Password or OTP</label>
-          <input
-            type="password"
-            required
-            placeholder="••••••••"
-            class="w-full bg-slate-950 border border-slate-700 text-slate-200 rounded-lg px-3.5 py-2.5 text-xs focus:outline-none focus:border-brand-cyan"
-          />
-        </div>
-
-        <button
-          type="submit"
-          class="w-full bg-brand-cyan text-brand-dark font-bold text-xs py-3 rounded-lg hover:bg-brand-cyanHover transition-all shadow-md shadow-brand-cyan/20"
-        >
-          Sign In &amp; Continue
-        </button>
-      </form>
-
-      <div class="mt-4 text-center">
-        <a href="Dashboard.html" class="text-[11px] text-slate-400 hover:text-brand-cyan transition-colors">
-          Demo Mode: Continue directly to Dashboard &rarr;
-        </a>
-      </div>
-    </div>
-  </div>
 
   <script>
     (function initParticles() {
@@ -820,30 +768,39 @@
       }
     }
 
-    function openAuthModal(customSubtitle) {
-      const modal = document.getElementById('authModal');
-      const sub = document.getElementById('authModalSubtitle');
-      if (sub && customSubtitle) sub.textContent = customSubtitle;
-      if (modal) {
-        modal.classList.remove('opacity-0', 'pointer-events-none');
-      }
-    }
+    function handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
 
-    function closeAuthModal() {
-      const modal = document.getElementById('authModal');
-      if (modal) {
-        modal.classList.add('opacity-0', 'pointer-events-none');
-      }
-    }
+      const titleEl = document.getElementById('uploadTitle');
+      const subtitleEl = document.getElementById('uploadSubtitle');
+      const iconEl = document.getElementById('uploadIcon');
 
-    function handleAuthSubmit(e) {
-      e.preventDefault();
-      window.location.href = 'Dashboard.html';
-    }
+      titleEl.innerHTML = `<span class="text-brand-cyan font-semibold">Parsing ${file.name}...</span>`;
+      subtitleEl.textContent = 'Extracting candidate proficiencies with NLP model...';
+      iconEl.classList.add('animate-spin');
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeAuthModal();
-    });
+      setTimeout(() => {
+        iconEl.classList.remove('animate-spin');
+        titleEl.innerHTML = `Active CV: <span class="text-brand-cyan font-bold">${file.name}</span>`;
+        subtitleEl.textContent = `Successfully verified 5 key proficiencies (${(file.size / 1024).toFixed(1)} KB)`;
+        
+        document.getElementById('scoreText').textContent = '84%';
+        const verifiedCont = document.getElementById('verifiedSkillsContainer');
+        if (verifiedCont) {
+          verifiedCont.innerHTML += `
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/50 border border-emerald-500/30 text-emerald-300 animate-pulse">
+              <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              Git Version Control
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/50 border border-emerald-500/30 text-emerald-300 animate-pulse">
+              <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              Pandas &amp; NumPy
+            </span>
+          `;
+        }
+      }, 1200);
+    }
   </script>
 
   <script src="nav.js"></script>
