@@ -1,3 +1,4 @@
+import os
 import sqlite3
 from datetime import timedelta
 from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory
@@ -80,7 +81,7 @@ def auth_register():
         )
         conn.commit()
     except sqlite3.IntegrityError:
-        conn.close()
+        conn.rollback()
         return redirect('/login.html?mode=signup&error=already_exists')
     finally:
         conn.close()
