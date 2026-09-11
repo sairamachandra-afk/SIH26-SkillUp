@@ -1,639 +1,320 @@
 <!DOCTYPE html>
-
 <html lang="en" class="scroll-smooth">
-
 <head>
-
   <meta charset="UTF-8" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>SkillUp — Competency Gap Diagnostic</title>
-
   <script src="https://cdn.tailwindcss.com"></script>
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
-
   <link rel="stylesheet" href="Style.css" />
-
   <link rel="stylesheet" href="CardNav.css" />
-
   <script>
-
     tailwind.config = {
-
       theme: {
-
         extend: {
-
           fontFamily: {
-
             sans: ['Inter', 'sans-serif'],
-
             serif: ['Playfair Display', 'serif'],
-
           },
-
           colors: {
-
             brand: {
-
               cyan: '#00d2ff',
-
               cyanHover: '#00b4db',
-
               dark: '#07090e',
-
               card: '#0e131d',
-
               cardHover: '#131a27',
-
               border: 'rgba(255, 255, 255, 0.08)',
-
               borderCyan: 'rgba(0, 210, 255, 0.3)',
-
             },
-
           },
-
         },
-
       },
-
     };
-
   </script>
-
 </head>
-
 <body class="bg-brand-dark text-slate-100 font-sans min-h-screen flex flex-col relative overflow-x-hidden selection:bg-brand-cyan/20 selection:text-brand-cyan">
 
-
-
   <header class="sticky top-0 z-50 bg-brand-dark/80 backdrop-blur-xl border-b border-brand-border w-full">
-
     <div class="w-full px-6 md:px-10 h-20 flex items-center justify-between gap-6">
-
       <div class="flex-shrink-0">
-
         <a href="index.html" class="flex items-center gap-3 group">
-
           <span class="text-brand-cyan text-2xl leading-none transition-transform group-hover:scale-110 duration-200">&#x25C9;</span>
-
           <span class="font-bold text-xl tracking-tight text-white">SkillUp</span>
-
         </a>
-
       </div>
-
-
 
       <nav class="hidden md:flex items-center justify-center gap-8 flex-1">
-
-        <a href="Dashboard.html" class="text-xs lg:text-sm font-medium text-slate-300 hover:text-brand-cyan transition-colors">Dashboard</a>
-
-        <a href="workforce.html" class="text-xs lg:text-sm font-medium text-slate-300 hover:text-brand-cyan transition-colors">Workforce</a>
-
+        <a href="Dashboard.html" class="text-xs lg:text-sm font-medium text-slate-300 hover:text-brand-cyan transition-colors">Dashboard Hub</a>
+        <a href="workforce.html" class="text-xs lg:text-sm font-medium text-slate-300 hover:text-brand-cyan transition-colors">Career Outcomes</a>
         <a href="skillgaps.html" class="text-xs lg:text-sm font-medium text-brand-cyan transition-colors">Skill Gaps</a>
-
         <a href="Employement.html" class="text-xs lg:text-sm font-medium text-slate-300 hover:text-brand-cyan transition-colors">Employment</a>
-
       </nav>
 
-
-
       <div class="flex items-center gap-3">
-
         <a href="/logout" class="text-xs text-rose-400 hover:underline">Sign Out</a>
-
       </div>
-
     </div>
-
   </header>
 
-
-
   <main class="relative z-10 py-12 px-6 max-w-7xl mx-auto w-full space-y-12">
-
     <div>
-
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-950/20 text-[10px] font-semibold uppercase tracking-wider text-cyan-200 mb-3">
-
         Gap Identification &amp; Mitigation
-
       </div>
-
       <h1 class="text-3xl sm:text-4xl font-serif text-white">Competency Gap Diagnostic</h1>
-
       <p class="text-slate-400 text-sm mt-1">Upload your resume to map performance shortfalls against regional job market requirements.</p>
-
     </div>
 
-
-
     <section class="bg-brand-card/50 border border-brand-border rounded-2xl p-6 sm:p-10 backdrop-blur-md">
-
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-
         <div class="lg:col-span-5 space-y-5">
-
           <div>
-
             <label class="block text-xs font-semibold uppercase text-slate-300 mb-2">TARGET ROLE BENCHMARK</label>
-
             <select id="roleSelect" class="w-full bg-slate-900/90 border border-brand-border text-slate-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-brand-cyan">
-
               <option value="Junior Data Analyst" selected>Junior Data Analyst</option>
-
               <option value="Cloud Architecture Associate">Cloud Architecture Associate</option>
-
               <option value="Junior Full-Stack Engineer">Junior Full-Stack Engineer</option>
-
               <option value="AI / Machine Learning Engineer">AI / Machine Learning Engineer</option>
-
             </select>
-
           </div>
-
-
 
           <input type="file" id="resumeFileInput" accept=".pdf" class="hidden" onchange="handleResumeFile(this.files)" />
 
-
-
           <div id="dropZone" onclick="document.getElementById('resumeFileInput').click()" class="border-2 border-dashed border-cyan-500/40 hover:border-brand-cyan rounded-2xl p-8 text-center transition-all bg-slate-950/40 hover:bg-cyan-950/10 cursor-pointer flex flex-col items-center justify-center group">
-
             <div class="w-12 h-12 rounded-full bg-cyan-950/40 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-3 group-hover:scale-110 transition-transform">
-
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-
                 <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-
               </svg>
-
             </div>
-
             <p id="uploadTitle" class="text-sm font-medium text-slate-200">
-
               Drag &amp; drop resume PDF here or <span class="text-brand-cyan underline">browse</span>
-
             </p>
-
             <p id="uploadSubtitle" class="text-xs text-slate-400 mt-1">Supports PDF (Max 10MB)</p>
-
           </div>
-
         </div>
-
-
 
         <div id="scorecardPanel" class="lg:col-span-7 bg-[#0a101d] border border-slate-800/80 rounded-2xl relative overflow-hidden flex flex-col justify-between">
-
           <div id="scorecardContent" class="p-6 space-y-6">
-
             <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-slate-800/80 gap-4">
-
               <div>
-
                 <span class="text-[11px] text-slate-400 font-bold uppercase tracking-wider block">CANDIDATE SCORECARD</span>
-
                 <h3 class="text-lg sm:text-xl font-bold text-white mt-0.5">Employability Readiness Index</h3>
-
               </div>
-
               <div class="flex items-center gap-1.5 bg-cyan-950/40 border border-cyan-500/40 px-3 py-1.5 rounded-lg w-fit">
-
                 <span id="scoreText" class="text-2xl font-bold text-brand-cyan">--%</span>
-
                 <span class="text-xs font-normal text-slate-300">Fit</span>
-
               </div>
-
             </div>
-
-
 
             <div class="space-y-5 border-b border-slate-800/80 pb-6">
-
               <div>
-
                 <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2.5">VERIFIED EXTRACTED SKILLS</span>
-
                 <div id="verifiedSkillsContainer" class="flex flex-wrap gap-2 min-h-[38px] items-center text-xs text-slate-400">
-
                   Upload a PDF resume to extract skills.
-
                 </div>
-
               </div>
-
-
 
               <div>
-
                 <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2.5">MISSING MARKET DEMAND SKILLS</span>
-
                 <div id="missingSkillsContainer" class="flex flex-wrap gap-2 text-xs text-slate-400">
-
                   Upload a PDF resume to identify skill gaps.
-
                 </div>
-
               </div>
-
             </div>
-
-
 
             <div>
-
               <div class="flex items-center justify-between mb-4">
-
                 <div>
-
                   <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">AI UPSKILLING ROADMAP</span>
-
                   <h4 class="text-xs text-slate-300 font-medium mt-0.5">Strategic Pathway to 99% Readiness</h4>
-
                 </div>
-
                 <span class="text-[10px] font-semibold px-2.5 py-1 bg-cyan-950/50 border border-cyan-500/30 text-brand-cyan rounded-full">
-
                   Target: 99% Match
-
                 </span>
-
               </div>
-
               <div id="pathwayList" class="space-y-4 text-left text-xs text-slate-400">
-
                 Upload a PDF resume to generate your personalized timeline.
-
               </div>
-
             </div>
-
           </div>
-
         </div>
-
       </div>
-
     </section>
-
   </main>
 
-
-
   <script>
-
     let currentRoadmapData = [];
 
-
-
     async function toggleResources(index) {
-
       const item = currentRoadmapData[index];
-
       item.showResources = !item.showResources;
-
       renderRoadmap();
 
-
-
       if (item.showResources && (!item.resources || item.resources.length === 0)) {
-
         item.loadingResources = true;
-
         renderRoadmap();
 
-
-
         try {
-
           const res = await fetch('/api/curate-resources', {
-
             method: 'POST',
-
             headers: { 'Content-Type': 'application/json' },
-
             body: JSON.stringify({ milestone: item.milestone, key_topics: item.key_topics })
-
           });
-
           const data = await res.json();
-
           item.resources = data;
-
         } catch (err) {
-
           console.error("Failed to load resources", err);
-
           item.resources = [{ type: "Error", title: "Could not load resources", url: "#", description: "Please check your network connection." }];
-
         } finally {
-
           item.loadingResources = false;
-
           renderRoadmap();
-
         }
-
       }
-
     }
-
-
 
     function getTypeBadgeStyle(type) {
-
       const t = (type || '').toLowerCase();
-
       if (t.includes('cert') || t.includes('course')) return 'bg-emerald-950/70 border-emerald-500/40 text-emerald-300';
-
       if (t.includes('github') || t.includes('repo')) return 'bg-purple-950/70 border-purple-500/40 text-purple-300';
-
       if (t.includes('youtube') || t.includes('video')) return 'bg-rose-950/70 border-rose-500/40 text-rose-300';
-
       if (t.includes('linkedin') || t.includes('note') || t.includes('article')) return 'bg-blue-950/70 border-blue-500/40 text-blue-300';
-
       return 'bg-cyan-950/70 border-cyan-500/40 text-cyan-300';
-
     }
-
-
 
     function renderRoadmap() {
-
       const pathwayList = document.getElementById('pathwayList');
-
       if (!pathwayList) return;
 
-
-
       if (!currentRoadmapData || currentRoadmapData.length === 0) {
-
         pathwayList.innerHTML = '<span class="text-slate-500">Upload a PDF resume to generate your personalized timeline.</span>';
-
         return;
-
       }
-
-
 
       pathwayList.innerHTML = currentRoadmapData.map((item, idx) => `
-
         <div class="group relative bg-[#070c18] border border-slate-800/90 hover:border-cyan-500/40 rounded-xl p-4 transition-all duration-200 shadow-lg">
-
           <div class="flex items-start justify-between gap-4">
-
             <div class="flex items-start gap-3.5">
-
               <div class="flex-shrink-0 w-7 h-7 rounded-lg bg-cyan-950/60 border border-cyan-500/30 text-brand-cyan flex items-center justify-center font-bold text-xs shadow-inner">
-
                 0${idx + 1}
-
               </div>
-
               <div class="space-y-1">
-
                 <h4 class="text-sm font-semibold text-white tracking-tight">${item.milestone}</h4>
-
                 <div class="text-slate-400 text-[11px] leading-relaxed">
-
                   <span class="font-medium text-slate-300">Focus Topics:</span> ${item.key_topics.join(', ')}
-
                 </div>
-
               </div>
-
             </div>
-
             <div class="flex-shrink-0 flex items-center gap-1.5 px-2.5 py-1 bg-cyan-950/30 border border-cyan-500/20 rounded-md text-[11px] font-semibold text-brand-cyan">
-
               <svg class="w-3.5 h-3.5 opacity-80" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-
               Est. ${item.time_estimate}
-
             </div>
-
           </div>
-
-
 
           <div class="mt-3.5 pt-3 border-t border-slate-800/80 flex items-center justify-between">
-
             <button 
-
               type="button"
-
               onclick="toggleResources(${idx})"
-
               class="text-xs font-semibold text-brand-cyan hover:text-cyan-300 transition-colors inline-flex items-center gap-1.5 cursor-pointer"
-
             >
-
               <span>${item.showResources ? 'Hide Curated Learning Assets' : 'Explore Curated Learning Assets'}</span>
-
               <svg class="w-3.5 h-3.5 transition-transform duration-200 ${item.showResources ? 'rotate-180' : ''}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-
             </button>
-
             <span class="text-[10px] text-slate-500 uppercase tracking-widest font-medium">Multi-Source Verified Index</span>
-
           </div>
 
-
-
           ${item.showResources ? `
-
             <div class="mt-3.5 space-y-2.5 pt-3 border-t border-dashed border-slate-800/80 animate-fadeIn">
-
               ${item.loadingResources ? `
-
                 <div class="text-xs text-slate-400 py-4 text-center flex items-center justify-center gap-2">
-
                   <svg class="animate-spin h-4 w-4 text-brand-cyan" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-
                   <span>Aggregating Coursera, GitHub Repos, LinkedIn Notes, &amp; YouTube Tutorials...</span>
-
                 </div>
-
               ` : (item.resources && item.resources.length > 0 ? item.resources.map(res => `
-
                 <div class="bg-slate-900/90 border border-slate-800/90 hover:border-slate-700 p-3 rounded-lg flex flex-col gap-1.5 transition-colors">
-
                   <div class="flex items-center justify-between gap-2">
-
                     <span class="text-[10px] font-bold px-2 py-0.5 rounded border tracking-wide uppercase ${getTypeBadgeStyle(res.type)}">
-
                       ${res.type}
-
                     </span>
-
                     <a href="${res.url}" target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-brand-cyan hover:underline inline-flex items-center gap-1">
-
                       <span>${res.title}</span>
-
                       <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-
                     </a>
-
                   </div>
-
                   <p class="text-[11px] text-slate-400 leading-relaxed">${res.description}</p>
-
                 </div>
-
               `).join('') : '<div class="text-xs text-slate-400 text-center py-2">No learning assets found.</div>')}
-
             </div>
-
           ` : ''}
-
         </div>
-
       `).join('');
-
     }
 
-
-
     async function handleResumeFile(files) {
-
       if (!files || files.length === 0) return;
-
       const file = files[0];
-
       if (!file.name.endsWith('.pdf')) {
-
         alert('Please upload a valid PDF resume file.');
-
         return;
-
       }
 
-
-
       const uploadTitle = document.getElementById('uploadTitle');
-
       const uploadSubtitle = document.getElementById('uploadSubtitle');
-
       const role = document.getElementById('roleSelect').value;
 
-
-
       uploadTitle.innerHTML = `<span class="text-brand-cyan font-semibold">Analyzing ${file.name} with AI...</span>`;
-
       uploadSubtitle.textContent = 'Extracting text and matching taxonomy indices...';
 
-
-
       const formData = new FormData();
-
       formData.append('target_role', role);
-
       formData.append('file', file);
 
-
-
       try {
-
         const response = await fetch('/api/analyze-resume', {
-
           method: 'POST',
-
           body: formData
-
         });
-
-
 
         if (!response.ok) throw new Error('Failed to analyze resume from backend.');
 
-
-
         const data = await response.json();
-
         
-
         document.getElementById('scoreText').textContent = data.readiness_score + '%';
 
-
-
         currentRoadmapData = (data.learning_roadmap || []).map(item => ({
-
           ...item,
-
           resources: [],
-
           loadingResources: false,
-
           showResources: false
-
         }));
-
-
 
         renderRoadmap();
 
-
-
         const verifiedCont = document.getElementById('verifiedSkillsContainer');
-
         verifiedCont.innerHTML = data.matched_skills.map(s => `
-
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/50 border border-emerald-500/30 text-emerald-300">
-
             ✓ ${s}
-
           </span>
-
         `).join('') || '<span class="text-slate-500">None detected</span>';
 
-
-
         const missingCont = document.getElementById('missingSkillsContainer');
-
         missingCont.innerHTML = data.missing_skills.map(s => `
-
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-950/40 border border-amber-500/30 text-amber-300">
-
             ⚠ ${s}
-
           </span>
-
         `).join('') || '<span class="text-slate-500">None missing</span>';
 
-
-
         uploadTitle.innerHTML = `<span class="text-emerald-400 font-semibold">&#x2713; ${file.name} Analyzed Successfully</span>`;
-
         uploadSubtitle.textContent = 'Assessment complete based on live vacancy taxonomy.';
 
-
-
       } catch (err) {
-
         console.error(err);
-
         alert('Error connecting to backend API or processing resume. Make sure FastAPI is running.');
-
         uploadTitle.textContent = 'Analysis Failed. Click to retry.';
-
         uploadSubtitle.textContent = 'Supports PDF (Max 10MB)';
-
       }
-
     }
-
   </script>
-
 </body>
-
 </html>
