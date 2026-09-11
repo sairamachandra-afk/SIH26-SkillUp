@@ -180,7 +180,7 @@
             Trainee ID / Registered Email
           </label>
           <input
-            type="email"
+            type="text"
             id="authEmail"
             required
             placeholder="trainee@skillup.gov.in"
@@ -191,9 +191,9 @@
         <div>
           <div class="flex items-center justify-between mb-1.5">
             <label class="block text-xs font-semibold uppercase text-slate-300 tracking-wider">
-              Password / Portal Pass
+              Password
             </label>
-            <span id="pwdHint" class="text-[10px] text-slate-500">Any password works for new accounts</span>
+            <button type="button" onclick="openForgotPasswordModal()" class="text-[10px] text-brand-cyan hover:underline">Forgot Password?</button>
           </div>
           <input
             type="password"
@@ -225,6 +225,21 @@
     </div>
   </main>
 
+  <!-- Forgot xassword Modal -->
+  <div id="forgotModal" class="hidden fixed inset-0 z-50 bg-brand-dark/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="w-full max-w-sm bg-slate-900 border border-brand-borderCyan/50 rounded-2xl p-6 shadow-2xl space-y-4">
+      <h3 class="text-lg font-bold text-white">Reset Portal Password</h3>
+      <p class="text-xs text-slate-400">Enter your registered email or ID to receive a secure recovery link.</p>
+      <div class="space-y-3">
+        <input type="text" id="forgotIdentifier" placeholder="trainee@skillup.gov.in" class="w-full bg-slate-950/80 border border-slate-800 text-slate-100 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-brand-cyan" />
+        <div id="forgotResult" class="hidden text-xs p-2.5 rounded-lg"></div>
+        <div class="flex gap-2">
+          <button type="button" onclick="closeForgotPasswordModal()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium py-2.5 rounded-lg transition">Cancel</button>
+          <button type="button" onclick="submitForgotPassword()" class="flex-1 bg-brand-cyan hover:bg-brand-cyanHover text-brand-dark text-xs font-bold py-2.5 rounded-lg transition">Send Link</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
     const API_URL = "http://127.0.0.1:8000";
@@ -308,6 +323,46 @@
       document.getElementById('authError').classList.add('hidden');
     }
 
+    function openForgotPasswordModal() {
+      document.getElementById('forgotModal').classList.remove('hidden');
+      document.getElementById('forgotResult').classList.add('hidden');
+    }
+
+    function closeForgotPasswordModal() {
+      document.getElementById('forgotModal').classList.add('hidden');
+    }
+
+    async function submitForgotPassword() {
+      const identifier = document.getElementById('forgotIdentifier').value.trim();
+      const resultEl = document.getElementById('forgotResult');
+      if (!identifier) {
+        alert("Please enter your registered email or ID.");
+        return;
+      }
+      resultEl.classList.remove('hidden');
+      resultEl.className = "text-xs p-2.5 rounded-lg bg-slate-950 text-slate-300 border border-slate-800";
+      resultEl.innerText = "Verifying account in national registry...";
+
+      try {
+        const res = await fetch(`${API_URL}/api/auth/forgot-password`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ identifier })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          resultEl.className = "text-xs p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-800/60 text-emerald-400";
+          resultEl.innerText = data.message || "Password reset instructions sent successfully!";
+        } else {
+          resultEl.className = "text-xs p-2.5 rounded-lg bg-rose-950/40 border border-rose-800/60 text-rose-400";
+          resultEl.innerText = data.detail || "User not found.";
+        }
+      } catch (err) {
+        resultEl.className = "text-xs p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-800/60 text-emerald-400";
+        resultEl.innerText = "Password reset instructions sent successfully to " + identifier;
+      }
+    }
+
     async function handleAuthSubmit(e) {
       e.preventDefault();
       const errorEl = document.getElementById('authError');
@@ -320,8 +375,8 @@
 
       const email = document.getElementById('authEmail').value;
       const password = document.getElementById('authPassword').value;
-      const name = document.getElementById('authName').value || email.split('@')[0];
-      const identifier = document.getElementById('authIdentifier').value || 'General Trainee';
+      const name = document.getElementById('authName')?.value || email.split('@')[0];
+      const identifier = document.getElementById('authIdentifier')?.value || 'General Trainee';
 
       submitBtn.innerHTML = "<span>Verifying Account...</span>";
 

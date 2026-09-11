@@ -1,7 +1,3 @@
-# ==========================================
-# FILE: main.py
-# ==========================================
-
 import os
 import sqlite3
 import traceback
@@ -559,6 +555,25 @@ async def auth_login(request: Request):
         return RedirectResponse(url='/skillgaps', status_code=303)
 
     return RedirectResponse(url='/login.html?error=invalid_credentials', status_code=303)
+
+@app.post('/auth/forgot-password')
+async def auth_forgot_password(request: Request):
+    form = await request.form()
+    identifier = form.get('identifier', '').strip()
+    
+    if not identifier:
+        return RedirectResponse(url='/login.html?error=missing_identifier', status_code=303)
+        
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM users WHERE username = ? OR email = ?', (identifier, identifier))
+    user = cursor.fetchone()
+    conn.close()
+    
+    if user:
+        return RedirectResponse(url='/login.html?message=reset_sent', status_code=303)
+    
+    return RedirectResponse(url='/login.html?error=user_not_found', status_code=303)
 
 @app.get('/logout')
 async def logout(request: Request):
