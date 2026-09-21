@@ -1,157 +1,229 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Employment &amp; Hiring Intelligence — SkillUp</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="Style.css" />
-  <link rel="stylesheet" href="CardNav.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <title>SkillUp — Employment &amp; Recruitment Intelligence</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+          },
+          colors: {
+            brand: {
+              cyan: '#00d2ff',
+              cyanHover: '#00b4db',
+              dark: '#07090e',
+              card: '#0e131d',
+              cardHover: '#131a27',
+              border: 'rgba(255, 255, 255, 0.08)',
+              borderCyan: 'rgba(0, 210, 255, 0.3)',
+            },
+            dark: { 900: '#07090e', 800: '#0e131d', 700: '#1f2937' }
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .badge.interviews-active { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge.shortlisting { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .badge.sourcing { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge.final-round { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+  </style>
 </head>
-<body>
+<body class="bg-brand-dark text-slate-100 font-sans min-h-screen flex flex-col relative overflow-x-hidden selection:bg-brand-cyan/20 selection:text-brand-cyan">
 
-  <div class="glow-overlay"></div>
+  <!-- Navigation Bar -->
+  <header class="sticky top-0 z-50 bg-brand-dark/80 backdrop-blur-xl border-b border-brand-border w-full">
+    <div class="w-full px-6 md:px-10 h-20 flex items-center justify-between gap-6">
+      <div class="flex-shrink-0">
+        <a href="index.html" class="flex items-center gap-3 group">
+          <span class="text-brand-cyan text-2xl leading-none transition-transform group-hover:scale-110 duration-200">&#x25C9;</span>
+          <span class="font-bold text-xl tracking-tight text-white">SkillUp</span>
+        </a>
+      </div>
 
-  <header>
-    <div class="nav-left">
-      <a href="Templates/index.html" class="logo">
-        <span class="logo-icon">&#x25C9;</span>SkillUp
-      </a>
-      <nav class="dock-nav" id="dockNav">
-        <ul>
-          <li><a href="Dashboard.html" class="dock-item">Dashboard</a></li>
-          <li><a href="workforce.html" class="dock-item">Workforce</a></li>
-          <li><a href="skillgaps.html" class="dock-item">Skill Gaps</a></li>
-          <li><a href="Employement.html" class="dock-item active">Employment</a></li>
-        </ul>
+      <nav class="hidden md:flex items-center justify-center gap-8 flex-1">
+        <a href="Dashboard.html" class="text-xs lg:text-sm font-medium text-slate-300 hover:text-brand-cyan transition-colors">Dashboard Hub</a>
+        <a href="workforce.html" class="text-xs lg:text-sm font-medium text-slate-300 hover:text-brand-cyan transition-colors">Career Outcomes</a>
+        <a href="skillgaps.html" class="text-xs lg:text-sm font-medium text-slate-300 hover:text-brand-cyan transition-colors">Skill Gaps</a>
+        <a href="Employement.html" class="text-xs lg:text-sm font-medium text-brand-cyan transition-colors">Employment</a>
       </nav>
-    </div>
 
-    <div class="nav-right">
-      <a href="Templates/login.html" class="login-link">Sign Out</a>
-      <a href="#" class="btn-demo">Create Opening</a>
-
-      <div class="card-nav-menu-wrapper" id="cardNavWrapper">
-        <div class="hamburger-menu" id="cardNavToggle" role="button" tabindex="0" aria-label="Toggle navigation menu">
-          <div class="hamburger-line"></div>
-          <div class="hamburger-line"></div>
-        </div>
-
-        <div class="card-nav-dropdown" id="cardNavDropdown">
-          <div class="nav-card" style="background-color: #121927; color: #ffffff;">
-            <div class="nav-card-label">Intelligence</div>
-            <div class="nav-card-links">
-              <a class="nav-card-link" href="Dashboard.html">&#8599; Overview Dashboard</a>
-              <a class="nav-card-link" href="workforce.html">&#8599; Workforce Readiness</a>
-            </div>
-          </div>
-
-          <div class="nav-card" style="background-color: #162032; color: #ffffff;">
-            <div class="nav-card-label">Diagnostics</div>
-            <div class="nav-card-links">
-              <a class="nav-card-link" href="skillgaps.html">&#8599; Skill Gaps Engine</a>
-              <a class="nav-card-link" href="Employement.html">&#8599; Employment Placement</a>
-            </div>
-          </div>
-
-          <div class="nav-card" style="background-color: #101725; color: #ffffff;">
-            <div class="nav-card-label">Outcomes</div>
-            <div class="nav-card-links">
-              <a class="nav-card-link" href="Dashboard.html">&#8599; Retention Analytics</a>
-              <a class="nav-card-link" href="workforce.html">&#8599; Benchmark Reports</a>
-            </div>
-          </div>
-        </div>
+      <div class="flex items-center gap-3">
+        <a href="/logout" class="text-xs text-rose-400 hover:underline">Sign Out</a>
       </div>
     </div>
   </header>
 
-  <div class="app-container">
-    <div class="page-header">
-      <div class="eyebrow-badge">
-        <span class="badge-square"></span>
-        Hiring &amp; Placement Ecosystem
+  <!-- Main Content -->
+  <main class="relative z-10 py-12 px-6 md:px-10 max-w-7xl mx-auto w-full space-y-10">
+    <div>
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-950/20 text-[10px] font-semibold uppercase tracking-wider text-cyan-200 mb-3">
+        Corporate &amp; Recruiter Intelligence
       </div>
-      <h2>Employment &amp; Job Match Intelligence</h2>
-      <p>Data-driven talent matching, hiring pipeline metrics, and candidate validations.</p>
+      <h1 class="text-3xl sm:text-4xl font-serif text-white">Employment &amp; Active Pipelines</h1>
+      <p class="text-slate-400 text-sm mt-1">Real-time tracking of open corporate positions, live AI role matching, and direct application links across India.</p>
     </div>
 
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-card-title">Open Positions</div>
-        <div class="stat-card-val">74</div>
-        <span class="stat-badge">&#9650; Active postings</span>
+    <!-- KPI Metrics Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="bg-brand-card/50 border border-brand-border rounded-2xl p-6 backdrop-blur-md">
+        <div class="text-xs text-slate-400 font-medium uppercase tracking-wider mb-2">Open Positions</div>
+        <div class="text-3xl font-bold text-white" id="metricOpenPositions">--</div>
+        <div class="text-xs text-emerald-400 mt-1">&uarr; Active hiring pipelines</div>
       </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Skill-Fit Candidate Ratio</div>
-        <div class="stat-card-val">87%</div>
-        <span class="stat-badge">&#9650; AI pre-screened</span>
+      <div class="bg-brand-card/50 border border-brand-border rounded-2xl p-6 backdrop-blur-md">
+        <div class="text-xs text-slate-400 font-medium uppercase tracking-wider mb-2">Skill Fit Ratio</div>
+        <div class="text-3xl font-bold text-white" id="metricSkillFit">--</div>
+        <div class="text-xs text-brand-cyan mt-1">AI verified alignment</div>
       </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Offer Acceptance Rate</div>
-        <div class="stat-card-val">93.2%</div>
-        <span class="stat-badge">&#9650; +5% against benchmark</span>
+      <div class="bg-brand-card/50 border border-brand-border rounded-2xl p-6 backdrop-blur-md">
+        <div class="text-xs text-slate-400 font-medium uppercase tracking-wider mb-2">Offer Acceptance Rate</div>
+        <div class="text-3xl font-bold text-white" id="metricAcceptance">--</div>
+        <div class="text-xs text-emerald-400 mt-1">&uarr; High candidate conversion</div>
       </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Placement Outcomes</div>
-        <div class="stat-card-val">1,240</div>
-        <span class="stat-badge" style="color: var(--green);">Target achieved</span>
+      <div class="bg-brand-card/50 border border-brand-border rounded-2xl p-6 backdrop-blur-md">
+        <div class="text-xs text-slate-400 font-medium uppercase tracking-wider mb-2">Placement Outcomes</div>
+        <div class="text-3xl font-bold text-white" id="metricPlacements">--</div>
+        <div class="text-xs text-brand-cyan mt-1">Total successfully placed</div>
       </div>
     </div>
 
-    <div class="panel-card">
-      <h3>Active Recruitment Pipelines</h3>
-      <table class="custom-table">
-        <thead>
-          <tr>
-            <th>Role</th>
-            <th>Required Taxonomy</th>
-            <th>Candidates Screened</th>
-            <th>Match Accuracy</th>
-            <th>Pipeline Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Junior Data Analyst</td>
-            <td>Python, SQL, Power BI</td>
-            <td>182</td>
-            <td>94%</td>
-            <td><span class="status-tag status-green">Interviews Active</span></td>
-          </tr>
-          <tr>
-            <td>Cloud Infrastructure Associate</td>
-            <td>Linux, AWS, Docker</td>
-            <td>94</td>
-            <td>89%</td>
-            <td><span class="status-tag status-blue">Shortlisting</span></td>
-          </tr>
-          <tr>
-            <td>Cloud Security Architect</td>
-            <td>AWS IAM, Zero-Trust, Kubernetes</td>
-            <td>61</td>
-            <td>78%</td>
-            <td><span class="status-tag status-orange">Sourcing</span></td>
-          </tr>
-          <tr>
-            <td>Junior Full-Stack Engineer</td>
-            <td>React, Node.js, PostgreSQL</td>
-            <td>240</td>
-            <td>92%</td>
-            <td><span class="status-tag status-green">Final Round</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+    <!-- Active Recruitment Pipelines Section -->
+    <section class="bg-brand-card/50 border border-brand-border rounded-2xl p-6 sm:p-8 backdrop-blur-md space-y-6">
+      <!-- Fixed Header Layout & Orientation -->
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-2">
+        <div class="space-y-1">
+          <h2 class="text-xl font-bold text-white">Active Recruitment Pipelines &amp; Live Job Feed</h2>
+          <p class="text-xs text-slate-400">Search any role (e.g. "AI Engineer", "Data Analyst") to instantly generate matching live opportunities and direct apply links.</p>
+        </div>
 
-  <script src="nav.js"></script>
+        <!-- Perfectly Aligned Search Input -->
+        <div class="search-container flex-shrink-0">
+          <input 
+            type="text" 
+            id="roleSearchInput" 
+            placeholder="Search jobs by role or skill (e.g. AI Engineer, Python)..." 
+            class="w-full sm:w-[320px] px-4 py-2.5 rounded-xl bg-slate-950/90 text-white border border-cyan-500/30 focus:border-brand-cyan focus:outline-none text-xs shadow-inner"
+          />
+        </div>
+      </div>
 
+      <!-- Pipelines Table -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-slate-300">
+          <thead class="bg-slate-900/80 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
+            <tr>
+              <th class="px-4 py-3.5">Job Role &amp; Organization</th>
+              <th class="px-4 py-3.5">Taxonomy / Required Skills</th>
+              <th class="px-4 py-3.5">Candidates Screened</th>
+              <th class="px-4 py-3.5">Match Accuracy</th>
+              <th class="px-4 py-3.5">Status</th>
+              <th class="px-4 py-3.5 text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/60">
+            <tr>
+              <td colspan="6" class="px-4 py-6 text-center text-slate-500 text-xs">Loading live recruitment pipelines...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- JavaScript for Search, Dynamic Metrics & Direct Apply Links -->
+  <script>
+    const API_BASE = "http://127.0.0.1:8000";
+
+    async function fetchDashboardMetrics(searchTerm = "") {
+      try {
+        const url = searchTerm 
+          ? `${API_BASE}/api/dashboard-metrics?search=${encodeURIComponent(searchTerm)}`
+          : `${API_BASE}/api/dashboard-metrics`;
+        const res = await fetch(url);
+        const data = await res.json();
+        document.getElementById('metricOpenPositions').textContent = data.open_positions;
+        document.getElementById('metricSkillFit').textContent = data.skill_fit_ratio;
+        document.getElementById('metricAcceptance').textContent = data.offer_acceptance_rate;
+        document.getElementById('metricPlacements').textContent = data.placement_outcomes;
+      } catch (err) {
+        console.error("Failed to load metrics", err);
+      }
+    }
+
+    const searchInput = document.getElementById('roleSearchInput');
+
+    let debounceTimeout;
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(debounceTimeout);
+      debounceTimeout = setTimeout(() => {
+        const val = e.target.value.trim();
+        fetchJobs(val);
+        fetchDashboardMetrics(val);
+      }, 300);
+    });
+
+    async function fetchJobs(searchTerm = "") {
+      const url = searchTerm 
+        ? `${API_BASE}/api/pipelines?search=${encodeURIComponent(searchTerm)}`
+        : `${API_BASE}/api/pipelines`;
+
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        renderTable(data);
+      } catch (err) {
+        console.error("Failed to fetch jobs", err);
+      }
+    }
+
+    function renderTable(pipelines) {
+      const tbody = document.querySelector('tbody');
+      if (!pipelines || pipelines.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-6 text-center text-slate-500 text-xs">No active pipelines found matching your search.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = pipelines.map(p => `
+        <tr class="hover:bg-slate-900/40 transition-colors">
+          <td class="px-4 py-4">
+            <div class="font-semibold text-white">${p.role}</div>
+            <div class="text-xs text-slate-400">${p.company || 'Enterprise Org'} &bull; ${p.location || 'India'}</div>
+          </td>
+          <td class="px-4 py-4 text-slate-300 text-xs">${p.taxonomy}</td>
+          <td class="px-4 py-4">${p.candidates_screened || 42}</td>
+          <td class="px-4 py-4 text-brand-cyan font-semibold">${p.match_accuracy || '94%'}</td>
+          <td class="px-4 py-4"><span class="badge ${(p.status || 'Sourcing').toLowerCase().replace(/\s+/g, '-')}">${p.status || 'Sourcing'}</span></td>
+          <td class="px-4 py-4 text-right">
+            <a href="${p.apply_url || 'https://www.linkedin.com/jobs'}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 bg-cyan-500/10 hover:bg-cyan-500/20 text-brand-cyan border border-cyan-500/30 px-3 py-1.5 rounded-lg text-xs font-semibold transition">
+              <span>Apply Now</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Initial load
+    fetchDashboardMetrics();
+    fetchJobs();
+  </script>
 </body>
 </html>
