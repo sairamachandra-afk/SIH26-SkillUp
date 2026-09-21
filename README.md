@@ -1,7 +1,6 @@
 # SkillUp
 
 **Team:** CodeNova  
-**Live Demo:** [https://sairamachandra-afk.github.io/SIH26-SkillUp/Templates/index.html](https://sairamachandra-afk.github.io/SIH26-SkillUp/Templates/index.html)  
 **Description:** A secure, intelligent portal to track employment outcomes, diagnose competency skill gaps via resume parsing, and connect candidates with verified live job pipelines.
 
 ---
@@ -40,7 +39,6 @@ Tracking post-training employment outcomes, identifying specific technical skill
 
 ## Getting Started & Demo
 
-* **Live Demo:** Try out the hosted version directly at [https://sairamachandra-afk.github.io/SIH26-SkillUp/Templates/index.html](https://sairamachandra-afk.github.io/SIH26-SkillUp/Templates/index.html).
 * **Local Setup:** 
   1. Clone the repository and navigate to the project directory.
   2. Run the server using Python (`python main.py` or via uvicorn).
