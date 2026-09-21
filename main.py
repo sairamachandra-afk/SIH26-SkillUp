@@ -32,6 +32,16 @@ app.add_middleware(
 
 app.add_middleware(SessionMiddleware, secret_key='skillup-portal-super-secret-key')
 
+@app.middleware("http")
+async def add_no_cache_headers(request: Request, call_next):
+    response = await call_next(request)
+    path = request.url.path.lower()
+    if path.endswith(".html") or path.endswith(".js") or path in ["/dashboard", "/workforce", "/skillgaps", "/employment", "/"]:
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+    return response
+
 app.mount("/static", StaticFiles(directory="."), name="static")
 templates = Jinja2Templates(directory="Templates")
 
@@ -462,6 +472,11 @@ async def home(request: Request):
 @app.get('/login.html')
 async def login(request: Request):
     return templates.TemplateResponse(request=request, name='login.html', context={'request': request})
+
+@app.get('/logout')
+async def logout(request: Request):
+    request.session.clear()
+    return RedirectResponse(url='/login.html')
 
 @app.get('/dashboard')
 @app.get('/Dashboard.html')
