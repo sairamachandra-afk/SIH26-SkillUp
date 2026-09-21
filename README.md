@@ -43,29 +43,38 @@ Tracking post-training employment outcomes, identifying specific technical skill
 * **Live Demo:** Try out the hosted version directly at [https://sairamachandra-afk.github.io/SIH26-SkillUp/Templates/index.html](https://sairamachandra-afk.github.io/SIH26-SkillUp/Templates/index.html).
 * **Local Setup:** 
   1. Clone the repository and navigate to the project directory.
-  2. Run the server using Python (`python main.py` or via uvicorn)[cite: 3, 4].
-  3. Open `http://127.0.0.1:8000/login.html` in any modern web browser[cite: 3].
+  2. Run the server using Python (`python main.py` or via uvicorn).
+  3. Open `http://127.0.0.1:8000/login.html` in any modern web browser.
 
 ---
 
 ## Future Roadmap:
 
-* **AI-Driven Career Pathways:** Integrating advanced machine learning models to suggest personalized upskilling roadmaps based on live job market trends.
-* **Automated Employer Integration:** Building deep APIs to directly sync hiring partner data and verify employment outcomes seamlessly.
-* **Advanced Predictive Modeling:** Forecasting regional skill shortages and employment shifts before they happen.
-* **Multi-Language Support:** Expanding accessibility by adding support for various regional Indian languages.
-* **Mobile Companion App:** Launching a dedicated mobile-friendly interface for candidates and administrators on-the-go.
+### 1.Trainee Roadmap
+* **AI-Driven Personal Upskilling Paths:** Integrate machine learning models to analyze resume gaps and automatically generate step-by-step custom learning milestones.
+* **Interactive Skill Simulation & Practice:** Introduce integrated coding environments, mock interviews, and micro-assessments directly within the trainee dashboard.
+* **Mobile Companion App:** Launch a dedicated mobile application (Android/iOS) for push notifications on job matches, application statuses, and daily learning goals.
+
+### 2.Government Administrator Roadmap
+* **Predictive Regional Analytics Engine:** Build advanced modeling tools to forecast regional skill shortages, employment trends, and scheme success before they happen.
+* **Automated Scheme Compliance & Verification:** Integrate deep government identification and credential lockers (such as DigiLocker and APAAR) for instant, automated background tracking.
+* **Multi-Language Regional Expansion:** Roll out complete support for multiple regional Indian languages to make tracking and governance seamless across rural and urban sectors.
+
+### 3.Employer & Enterprise Roadmap
+* **Direct Applicant Tracking System (ATS) Integration:** Build robust APIs to sync corporate job openings and applicant data directly with the SkillUp recruitment feed.
+* **Automated Candidate Shortlisting:** Implement advanced matching algorithms that sort applicants by their verified skill fit percentage and resume rating score.
+* **Post-Placement Retention Analytics:** Create feedback loops for employers to report employee performance and long-term retention metrics back to training institutions.
 
 ---
 
 ## 📁 File Structure
 
 ```text
-├── main.py                  # FastAPI server application backend[cite: 3, 4]
-├── database.db              # SQLite database for user data and tracking[cite: 3, 4]
-├── index.html               # Main dashboard hub view[cite: 3, 4]
-├── login.html               # Secure access gateway and multi-role login[cite: 3]
-├── skillgaps.html           # Competency gap diagnosis & resume parser interface[cite: 5]
-├── employement.html         # Active recruitment pipelines & live job feed[cite: 6]
-├── Style.css / BorderGlow.css # UI styling and dynamic theme components[cite: 3]
+├── main.py                  # FastAPI server application backend
+├── database.db              # SQLite database for user data and tracking
+├── index.html               # Main dashboard hub view
+├── login.html               # Secure access gateway and multi-role login
+├── skillgaps.html           # Competency gap diagnosis & resume parser interface
+├── employement.html         # Active recruitment pipelines & live job feed
+├── Style.css / BorderGlow.css # UI styling and dynamic theme components
 └── README.md                # Project documentation
