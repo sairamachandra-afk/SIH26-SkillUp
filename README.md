@@ -15,26 +15,26 @@ Tracking post-training employment outcomes, identifying specific technical skill
 ## Key Features & Platform Modules:
 
 * **Secure Access Gateway (Login System):** 
-  * Multi-role portal authentication supporting **Trainee**, **Govt Admin**, and **Employer** roles[cite: 3].
-  * Secured with national frameworks (DigiLocker, APAAR, & NCVET integration tags)[cite: 3].
+  * Multi-role portal authentication supporting **Trainee**, **Govt Admin**, and **Employer** roles.
+  * Secured with national frameworks (DigiLocker, APAAR, & NCVET integration tags).
 * **Dashboard Hub & Analytics:** 
-  * High-level performance indices tracking 6-Month Placement Index, 12-Month Retention Rate, Average Salary Growth, and Industry Skill Alignment[cite: 4].
-  * Real-time Employment Status Tracker to log and update active job standing for continuous government outcome monitoring[cite: 4].
+  * High-level performance indices tracking 6-Month Placement Index, 12-Month Retention Rate, Average Salary Growth, and Industry Skill Alignment.
+  * Real-time Employment Status Tracker to log and update active job standing for continuous government outcome monitoring.
 * **Skill Gap Diagnostics & AI Upskilling Roadmap:** 
-  * Target role benchmarking (custom or standard roles like Junior Data Analyst, AI Engineer, etc.)[cite: 6].
-  * Drag-and-drop PDF resume parser that extracts verified skills, calculates an **Employability Readiness Index**, and maps missing market demand skills[cite: 6].
-  * Personalized AI Upskilling Roadmap generating strategic milestone timelines to reach target competency matches[cite: 6].
+  * Target role benchmarking (custom or standard roles like Junior Data Analyst, AI Engineer, etc.).
+  * Drag-and-drop PDF resume parser that extracts verified skills, calculates an **Employability Readiness Index**, and maps missing market demand skills.
+  * Personalized AI Upskilling Roadmap generating strategic milestone timelines to reach target competency matches.
 * **Employment & Recruitment Feed:** 
-  * Active recruitment pipeline displaying live job opportunities across top organizations (Google, Microsoft, Flipkart, Adobe, Cult.fit, Zoho)[cite: 6].
-  * Detailed matching analytics showing candidate match fit percentages, required tech stacks (PyTorch, TensorFlow, LLMs, LangChain, Kubernetes), candidate screening numbers, and direct "Apply Now" workflows[cite: 4, 6].
+  * Active recruitment pipeline displaying live job opportunities across top organizations (Google, Microsoft, Flipkart, Adobe, Cult.fit, Zoho).
+  * Detailed matching analytics showing candidate match fit percentages, required tech stacks (PyTorch, TensorFlow, LLMs, LangChain, Kubernetes), candidate screening numbers, and direct "Apply Now" workflows.
 
 ---
 
 ## Tech Stack:
 
-* **Backend & Server:** Python, FastAPI / Uvicorn server runtime (`main.py`)[cite: 3, 4]
-* **Database & Storage:** SQLite (`database.db`)[cite: 3, 4]
-* **Frontend:** HTML5, CSS3, JavaScript templates (`index.html`, `login.html`, `skillgaps.html`, `employement.html`)[cite: 3, 4, 5, 6]
+* **Backend & Server:** Python, FastAPI / Uvicorn server runtime (`main.py`)
+* **Database & Storage:** SQLite (`database.db`)
+* **Frontend:** HTML5, CSS3, JavaScript templates (`index.html`, `login.html`, `skillgaps.html`, `employement.html`)
 
 ---
 
